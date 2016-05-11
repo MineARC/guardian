@@ -14,7 +14,7 @@ function render_error(res, err) {
 }
 
 /* GET api json for S4 system name, mode, and info */
-router.get('/monitor/system', function (req, res, next) {
+router.get('/system', function (req, res, next) {
     //TODO replace file reader with real http request
     // var request_options = {
     //     url: 'http://192.168.16.200/',
@@ -83,20 +83,23 @@ router.get('/monitor/system', function (req, res, next) {
                 }
             });
 
-            console.log(system);
-
-            // Return the alarms as a JSON object
-            res.setHeader('content-type', 'application/json');
-            res.json(system);
         } catch (error) {
             console.log('Something has gone wrong parsing the system api');
             return render_error(res, error);
         }
+
+        console.log(system);
+
+        // Return the alarms as a JSON object
+        res.header('content-type', 'application/json');
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+        res.json(system);
+
     });
 });
 
 /* GET api json for S4 fan board 1 */
-router.get('/monitor/fanboard1', function (req, res, next) {
+router.get('/fanboard1', function (req, res, next) {
     //TODO replace file reader with real http request
     // var request_options = {
     //     url: 'http://192.168.16.200/',
@@ -172,14 +175,15 @@ router.get('/monitor/fanboard1', function (req, res, next) {
         }
 
         // Return the alarms as a JSON object
-        res.setHeader('content-type', 'application/json');
+        res.header('content-type', 'application/json');
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.json(fanboard1);
 
     });
 });
 
 /* GET api json for S4 fan board 2 */
-router.get('/monitor/fanboard2', function (req, res, next) {
+router.get('/fanboard2', function (req, res, next) {
     //TODO replace file reader with real http request
     // var request_options = {
     //     url: 'http://192.168.16.200/',
@@ -250,19 +254,20 @@ router.get('/monitor/fanboard2', function (req, res, next) {
             console.log(fanboard2);
 
         } catch (error) {
-            console.log('Something has gone wrong parsing the fan board 1');
+            console.log('Something has gone wrong parsing the fan board 2');
             return render_error(res, error);
         }
 
         // Return the alarms as a JSON object
-        res.setHeader('content-type', 'application/json');
+        res.header('content-type', 'application/json');
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.json(fanboard2);
 
     });
 });
 
 /* GET api json for S4 current loops */
-router.get('/monitor/currentloops', function (req, res, next) {
+router.get('/currentloops', function (req, res, next) {
     //TODO replace file reader with real http request
     // var request_options = {
     //     url: 'http://192.168.16.200/',
@@ -327,19 +332,20 @@ router.get('/monitor/currentloops', function (req, res, next) {
             console.log(currentloops);
 
         } catch (error) {
-            console.log('Something has gone wrong parsing the fan board 1');
+            console.log('Something has gone wrong parsing the current loops');
             return render_error(res, error);
         }
 
         // Return the alarms as a JSON object
-        res.setHeader('content-type', 'application/json');
+        res.header('content-type', 'application/json');
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.json(currentloops);
 
     });
 });
 
 /* GET api json for S4 alarms */
-router.get('/monitor/alarms', function (req, res, next) {
+router.get('/alarms', function (req, res, next) {
     //TODO replace file reader with real http request
     // var request_options = {
     //     url: 'http://192.168.16.200/',
@@ -383,7 +389,8 @@ router.get('/monitor/alarms', function (req, res, next) {
         }
 
         // Return the alarms as a JSON object
-        res.setHeader('content-type', 'application/json');
+        res.header('content-type', 'application/json');
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.json(alarms);
 
     });
