@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://gmpg.org/xfn/11">
+<title>MineARC Refuge Chamber Monitor</title>
+<meta http-equiv="X-UA-Compatible" content="IE=8">
+<noscript><meta http-equiv="refresh" content="10" /></noscript>
+<script type="text/javascript">
+var f=0;var x;
+try{x=new ActiveXObject('Msxml2.XMLHTTP');}catch(e){
+	try{x=new ActiveXObject('Microsoft.XMLHTTP');}catch(e2){
+		try{x=new XMLHttpRequest();}catch(e3){x=0;}}}
+function i(){
+	var d=new Date();var h=d.getHours();var m=d.getMinutes();var s=d.getSeconds();var a=" AM";
+	if(m<10)m="0"+m;
+	if(s<10)s="0"+s;
+	if(h>11)a=" PM";
+	if(h>12)h-=12;
+	if(!h)h=12;
+	document.getElementById("time").innerHTML=h+":"+m+":"+s+a;
+	document.getElementById("update").className="";
+}
+function u(){
+	if(x.readyState!=4)return;
+	if(x.status!=200){f=1;return;}f=0;
+	var t=document.body.innerHTML;
+	document.body.innerHTML=x.responseText;
+	if(!document.getElementById("update")){document.body.innerHTML=t;return;}
+	i();
+}
+function r(){
+	if(!x){document.location.reload();return;}
+	x.abort();
+	setTimeout("r()",f?10500+Math.floor(Math.random()*1000):10000);
+	x.onreadystatechange=u;
+	x.open("GET",document.URL,true);
+	x.setRequestHeader("If-Modified-Since", "Thu, 01 Jan 1970 00:00:00 GMT");
+	x.send(null);
+}
+setTimeout("r()",10000);
+</script>
+<style type="text/css">
+body{font-family:Tahoma,Verdana,Arial,Helvetica,"Bitstream Vera Sans",sans-serif;
+font-size:0.75em;line-height:1.333em;}
+*{line-height:150%;}
+p{margin:0;padding:0.5em 0;}
+#wrap{width:650px;margin:0 auto;text-align:left;}
+h1{font-size:1.5em;line-height:1em;margin:0;}
+table,tr,td,th{font-size:1em;padding:0;margin:0;}
+table{width:100%;border-collapse:collapse;}
+.hide{display:none;}
+.status{margin:0.5em 0 1em 0;}
+.status td{text-align:right;}
+.status td.left{text-align:left;}
+#alarms{padding-top:0.25em;}
+#alarms p{margin:0.25em 0;padding:0.15em 0.8em;border:0.25em solid #ddd;
+background:#fbe3e4;color:#d12f19;border-color:#fbc2c4;}
+</style></head>
+<body><center><div id="wrap">
+
+<table><tr>
+<td width="22%" valign="top"><img src="minearc.png" alt="" /></td>
+<td style="font-size:1.3em;">
+<h1>MineARC Refuge Chamber Monitor</h1>
+<p><b>Chamber name:</b>TEST1234             </p>
+</td>
+</tr></table>
+
+<p><b>Mode:</b>
+<span class="       ">Standby</span>
+<span class="hide   " style="color: #00f;"><b>Refuge Mode</b></span>
+<span class="hide   " style="color: #00f;"><b>Service Mode</b></span>
+<span class="hide   " style="color: #f00;"><b>Emergency</b></span>
+<span class="hide   " style="color: #00f;"><b>Self-test</b></span>
+<span class="hide   " style="color: #f00;"><b>No mains supply</b></span>
+<span class="hide   " style="color: #f00;"><b>Dormant</b></span>
+<span class="hide   " style="color: #00f;"><b>Commissioning</b></span>
+</p>
+
+<table class="status">
+<tr><td class="left" style="color: #00f;"><b>System Information</b></td></tr>
+<tr>
+<td class="left"><b>Mains voltage:</b></td><td>244    &nbsp; V</td><td></td><td></td>
+<td class="left"><b>Battery voltage:</b></td><td>46.9   &nbsp; V</td><td></td>
+</tr>
+<tr>
+<td class="left"><b>Inverter voltage:</b></td><td>243    &nbsp; V</td><td></td><td></td>
+<td class="left"><b>Battery current:</b></td><td>+000   &nbsp; A</td><td></td>
+</tr>
+<tr>
+<td class="left"><b>Battery temperature:</b></td><td>+000.0  &deg;C</td><td>+032.0  &deg;F</td><td></td>
+<td></td><td></td><td></td>
+</tr>
+<tr>
+<td width="23%" class="left"><b>Chamber temperature:</b></td>
+<td width="15%">+028.2  &deg;C</td><td width="15%">+082.6  &deg;F</td><td width="7%"></td>
+</tr>
+<tr>
+<td class="left"><b>Outside temperature:</b></td><td>+024.7  &deg;C</td><td>+076.3  &deg;F</td><td></td>
+<td></td><td></td><td></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td class="left" style="color: #00f;"><b>Fan Board 1</b></td></tr>
+<tr>
+<td class="left"><b>CO<sub>2</sub> fan I current:</b></td><td>0.00    A</td><td></td><td></td>
+<td class="left"><b>CO<sub>2</sub> fan II current:</b></td><td>0.00    A</td><td></td>
+</tr>
+<tr>
+<td class="left"><b>CO fan current:</b></td><td>0.00    A</td><td></td><td></td>
+<td class="left"><b>Lighting current:</b></td><td>0.00    A</td><td></td>
+</tr>
+<tr>
+<td class="left"><b>Siren current:</b></td><td>0.00    A</td><td></td><td></td>
+<td class="left"><b>Green strobe current:</b></td><td>0.00    A</td><td></td>
+</tr>
+<tr>
+<td class="left"><b>Red strobe current:</b></td><td>0.00    A</td><td></td><td></td>
+<td class="left"><b>Yellow strobe current:</b></td><td>0.00    A</td><td></td>
+</tr>
+<tr class ="hide   "><td>&nbsp;</td></tr>
+<tr class ="hide   "><td class="left" style="color: #00f;"><b>Fan Board 2</b></td></tr>
+<tr class ="hide   ">
+<td class="left"><b>CO<sub>2</sub> fan I current:</b></td><td>0.00    A</td><td></td><td></td>
+<td class="left"><b>CO<sub>2</sub> fan II current:</b></td><td>0.00    A</td><td></td>
+</tr>
+<tr class ="hide   ">
+<td class="left"><b>CO fan current:</b></td><td>0.00    A</td><td></td><td></td>
+<td class="left"><b>Lighting current:</b></td><td>0.00    A</td><td></td>
+</tr>
+<tr class ="hide   ">
+<td class="left"><b>Siren current:</b></td><td>0.00    A</td><td></td><td></td>
+<td class="left"><b>Green strobe current:</b></td><td>0.00    A</td><td></td>
+</tr>
+<tr class ="hide   ">
+<td class="left"><b>Red strobe current:</b></td><td>0.00    A</td><td></td><td></td>
+<td class="left"><b>Yellow strobe current:</b></td><td>0.00    A</td><td></td>
+</tr>
+
+<tr class ="hide   "><td>&nbsp;</td></tr>
+<tr class ="hide   "><td class="left" style="color: #00f;"><b>Current Loops</b></td></tr>
+<tr class ="hide   ">
+<td class="left"><b>LOOP1         :</b></td><td>+0000.00      &nbsp;ppm    </td><td></td><td></td>
+<td class="left"><b>LOOP2         :</b></td><td>+0000.00      &nbsp;ppm    </td><td></td>
+</tr>
+<tr class ="hide   ">
+<td class="left"><b>LOOP3         :</b></td><td>+0000.00      &nbsp;ppm    </td><td></td><td></td>
+<td class="left"><b>LOOP4         :</b></td><td>+0000.00      &nbsp;ppm    </td><td></td>
+</tr>
+<tr class ="hide   ">
+<td class="left"><b>LOOP5         :</b></td><td>+0000.00      &nbsp;ppm    </td><td></td><td></td>
+<td class="left"><b>LOOP6         :</b></td><td>+0000.00      &nbsp;ppm    </td><td></td>
+</tr>
+
+
+</table>
+
+
+
+<div id="alarms">
+<p class="hide   ">SDCard failed on Display board</p>
+<p class="hide   ">Internal log is full</p>
+<p class="hide   ">Battery Rail has failed on Display board</p>
+<p class="hide   ">SMPS Rail has failed on Display board</p>
+
+<p class="hide   ">Fan board 1 has failed</p>
+<p class="hide   ">Battery Rail has failed on Fan board 1</p>
+<p class="hide   ">SMPS Rail has failed on Fan board 1</p>
+<p class="hide   ">CO<sub>2</sub> fan 1 has failed on Fan board 1</p>
+<p class="hide   ">CO<sub>2</sub> fan 2 has failed on Fan board 1</p>
+<p class="hide   ">CO fan has failed on Fan board 1</p>
+<p class="hide   ">Lightining has failed on Fan board 1</p>
+<p class="hide   ">Siren has failed on Fan board 1</p>
+<p class="hide   ">Green strobe light has failed on Fan board 1</p>
+<p class="hide   ">Red strobe light has failed on Fan board 1</p>
+<p class="hide   ">Yellow strobe light has failed on Fan board 1</p>
+
+<p class="hide   ">Fan board 2 has failed</p>
+<p class="hide   ">Battery Rail has failed on Fan board 2</p>
+<p class="hide   ">SMPS Rail has failed on Fan board 2</p>
+<p class="hide   ">CO<sub>2</sub> fan 1 has failed on Fan board 2</p>
+<p class="hide   ">CO<sub>2</sub> fan 2 has failed on Fan board 2</p>
+<p class="hide   ">CO fan has failed on Fan board 2</p>
+<p class="hide   ">Lightining has failed on Fan board 2</p>
+<p class="hide   ">Siren has failed on Fan board 2</p>
+<p class="hide   ">Green strobe light has failed on Fan board 2</p>
+<p class="hide   ">Red strobe light has failed on Fan board 2</p>
+<p class="hide   ">Yellow strobe light has failed on Fan board 2</p>
+
+<p class="hide   ">Current board has failed</p>
+<p class="hide   ">Battery Rail has failed on Current board</p>
+<p class="hide   ">SMPS Rail has failed on Current board</p>
+<p class="hide   ">Current Loop 1 has failed</p>
+<p class="hide   ">Current Loop 2 has failed</p>
+<p class="hide   ">Current Loop 3 has failed</p>
+<p class="hide   ">Current Loop 4 has failed</p>
+<p class="hide   ">Current Loop 5 has failed</p>
+<p class="hide   ">Current Loop 6 has failed</p>
+
+<p class="hide   ">Voice board has failed</p>
+<p class="hide   ">Battery Rail has failed on Voice board</p>
+<p class="hide   ">SMPS Rail has failed on Voice board</p>
+<p class="hide   ">SDCard has failed on Voice board</p>
+<p class="hide   ">Speaker failed</p>
+
+<p class="hide   ">General board has failed</p>
+<p class="hide   ">Battery Rail has failed on General board</p>
+<p class="hide   ">SMPS Rail has failed on General board</p>
+<p class="hide   ">Chamber temperature failed</p>
+<p class="hide   ">Outside temperature failed</p>
+<p class="hide   ">Mains power has been disconnected</p>
+<p class="hide   ">Inverter voltage has failed</p>
+<p class="hide   ">Inverter fault signal has been detected</p>
+
+<p class="hide   ">Battery board has failed</p>
+<p class="       ">Battery power is unavailable</p>
+<p class="hide   ">Battery discharge current failed</p>
+<p class="hide   ">Battery charge current failed</p>
+<p class="hide   ">Battery voltage failed</p>
+<p class="hide   ">Battery temperature failed</p>
+<p class="hide   ">Battery current failed</p>
+
+<p class="hide   ">Load Test has failed</p>
+</div>
+
+<p id="update" class="hide">Last updated at <span id="time"></span></p>
+
+</div></center></body></html>
