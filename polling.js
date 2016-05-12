@@ -15,7 +15,7 @@ setInterval(function () {
             monitor_is_polling = false;
         });
     }
-}, 2000);
+}, 5000);
 
 function poll_monitor(next) {
     console.log('running monitor polling');
@@ -29,6 +29,9 @@ function poll_monitor(next) {
     //     if (!err && res.statusCode == 200) {
     //         monitor_data = body;
     //     }
+    //     // Call the callback funtion to manage passing of the data
+    //     // and to restart the polling
+    //     next();
     // });
 
     // Using file reader during testing with monitor off
@@ -37,9 +40,8 @@ function poll_monitor(next) {
             console.log('something went wrong in the polling service');
         }
         monitor_data = data;
+        // Call the callback funtion to manage passing of the data
+        // and to restart the polling
+        next();
     });
-
-    // Call the callback funtion to manage passing of the data
-    // and to restart the polling
-    next();
 }
