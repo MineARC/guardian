@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var monitor = require('./routes/monitor');
 var camera = require('./routes/camera');
+var polling = require('./polling');
 
 var app = express();
 
@@ -57,6 +58,5 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;

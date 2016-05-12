@@ -1,8 +1,7 @@
 var express = require('express');
-var request = require('request');
 var cheerio = require('cheerio');
 var jq = require('jquery');
-var fs = require('fs');
+var polling = require('../polling');
 var router = express.Router();
 
 function render_error(res, err) {
@@ -15,385 +14,307 @@ function render_error(res, err) {
 
 /* GET api json for S4 system name, mode, and info */
 router.get('/system', function (req, res, next) {
-    //TODO replace file reader with real http request
-    // var request_options = {
-    //     url: 'http://192.168.16.200/',
-    //     proxy: ''
-    // };
+    // Get document from polling service
+    var data = polling.monitor_data;
 
-    // request.get(request_options, function (err, res, body) {
-    //     if (!err && res.statusCode == 200) {
-    //     }
-    // })
+    try {
+        // Load the document into jQuery
+        jq = cheerio.load(data);
 
-    // Using file reader for testing purposes
-    fs.readFile('Refuge Chamber.html', 'utf8', function (err, data) {
-        if (err) {
-            return render_error(res, err);
-        }
+        // Create an object to store the status
+        var system = {};
+        var system_name = '';
+        var system_info = '';
 
-        try {
-            // Load the document into jQuery
-            jq = cheerio.load(data);
+        var continue_past = true;
 
-            // Create an object to store the status
-            var system = {};
-            var system_name = '';
-            var system_info = '';
+        // First add the name gotten from the top of the document
+        // Use html() and and not text() so that we can seperate the bold text
+        system_info = jq('b:contains(Chamber name:)').parent().html();
+        system_info = system_info.toLowerCase().replace(/<(?:.|\n)*>/g, '').trim();
+        system['name'] = system_info;
 
-            var continue_past = true;
+        // Second add the mode gotten from the top of the document
+        system['mode'] = jq('p > span:not(.hide)').text().toLowerCase();
 
-            // First add the name gotten from the top of the document
-            // Use html() and and not text() so that we can seperate the bold text
-            system_info = jq('b:contains(Chamber name:)').parent().html();
-            system_info = system_info.toLowerCase().replace(/<(?:.|\n)*>/g, '').trim();
-            system['name'] = system_info;
+        // Itterate over each of the elements in the table so they can be added to status
+        jq('table.status').find('td.left').each(function (index, element) {
+            // Name is found by the bold subchild
+            system_name = jq(element).find('b').text().toLowerCase();
 
-            // Second add the mode gotten from the top of the document
-            system['mode'] = jq('p > span:not(.hide)').text().toLowerCase();
+            // Standardise some of the names that contain html tags and other characters
+            system_name = system_name.replace(/:/g, '').trim();
+            //system_name = system_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
 
-            // Itterate over each of the elements in the table so they can be added to status
-            jq('table.status').find('td.left').each(function (index, element) {
-                // Name is found by the bold subchild
-                system_name = jq(element).find('b').text().toLowerCase();
+            // Info is found in the next column over
+            // Use html() here also for reasons
+            system_info = jq(element).next().html();
+            if (system_info != null) {
+                // Only care about numbers, sign, and decimal point
+                system_info = system_info.match(/[-+0-9.]+/g)[0]
+            }
 
-                // Standardise some of the names that contain html tags and other characters
-                system_name = system_name.replace(/:/g, '').trim();
-                //system_name = system_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
+            if (system_name == 'system information') {
+                // This is just a header
+                // Do nothing
+            }
+            else if (system_name == 'fan board 1') {
+                // Done with this section
+                return false;
+            }
+            else {
+                // Add the info to the object
+                system[system_name] = system_info;
+            }
+        });
 
-                // Info is found in the next column over
-                // Use html() here also for reasons
-                system_info = jq(element).next().html();
-                if (system_info != null) {
-                    // Only care about numbers, sign, and decimal point
-                    system_info = system_info.match(/[-+0-9.]+/g)[0]
-                }
+    } catch (error) {
+        console.log('Something has gone wrong parsing the system api');
+        return render_error(res, error);
+    }
 
-                if (system_name == 'system information') {
-                    // This is just a header
-                    // Do nothing
-                }
-                else if (system_name == 'fan board 1') {
-                    // Done with this section
-                    return false;
-                }
-                else {
-                    // Add the info to the object
-                    system[system_name] = system_info;
-                }
-            });
+    console.log(system);
 
-        } catch (error) {
-            console.log('Something has gone wrong parsing the system api');
-            return render_error(res, error);
-        }
-
-        console.log(system);
-
-        // Return the alarms as a JSON object
-        res.header('content-type', 'application/json');
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        res.json(system);
-
-    });
+    // Return the alarms as a JSON object
+    res.header('content-type', 'application/json');
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.json(system);
 });
 
 /* GET api json for S4 fan board 1 */
 router.get('/fanboard1', function (req, res, next) {
-    //TODO replace file reader with real http request
-    // var request_options = {
-    //     url: 'http://192.168.16.200/',
-    //     proxy: ''
-    // };
+    // Get document from polling service
+    var data = polling.monitor_data;
 
-    // request.get(request_options, function (err, res, body) {
-    //     if (!err && res.statusCode == 200) {
-    //     }
-    // })
+    try {
+        // Load the document into jQuery
+        jq = cheerio.load(data);
 
-    // Using file reader for testing purposes
-    fs.readFile('Refuge Chamber.html', 'utf8', function (err, data) {
-        if (err) {
-            return render_error(res, err);
-        }
+        // Create an object to store the status
+        var fanboard1 = {};
+        var fanboard1_name = '';
+        var fanboard1_info = '';
 
-        try {
-            // Load the document into jQuery
-            jq = cheerio.load(data);
+        var continue_past = true;
 
-            // Create an object to store the status
-            var fanboard1 = {};
-            var fanboard1_name = '';
-            var fanboard1_info = '';
+        // Itterate over each of the elements in the table so they can be added to status
+        jq('table.status').find('td.left').each(function (index, element) {
+            // Name is found by the bold subchild
+            fanboard1_name = jq(element).find('b').text().toLowerCase();
 
-            var continue_past = true;
+            // Standardise some of the names that contain html tags and other characters
+            fanboard1_name = fanboard1_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
 
-            // Itterate over each of the elements in the table so they can be added to status
-            jq('table.status').find('td.left').each(function (index, element) {
-                // Name is found by the bold subchild
-                fanboard1_name = jq(element).find('b').text().toLowerCase();
+            // Skip past all the stuff before what we care about
+            if (fanboard1_name == 'fan board 1') {
+                // Add to the api the state of the table (shown/hiden)
+                fanboard1_info = !jq(element).parent().hasClass('hide');
+                fanboard1['enabled'] = fanboard1_info;
 
-                // Standardise some of the names that contain html tags and other characters
-                fanboard1_name = fanboard1_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
+                continue_past = false;
+                return true;
+            }
+            else if (continue_past) {
+                return true;
+            }
 
-                // Skip past all the stuff before what we care about
-                if (fanboard1_name == 'fan board 1') {
-                    // Add to the api the state of the table (shown/hiden)
-                    fanboard1_info = !jq(element).parent().hasClass('hide');
-                    fanboard1['enabled'] = fanboard1_info;
+            // Info is found in the next column over
+            // Use html() here also for reasons
+            fanboard1_info = jq(element).next().html();
+            if (fanboard1_info != null) {
+                // Only care about numbers, sign, and decimal point
+                fanboard1_info = fanboard1_info.match(/[-+0-9.]+/g)[0]
+            }
 
-                    continue_past = false;
-                    return true;
-                }
-                else if (continue_past) {
-                    return true;
-                }
+            if (fanboard1_name == 'fan board 2') {
+                // Done with this section
+                return false;
+            }
+            else {
+                // Add the info to the object
+                fanboard1[fanboard1_name] = fanboard1_info;
+            }
+        });
 
-                // Info is found in the next column over
-                // Use html() here also for reasons
-                fanboard1_info = jq(element).next().html();
-                if (fanboard1_info != null) {
-                    // Only care about numbers, sign, and decimal point
-                    fanboard1_info = fanboard1_info.match(/[-+0-9.]+/g)[0]
-                }
+        console.log(fanboard1);
 
-                if (fanboard1_name == 'fan board 2') {
-                    // Done with this section
-                    return false;
-                }
-                else {
-                    // Add the info to the object
-                    fanboard1[fanboard1_name] = fanboard1_info;
-                }
-            });
+    } catch (error) {
+        console.log('Something has gone wrong parsing the fan board 1');
+        return render_error(res, error);
+    }
 
-            console.log(fanboard1);
-
-        } catch (error) {
-            console.log('Something has gone wrong parsing the fan board 1');
-            return render_error(res, error);
-        }
-
-        // Return the alarms as a JSON object
-        res.header('content-type', 'application/json');
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        res.json(fanboard1);
-
-    });
+    // Return the alarms as a JSON object
+    res.header('content-type', 'application/json');
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.json(fanboard1);
 });
 
 /* GET api json for S4 fan board 2 */
 router.get('/fanboard2', function (req, res, next) {
-    //TODO replace file reader with real http request
-    // var request_options = {
-    //     url: 'http://192.168.16.200/',
-    //     proxy: ''
-    // };
+    // Get document from polling service
+    var data = polling.monitor_data;
 
-    // request.get(request_options, function (err, res, body) {
-    //     if (!err && res.statusCode == 200) {
-    //     }
-    // })
+    try {
+        // Load the document into jQuery
+        jq = cheerio.load(data);
 
-    // Using file reader for testing purposes
-    fs.readFile('Refuge Chamber.html', 'utf8', function (err, data) {
-        if (err) {
-            return render_error(res, err);
-        }
+        // Create an object to store the status
+        var fanboard2 = {};
+        var fanboard2_name = '';
+        var fanboard2_info = '';
 
-        try {
-            // Load the document into jQuery
-            jq = cheerio.load(data);
+        var continue_past = true;
 
-            // Create an object to store the status
-            var fanboard2 = {};
-            var fanboard2_name = '';
-            var fanboard2_info = '';
+        // Itterate over each of the elements in the table so they can be added to status
+        jq('table.status').find('td.left').each(function (index, element) {
+            // Name is found by the bold subchild
+            fanboard2_name = jq(element).find('b').text().toLowerCase();
 
-            var continue_past = true;
+            // Standardise some of the names that contain html tags and other characters
+            fanboard2_name = fanboard2_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
 
-            // Itterate over each of the elements in the table so they can be added to status
-            jq('table.status').find('td.left').each(function (index, element) {
-                // Name is found by the bold subchild
-                fanboard2_name = jq(element).find('b').text().toLowerCase();
+            // Skip past all the stuff before what we care about
+            if (fanboard2_name == 'fan board 2') {
+                // Add to the api the state of the table (shown/hiden)
+                fanboard2_info = !jq(element).parent().hasClass('hide');
+                fanboard2['enabled'] = fanboard2_info;
 
-                // Standardise some of the names that contain html tags and other characters
-                fanboard2_name = fanboard2_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
+                continue_past = false;
+                return true;
+            }
+            else if (continue_past) {
+                return true;
+            }
 
-                // Skip past all the stuff before what we care about
-                if (fanboard2_name == 'fan board 2') {
-                    // Add to the api the state of the table (shown/hiden)
-                    fanboard2_info = !jq(element).parent().hasClass('hide');
-                    fanboard2['enabled'] = fanboard2_info;
+            // Info is found in the next column over
+            // Use html() here also for reasons
+            fanboard2_info = jq(element).next().html();
+            if (fanboard2_info != null) {
+                // Only care about numbers, sign, and decimal point
+                fanboard2_info = fanboard2_info.match(/[-+0-9.]+/g)[0]
+            }
 
-                    continue_past = false;
-                    return true;
-                }
-                else if (continue_past) {
-                    return true;
-                }
+            if (fanboard2_name == 'current loops') {
+                // Done with this section
+                return false;
+            }
+            else {
+                // Add the info to the object
+                fanboard2[fanboard2_name] = fanboard2_info;
+            }
+        });
 
-                // Info is found in the next column over
-                // Use html() here also for reasons
-                fanboard2_info = jq(element).next().html();
-                if (fanboard2_info != null) {
-                    // Only care about numbers, sign, and decimal point
-                    fanboard2_info = fanboard2_info.match(/[-+0-9.]+/g)[0]
-                }
+        console.log(fanboard2);
 
-                if (fanboard2_name == 'current loops') {
-                    // Done with this section
-                    return false;
-                }
-                else {
-                    // Add the info to the object
-                    fanboard2[fanboard2_name] = fanboard2_info;
-                }
-            });
+    } catch (error) {
+        console.log('Something has gone wrong parsing the fan board 2');
+        return render_error(res, error);
+    }
 
-            console.log(fanboard2);
-
-        } catch (error) {
-            console.log('Something has gone wrong parsing the fan board 2');
-            return render_error(res, error);
-        }
-
-        // Return the alarms as a JSON object
-        res.header('content-type', 'application/json');
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        res.json(fanboard2);
-
-    });
+    // Return the alarms as a JSON object
+    res.header('content-type', 'application/json');
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.json(fanboard2);
 });
 
 /* GET api json for S4 current loops */
 router.get('/currentloops', function (req, res, next) {
-    //TODO replace file reader with real http request
-    // var request_options = {
-    //     url: 'http://192.168.16.200/',
-    //     proxy: ''
-    // };
+    // Get document from polling service
+    var data = polling.monitor_data;
 
-    // request.get(request_options, function (err, res, body) {
-    //     if (!err && res.statusCode == 200) {
-    //     }
-    // })
+    try {
+        // Load the document into jQuery
+        jq = cheerio.load(data);
 
-    // Using file reader for testing purposes
-    fs.readFile('Refuge Chamber.html', 'utf8', function (err, data) {
-        if (err) {
-            return render_error(res, err);
-        }
+        // Create an object to store the status
+        var currentloops = {};
+        var currentloops_name = '';
+        var currentloops_info = '';
 
-        try {
-            // Load the document into jQuery
-            jq = cheerio.load(data);
+        var continue_past = true;
 
-            // Create an object to store the status
-            var currentloops = {};
-            var currentloops_name = '';
-            var currentloops_info = '';
+        // Itterate over each of the elements in the table so they can be added to status
+        jq('table.status').find('td.left').each(function (index, element) {
+            // Name is found by the bold subchild
+            currentloops_name = jq(element).find('b').text().toLowerCase();
 
-            var continue_past = true;
+            // Standardise some of the names that contain html tags and other characters
+            currentloops_name = currentloops_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
 
-            // Itterate over each of the elements in the table so they can be added to status
-            jq('table.status').find('td.left').each(function (index, element) {
-                // Name is found by the bold subchild
-                currentloops_name = jq(element).find('b').text().toLowerCase();
+            // Skip past all the stuff before what we care about
+            if (currentloops_name == 'current loops') {
+                // Add to the api the state of the table (shown/hiden)
+                currentloops_info = !jq(element).parent().hasClass('hide');
+                currentloops['enabled'] = currentloops_info;
 
-                // Standardise some of the names that contain html tags and other characters
-                currentloops_name = currentloops_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
+                continue_past = false;
+                return true;
+            }
+            else if (continue_past) {
+                return true;
+            }
 
-                // Skip past all the stuff before what we care about
-                if (currentloops_name == 'current loops') {
-                    // Add to the api the state of the table (shown/hiden)
-                    currentloops_info = !jq(element).parent().hasClass('hide');
-                    currentloops['enabled'] = currentloops_info;
+            // Info is found in the next column over
+            // Use html() here also for reasons
+            currentloops_info = jq(element).next().html();
+            if (currentloops_info != null) {
+                // Only care about numbers, sign, and decimal point
+                currentloops_info = currentloops_info.match(/[-+0-9.]+/g)[0]
+            }
 
-                    continue_past = false;
-                    return true;
-                }
-                else if (continue_past) {
-                    return true;
-                }
+            // Add the info to the object
+            currentloops[currentloops_name] = currentloops_info;
+        });
 
-                // Info is found in the next column over
-                // Use html() here also for reasons
-                currentloops_info = jq(element).next().html();
-                if (currentloops_info != null) {
-                    // Only care about numbers, sign, and decimal point
-                    currentloops_info = currentloops_info.match(/[-+0-9.]+/g)[0]
-                }
+        console.log(currentloops);
 
-                // Add the info to the object
-                currentloops[currentloops_name] = currentloops_info;
-            });
+    } catch (error) {
+        console.log('Something has gone wrong parsing the current loops');
+        return render_error(res, error);
+    }
 
-            console.log(currentloops);
+    // Return the alarms as a JSON object
+    res.header('content-type', 'application/json');
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.json(currentloops);
 
-        } catch (error) {
-            console.log('Something has gone wrong parsing the current loops');
-            return render_error(res, error);
-        }
-
-        // Return the alarms as a JSON object
-        res.header('content-type', 'application/json');
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        res.json(currentloops);
-
-    });
 });
 
 /* GET api json for S4 alarms */
 router.get('/alarms', function (req, res, next) {
-    //TODO replace file reader with real http request
-    // var request_options = {
-    //     url: 'http://192.168.16.200/',
-    //     proxy: ''
-    // };
+    // Get document from polling service
+    var data = polling.monitor_data;
 
-    // request.get(request_options, function (err, res, body) {
-    //     if (!err && res.statusCode == 200) {
-    //     }
-    // })
+    try {
+        // Load the document into jQuery
+        jq = cheerio.load(data);
 
-    // Using file reader for testing purposes
-    fs.readFile('Refuge Chamber.html', 'utf8', function (err, data) {
-        if (err) {
-            return render_error(res, err);
-        }
+        // Create an object to store the alarms
+        var alarms = {};
+        var error_name = '';
+        var error_status = false;
+        // Itterate over each of the alarms so they can be added
+        jq('#alarms > p').each(function (index, element) {
+            // Name is the label that shows for each error
+            error_name = jq(element).text().toLowerCase().trim();
+            // If the alarm isnt hidden this will resolve to true
+            error_status = !jq(element).hasClass('hide');
+            // Add the alarms to the object
+            alarms[error_name] = error_status;
+        });
 
-        try {
-            // Load the document into jQuery
-            jq = cheerio.load(data);
+        console.log(alarms);
 
-            // Create an object to store the alarms
-            var alarms = {};
-            var error_name = '';
-            var error_status = false;
-            // Itterate over each of the alarms so they can be added
-            jq('#alarms > p').each(function (index, element) {
-                // Name is the label that shows for each error
-                error_name = jq(element).text().toLowerCase().trim();
-                // If the alarm isnt hidden this will resolve to true
-                error_status = !jq(element).hasClass('hide');
-                // Add the alarms to the object
-                alarms[error_name] = error_status;
-            });
+    } catch (error) {
+        console.log('Something has gone wrong parsing the alarms api');
+        return render_error(res, error);
+    }
 
-            console.log(alarms);
+    // Return the alarms as a JSON object
+    res.header('content-type', 'application/json');
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.json(alarms);
 
-        } catch (error) {
-            console.log('Something has gone wrong parsing the alarms api');
-            return render_error(res, error);
-        }
-
-        // Return the alarms as a JSON object
-        res.header('content-type', 'application/json');
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        res.json(alarms);
-
-    });
 });
 
 
