@@ -6,7 +6,11 @@ var monitor_data = '';
 exports.monitor_data = monitor_data;
 
 // Spin up polling of backend services
-var monitor_is_polling = false;
+var monitor_is_polling = true;
+poll_monitor(function () {
+    exports.monitor_data = monitor_data;
+    monitor_is_polling = false;
+});
 setInterval(function () {
     if (!monitor_is_polling) {
         monitor_is_polling = true;
