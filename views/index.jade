@@ -24,10 +24,27 @@ block append navbar
 block prepend monitor
   div(class='jumbotron')
     div(class='container')
-      h1 Monitor
-      table(id='table' data-url='/api/monitor/system.json' data-id-field='row_name' data-show-columns="true" data-show-refresh="true")
-      thead
-        tr
-          th(data-field='row_name') Name
-          th(data-field='row_info') Info
-      
+      div(class='col-xs-12 col-sm-12 col-md-12 col-lg-12')
+        h1 Monitor
+        table(id='system_table')
+            tr
+              th Name
+              th Value
+      div(class='col-xs-12 col-sm-6 col-md-6 col-lg-4')
+        h1 Fan Board 1
+        table(id='fanboard1_table')
+          tr
+            th Name
+            th Value
+      div(class='col-xs-12 col-sm-6 col-md-6 col-lg-4')
+        h1 Fan Board 2
+        table(id='fanboard2_table')
+            tr
+              th Name
+              th Value
+      div(class='col-xs-12 col-sm-12 col-md-12 col-lg-4')
+        h1 Current Loops
+        table(id='currentloops_table')
+            tr
+              th Name
+              th Value

@@ -18,8 +18,6 @@ setInterval(function () {
 }, 5000);
 
 function poll_monitor(next) {
-    console.log('running monitor polling');
-
     // var request_options = {
     //     url: 'http://192.168.17.200/',
     //     proxy: ''
