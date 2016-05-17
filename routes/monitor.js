@@ -13,7 +13,7 @@ function render_error(res, err) {
 }
 
 /* GET api json for S4 system name, mode, and info */
-router.get('/system*', function (req, res, next) {
+router.get('/system', function (req, res, next) {
     // Get document from polling service
     var data = polling.monitor_data;
 
@@ -86,7 +86,7 @@ router.get('/system*', function (req, res, next) {
 });
 
 /* GET api json for S4 fan board 1 */
-router.get('/fanboard1*', function (req, res, next) {
+router.get('/fanboard1', function (req, res, next) {
     // Get document from polling service
     var data = polling.monitor_data;
 
@@ -157,7 +157,7 @@ router.get('/fanboard1*', function (req, res, next) {
 });
 
 /* GET api json for S4 fan board 2 */
-router.get('/fanboard2*', function (req, res, next) {
+router.get('/fanboard2', function (req, res, next) {
     // Get document from polling service
     var data = polling.monitor_data;
 
@@ -229,7 +229,7 @@ router.get('/fanboard2*', function (req, res, next) {
 });
 
 /* GET api json for S4 current loops */
-router.get('/currentloops*', function (req, res, next) {
+router.get('/currentloops', function (req, res, next) {
     // Get document from polling service
     var data = polling.monitor_data;
 
@@ -295,7 +295,7 @@ router.get('/currentloops*', function (req, res, next) {
 });
 
 /* GET api json for S4 alarms */
-router.get('/alarms*', function (req, res, next) {
+router.get('/alarms', function (req, res, next) {
     // Get document from polling service
     var data = polling.monitor_data;
 
@@ -334,7 +334,5 @@ router.get('/alarms*', function (req, res, next) {
     res.json(alarms);
 
 });
-
-
 
 module.exports = router;
