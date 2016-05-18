@@ -27,11 +27,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+  console.log('session middleware');
+  console.log(req.cookies);
+  next();
+});
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/api/monitor', monitor);
 app.use('/api/camera', camera);
-app.use('/dbtest', dbtest)
+app.use('/dbtest', dbtest);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

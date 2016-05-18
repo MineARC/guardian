@@ -29,6 +29,9 @@ exports.getUsers = function (callback) {
 
 // Adds a user to the database with default settings and alerts state
 exports.addUser = function (username, password, email, callback) {
+  if (!username || !password || !email) {
+    return callback(error, false);
+  }
   db.serialize(function () {
     var password_salt = crypto.randomBytes(16).toString('base64');
     var password_hash = crypto.pbkdf2Sync(password, password_salt, 5000, 32, 'sha256').toString('base64');

@@ -24,14 +24,14 @@ router.get('/addUser', function (req, res) {
   var password = req.query.password;
   var email = req.query.email;
 
-  db.addUser(username, password, email, function (err, data) {
+  db.addUser(username, password, email, function (err) {
     if (err) {
       console.log(err);
       return res.render('error', { error: err });
     }
     else {
       console.log(data);
-      res.send(data + ' records updated');
+      res.send('user added');
     }
   });
 });
