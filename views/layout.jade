@@ -4,18 +4,12 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-    //- script(src='https://fb.me/react-15.0.2.js')
-    //- script(src='https://fb.me/react-dom-15.0.2.js')
+    block styles
   body
     div(class='container')
-      block navbar
-      block monitor
-        div(class='col-xs-12 col-sm-12 col-md-6 col-lg-6')
-          block camera1
-        div(class='col-xs-12 col-sm-12 col-md-6 col-lg-6')
-          block camera2
-      block footer
+      block content
   script(src='/javascripts/jquery.min.js')
   script(src='/javascripts/bootstrap.min.js')
-  script(src='/javascripts/monitor_table.js')
+  script(src='/javascripts/main.js')
+  block scripts
   

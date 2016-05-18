@@ -9,7 +9,9 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var monitor = require('./routes/monitor');
 var camera = require('./routes/camera');
+var dbtest = require('./routes/dbtest');
 var polling = require('./polling');
+var alert = require('./alert');
 
 var app = express();
 
@@ -29,12 +31,13 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/api/monitor', monitor);
 app.use('/api/camera', camera);
+app.use('/dbtest', dbtest)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handlers
@@ -42,21 +45,21 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            error: err
-        });
+  app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      error: err
     });
+  });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        error: {}
-    });
+  res.status(err.status || 500);
+  res.render('error', {
+    error: {}
+  });
 });
 
 module.exports = app;
