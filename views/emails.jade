@@ -1,0 +1,11 @@
+extends layout
+
+block append content
+  div(class='jumbotron')
+    table(id='email_table' class='table')
+      tr
+        th Email
+        th Subsriptions
+
+block append scripts
+  script(src='/javascripts/emails.js')

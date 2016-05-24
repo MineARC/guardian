@@ -10,121 +10,158 @@ var db = new sqlite3.Database(file);
 // Setup the database if it is not already
 db.serialize(function () {
   if (!exists) {
-    db.run('CREATE TABLE Users (username TEXT UNIQUE, password_hash TEXT, password_salt TEXT, password_function TEXT, email TEXT, settings BLOB, alerts BLOB)');
+    db.run('CREATE TABLE Alarms (email TEXT UNIQUE, subscription, sent)');
   }
 });
 
-// Returns via callback a list of all usernames in the database
-exports.getUsers = function (callback) {
+// Returns via callback a list of all emails, their subscriptions and sent status
+// { email: 'email', subscription: [], sent: {} }
+exports.getAll = function (callback) {
   db.serialize(function () {
-    db.all('SELECT username FROM Users', function (err, rows) {
-      var users = [];
-      rows.forEach(function (val) {
-        users.push(val.username);
-      })
-      callback(err, users);
+    db.all('SELECT email, subscription, sent FROM Alarms', function (err, rows) {
+      var all = [];
+      rows.reduce(function (prev, curr) {
+        prev.push({ email: curr.email, subscription: JSON.parse(curr.subscription), sent: JSON.parse(curr.sent) });
+        return prev;
+      }, all);
+      callback(err, all);
     });
   });
 }
 
-// Adds a user to the database with default settings and alerts state
-exports.addUser = function (username, password, email, callback) {
-  if (!username || !password || !email) {
-    return callback(error, false);
+// Returns via callback a list of all emails, their subscriptions
+// { email: 'email', subscription: [] }
+exports.getEmailsAndSubscriptions = function (callback) {
+  db.serialize(function () {
+    db.all('SELECT email, subscription FROM Alarms', function (err, rows) {
+      var all = [];
+      rows.reduce(function (prev, curr) {
+        prev.push({ email: curr.email, subscription: JSON.parse(curr.subscription) });
+        return prev;
+      }, all);
+      callback(err, all);
+    });
+  });
+}
+
+// Returns via callback a list of all emails
+exports.getEmails = function (callback) {
+  db.serialize(function () {
+    db.all('SELECT email FROM Alarms', function (err, rows) {
+      var emails = [];
+      rows.reduce(function (prev, curr) {
+        prev.push(curr.email);
+        return prev;
+      }, emails)
+      callback(err, emails);
+    });
+  });
+}
+
+// Adds a email to the database with supplied subscription list and empty sent status
+exports.addEmail = function (email, subscription, callback) {
+  if (!email) {
+    return callback(new Error('Invalid input'));
   }
-  db.serialize(function () {
-    var password_salt = crypto.randomBytes(16).toString('base64');
-    var password_hash = crypto.pbkdf2Sync(password, password_salt, 5000, 32, 'sha256').toString('base64');
-    var password_function = 'pbkdf2, 5000, 32, sha256';
-    var settings = [];
-    var alerts = [];
+  else if (!subscription) {
+    subscription = [];
+  }
 
-    db.run('INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?, ?)', username, password_hash, password_salt, password_function, email, settings, alerts, callback);
-  });
-}
-
-// Removes given suer from the database
-exports.removeUser = function (username, callback) {
   db.serialize(function () {
-    db.run('DELETE FROM Users WHERE username LIKE ?', username, callback);
-  });
-}
+    if (typeof subscription !== 'string') {
+      subscription = JSON.stringify(subscription);
+    }
+    var sent = {};
+    sent = JSON.stringify(sent);
 
-// Gets the email of a given user
-exports.getUsersEmail = function (username, callback) {
-  db.serialize(function () {
-    db.get('SELECT email FROM Users WHERE username LIKE ?', username, function (err, row) {
-      callback(err, row.email);
+    db.run('INSERT INTO Alarms VALUES (?, ?, ?)', email, subscription, sent, function (err) {
+      return callback(err, this.lastID > 0);
     });
   });
 }
 
-// Updates the eamil of the given user
-exports.updateUsersEmail = function (username, email, callback) {
+// Removes given email
+exports.removeEmail = function (email, callback) {
   db.serialize(function () {
-    db.run('UPDATE Users SET email = ? WHERE username LIKE ?', email, username, callback);
-  });
-}
+    if (!email) {
+      return callback(new Error('Invalid input'));
+    }
 
-// Gets the settings of the given user
-exports.getUsersSettings = function (username, callback) {
-  db.serialize(function () {
-    db.get('SELECT settings FROM Users WHERE username LIKE ?', username, function (err, row) {
-      callback(err, row.settings);
+    db.run('DELETE FROM Alarms WHERE email LIKE ?', email, function (err) {
+      return callback(err, this.changes);
     });
   });
 }
 
-// Updates the settings of the given user
-exports.updateUsersSettings = function (username, settings, callback) {
+// Changes the email of an entry
+exports.setEmail = function (email, update, callback) {
   db.serialize(function () {
-    db.run('UPDATE Users SET settings = ? WHERE username LIKE ?', settings, username, callback);
-  });
-}
+    if (!email || !update) {
+      return callback(new Error('Invalid input'));
+    }
 
-// Gets the alert state of the given user
-exports.getUsersAlerts = function (username, callback) {
-  db.serialize(function () {
-    db.get('SELECT alerts FROM Users WHERE username LIKE ?', username, function (err, row) {
-      callback(err, row.alerts);
+    db.run('UPDATE Alarms SET email = ? WHERE email LIKE ?', email, function (err) {
+      callback(err, this.changes);
     });
   });
 }
 
-// Updates the alert state of the given user
-exports.updateUsersAlerts = function (username, alerts, callback) {
+// Gets the subscription of the given email
+exports.getSubscription = function (email, callback) {
   db.serialize(function () {
-    db.run('UPDATE Users SET alerts = ? WHERE username LIKE ?', alerts, username, callback);
-  });
-}
+    if (!email) {
+      return callback(new Error('Invalid input'));
+    }
 
-// Compares a plain text password of a given user with the salted hashed password of the user in the database
-exports.compareUsersPassword = function (username, password, callback) {
-  db.serialize(function () {
-    db.get('SELECT password_hash, password_salt FROM Users WHERE username LIKE ?', username, function (err, row) {
-      if (err) {
-        return callback(err);
-      }
-
-      if (!row) {
-        return callback(err, 'no user');
-      }
-
-      var password_hash = row.password_hash;
-      var password_salt = row.password_salt;
-      var result = crypto.pbkdf2Sync(password, password_salt, 5000, 32, 'sha256').toString('base64');
-      callback(err, result == password_hash ? 'match' : 'no match');
+    db.get('SELECT subscription FROM Alarms WHERE email LIKE ?', email, function (err, row) {
+      callback(err, JSON.parse(row.subscription));
     });
   });
 }
 
-// Updates the password of the given user
-exports.updateUsersPassword = function (username, password, callback) {
+// Updates the subscription of the given email
+exports.setSubscription = function (email, subscription, callback) {
   db.serialize(function () {
-    var password_salt = crypto.randomBytes(16).toString('base64');
-    var password_hash = crypto.pbkdf2Sync(password, password_salt, 5000, 32, 'sha256').toString('base64');
-    var password_function = 'pbkdf2, 5000, 32, sha256';
+    if (!email || !subscription) {
+      return callback(new Error('Invalid input'));
+    }
 
-    db.run('UPDATE Users SET password_hash = ?, password_salt = ?, password_function = ? WHERE username LIKE ?', password_hash, password_salt, password_function, username, callback);
+    if (typeof subscription !== 'string') {
+      subscription = JSON.stringify(subscription);
+    }
+
+    db.run('UPDATE Alarms SET subscription = ? WHERE email LIKE ?', subscription, email, function (err) {
+      callback(err, this.changes);
+    });
+  });
+}
+
+// Gets the sent state of the given email
+exports.getSent = function (email, callback) {
+  db.serialize(function () {
+    if (!email) {
+      return callback(new Error('Invalid input'));
+    }
+
+    db.get('SELECT sent FROM Alarms WHERE email LIKE ?', email, function (err, row) {
+      callback(err, JSON.parse(row.sent));
+    });
+  });
+}
+
+// Updates the sent state of the given email
+exports.setSent = function (email, sent, callback) {
+  db.serialize(function () {
+    if (!email || !sent) {
+      return callback(new Error('Invalid input'));
+    }
+
+    if (typeof sent !== 'string') {
+      sent = JSON.stringify(sent);
+    }
+
+    db.run('UPDATE Alarms SET sent = ? WHERE email LIKE ?', sent, email, function (err) {
+      callback(err, this.changes);
+    });
   });
 }
