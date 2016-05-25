@@ -88,7 +88,7 @@ exports.removeEmail = function (email, callback) {
     }
 
     db.run('DELETE FROM Alarms WHERE email LIKE ?', email, function (err) {
-      return callback(err, this.changes);
+      return callback(err, this.changes > 0);
     });
   });
 }
@@ -101,7 +101,7 @@ exports.setEmail = function (email, update, callback) {
     }
 
     db.run('UPDATE Alarms SET email = ? WHERE email LIKE ?', email, function (err) {
-      callback(err, this.changes);
+      callback(err, this.changes > 0);
     });
   });
 }
@@ -131,7 +131,7 @@ exports.setSubscription = function (email, subscription, callback) {
     }
 
     db.run('UPDATE Alarms SET subscription = ? WHERE email LIKE ?', subscription, email, function (err) {
-      callback(err, this.changes);
+      callback(err, this.changes > 0);
     });
   });
 }
@@ -161,7 +161,7 @@ exports.setSent = function (email, sent, callback) {
     }
 
     db.run('UPDATE Alarms SET sent = ? WHERE email LIKE ?', sent, email, function (err) {
-      callback(err, this.changes);
+      callback(err, this.changes > 0);
     });
   });
 }

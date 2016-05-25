@@ -1,4 +1,6 @@
 var express = require('express');
+var polling = require('../polling');
+var db = require('../database')
 var router = express.Router();
 
 var alarms = ["sdcard failed on display board",
@@ -60,23 +62,92 @@ var alarms = ["sdcard failed on display board",
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  res.render('emails');
+  var data = polling.monitor_data;
+  db.getAll(function (err, all) {
+    data['emails'] = all
+    res.render('emails', data);
+  });
 });
 
 router.post('/addEmail', function (req, res, next) {
-  
+  var email = req.body.email;
+
+  if (!email || !email.match('\\w+@\\w+')) {
+    console.log('Invalid information supplied');
+    return res.send('Invalid information supplied');
+  }
+
+  db.addEmail(email, null, function (err, success) {
+    if (err) {
+      console.log(err);
+      return res.send(err.message);
+    }
+    else if (success) {
+      return res.send('User added');
+    }
+    else {
+      return res.send('Something went wrong');
+    }
+  });
 });
 
 router.post('/saveSubscriptions', function (req, res, next) {
+  var email = req.body.email;
+  var subscriptions = req.query.subscriptions;
 
+  if (!email || !subscriptions || !email.match('\\w+@\\w+')) {
+    console.log('Invalid information supplied');
+    return res.send('Invalid information supplied');
+  }
+
+  db.setSubscriptions(email, subscriptions, function (err, success) {
+    if (err) {
+      console.log(err);
+      return res.send(err.message);
+    }
+    else if (success) {
+      res.send('Subscriptions saved');
+    }
+    else {
+      re.send('Something went wrong');
+    }
+  });
 });
 
 router.post('/delEmail', function (req, res, next) {
-  
+  var email = req.body.email;
+
+  if (!email || !email.match('\\w+@\\w+')) {
+    console.log('Invalid information supplied');
+    return res.send('Invalid information supplied');
+  }
+
+  db.removeEmail(email, function (err, success) {
+    if (err) {
+      console.log(err);
+      return res.send(err.message);
+    }
+    else if (success) {
+      res.send('Email deleted');
+    }
+    else {
+      res.send('Something went wrong');
+    }
+  });
 });
 
 router.get('/getAlarms', function (req, res, next) {
   res.send(alarms);
 });
+
+function merge() {
+  var args = Array.from(arguments);
+  var result = {};
+  for (var obj in args) {
+    for (var key in obj)
+      result[key] = obj[key];
+  }
+  return result;
+}
 
 module.exports = router;

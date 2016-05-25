@@ -12,6 +12,10 @@ function render_error(res, err) {
   });
 }
 
+router.get('/all', function (req, res, next) {
+  res.json(polling.monitor_data);
+})
+
 /* GET api json for S4 system name, mode, and info */
 router.get('/system', function (req, res, next) {
   // Get document from polling service
@@ -24,7 +28,6 @@ router.get('/system', function (req, res, next) {
   try {
     // Load the document into jQuery
     jq = cheerio.load(data);
-
 
     var row_name = '';
     var row_info = '';

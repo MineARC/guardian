@@ -1,16 +1,58 @@
-$.getJSON('/dbtest/getEmailsAndSubscriptions', function (data) {
-  var tr;
-  for (var i = 0; i < data.length; i++) {
-    tr = $('<tr/>');
-    tr.append('<td>' + data[i].email + '</td>');
-    tr.append('<td>' + '<div class="dropdown"> \
-    <button class="btn_sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><p class="numSel">0</p> Selected \
-    <span class="caret"></span></button> \
-    <ul class="dropdown-menu"> \
-      <li><a href="#">HTML</a><a href="#">CSS</a></li> \
-      <li><a href="#">JavaScript</a></li> \
-    </ul> \
-  </div>' + '</td>');
-    $('#email_table').append(tr);
-  }
+$(document).ready(function ($) {
+  $('.check_all').click(function () {
+    // Check all checkboxes when check_all is clicked
+    $(this).closest('ul.dropdown-menu').find('input:checkbox').prop('checked', true);
+
+    // Update the number of subscriptions
+    var length = $(this).closest('ul.dropdown-menu').find('input:checkbox:checked').length;
+    $(this).closest('div.dropdown').find('.num_subs').text(length);
+  });
+  $('.uncheck_all').click(function () {
+    // Uncheck all checkboxes when check_all is clicked
+    $(this).closest('ul.dropdown-menu').find('input:checkbox').prop('checked', false);
+
+    // Update the number of subscriptions
+    var length = $(this).closest('ul.dropdown-menu').find('input:checkbox:checked').length;
+    $(this).closest('div.dropdown').find('.num_subs').text(length);
+  });
+  $('input:checkbox').change(function () {
+    // Update the number of subscriptions
+    var length = $(this).closest('ul.dropdown-menu').find('input:checkbox:checked').length;
+    $(this).closest('div.dropdown').find('.num_subs').text(length);
+  });
+  $(document).on('click', '.dropdown-menu', function (event) {
+    // Dont close the dropdown when you are clicking on elements inside it
+    event.stopPropagation();
+  });
+  $('#confirm-delete').on('click', '.btn-ok', function (event) {
+    var $modalDiv = $(event.delegateTarget);
+    var email = $(this).data('email');
+
+    $modalDiv.addClass('loading');
+    $.post('/emails/delEmail', { email: email }).then(function () {
+      $modalDiv.modal('hide').removeClass('loading');
+      location.reload();
+    });
+  });
+  $('#confirm-delete').on('show.bs.modal', function (event) {
+    var data = $(event.relatedTarget).data();
+    $('.title', this).text(data.email);
+    $('.btn-ok', this).data('email', data.email);
+  });
+
+  $('#btn-add').click(function (event) {
+    console.log($(this).closest('div.input-group').find('input').val());
+    var email = $(this).closest('div.input-group').find('input').val();
+    $.post('/emails/addEmail', { email: email }).then(function (res) {
+      if (res == 'User added') {
+        location.reload();
+      }
+      else {
+        $('#error-alert').show();
+        window.setTimeout(function () {
+          $('#error-alert').hide();
+        }, 3000);
+      }
+    });
+  });
 });

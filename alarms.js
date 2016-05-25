@@ -128,6 +128,7 @@ function send_mail_callback(email, sent, success) {
   }
 }
 
+// Put the active alarms into an attractive format for the message body
 function format_alarms(active_alarms) {
   return JSON.stringify(active_alarms);
 }
