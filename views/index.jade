@@ -1,51 +1,71 @@
 extends layout
-
-//- block append navbar
-//-   div
-//-     nav(class='navbar navbar-inverse navbar-fixed-top')
-//-       div(class='container')
-//-         div(class='navbar-header')
-//-           button(type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar')
-//-             span(class='sr-only') Toggle navigaton
-//-             span(class='icon-bar')
-//-             span(class='icon-bar')
-//-             span(class='icon-bar')
-//-           a(class='navbar-brand' href='#') Guardian
-//-         div(id='navbar' class='navbar-collapse collapse')
-//-           form(class='navbar-form navbar-right')
-//-             div(class='form-group')
-//-               input(type='text' placeholder="Email" class='form-control')
-//-             div(class='form-group')
-//-               input(type='password' placeholder="Password" class='form-control')
-//-             button(type='submit' class='btn btn-success') Sign in
            
 block append content
   div(class='jumbotron')
     div(class='container')
-      div(class='col-xs-12 col-sm-12 col-md-12 col-lg-12')
-        h2 Monitor
-        table(id='system_table' class='table')
-          tr
-            th Name
-            th Value
-      div(class='col-xs-12 col-sm-6 col-md-6 col-lg-4')
-        h2 Fan Board 1
-        table(id='fanboard1_table' class='table')
-          tr
-            th Name
-            th Value
-      div(class='col-xs-12 col-sm-6 col-md-6 col-lg-4')
-        h2 Fan Board 2
-        table(id='fanboard2_table' class='table')
-          tr
-            th Name
-            th Value
-      div(class='col-xs-12 col-sm-12 col-md-12 col-lg-4')
-        h2 Current Loops
-        table(id='currentloops_table' class='table')
-          tr
-            th Name
-            th Value
+      if(system_information)
+        div.col-xs-3#mode
+          h2 Mode: #{mode}
+        div.col-xs-9#image-logo
+          img.img-responsive(src='https://cdn0.iconfinder.com/data/icons/round-ui-icons/128/tick_green.png')
+        div.col-xs-12.col-md-6#camera-internal
+          h2 Internal Camera
+            div
+              img.img-responsive
+        div.col-xs-12.col-md-6#camera-external
+          h2 External Camera
+            div
+              img.img-responsive
+        div.col-xs-12.col-md-6#table-system-info
+          h2 System Information
+          table.table
+            tr
+              th Name
+              th Value
+            each row in system_information
+              tr
+                td.row-name= row.row_name
+                td.row-info= row.row_info
+      if(fan_board_1)
+        div.col-xs-12.col-md-6#table-fan-board-1
+          h2 Fan Board
+          table.table
+            tr
+              th Name
+              th Value
+            each row in fan_board_1
+              tr
+                td.row-name= row.row_name
+                td.row-info= row.row_info
+      if(fan_board_2)
+        div.col-xs-12.col-md-6#table-fan-board-2
+          h2 Fan Board 2
+          table.table
+            tr
+              th Name
+              th Value
+            each row in fan_board_2
+              tr
+                td.row-name= row.row_name
+                td.row-info= row.row_info
+      if(current_loops)
+        div.col-xs-12.col-md-6#table-current-loops
+          h2 Current Loops
+          table.table
+            tr
+              th Name
+              th Value
+            each row in current_loops
+              tr
+                td.row-name= row.row_name
+                td.row-info= row.row_info
+      if(alarms)
+        div.col-xs-12#alarms
+          h2 Alarms
+            each alarm in alarms
+              if(alarm.alarm_status)
+                p= alarm.alarm_name
             
 block append scripts
   script(src='/javascripts/monitor.js')
+  script(src='/javascripts/camera.js')

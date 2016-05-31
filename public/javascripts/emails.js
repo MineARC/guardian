@@ -1,48 +1,82 @@
 $(document).ready(function ($) {
+  $('.btn-save').hide();
+
+  // Check all button selects all the checkboxes for an email
   $('.check_all').click(function () {
     // Check all checkboxes when check_all is clicked
     $(this).closest('ul.dropdown-menu').find('input:checkbox').prop('checked', true);
-
-    // Update the number of subscriptions
-    var length = $(this).closest('ul.dropdown-menu').find('input:checkbox:checked').length;
-    $(this).closest('div.dropdown').find('.num_subs').text(length);
+    row_is_updated(this);
   });
+
+  // Opisite of check all
   $('.uncheck_all').click(function () {
     // Uncheck all checkboxes when check_all is clicked
     $(this).closest('ul.dropdown-menu').find('input:checkbox').prop('checked', false);
+    row_is_updated(this);
+  });
 
-    // Update the number of subscriptions
-    var length = $(this).closest('ul.dropdown-menu').find('input:checkbox:checked').length;
-    $(this).closest('div.dropdown').find('.num_subs').text(length);
-  });
+  // Listen for changes to the checkboxes to update the number of subscriptions
   $('input:checkbox').change(function () {
-    // Update the number of subscriptions
-    var length = $(this).closest('ul.dropdown-menu').find('input:checkbox:checked').length;
-    $(this).closest('div.dropdown').find('.num_subs').text(length);
+    row_is_updated(this);
   });
-  $(document).on('click', '.dropdown-menu', function (event) {
-    // Dont close the dropdown when you are clicking on elements inside it
+
+  function row_is_updated(element) {
+    // Update the number of subscriptions
+    var length = $(element).closest('ul.dropdown-menu').find('input:checkbox:checked').length;
+    $(element).closest('div.dropdown').find('.num_subs').text(length);
+
+    // Update the save button
+    $(element).closest('tr').find('.btn-delete').parent().addClass('input-group-btn');
+    $(element).closest('tr').find('.btn-save').show();
+  }
+
+  // Dont close the dropdown when you are clicking on elements inside it
+  $('.dropdown-menu').click(function (event) {
     event.stopPropagation();
   });
-  $('#confirm-delete').on('click', '.btn-ok', function (event) {
-    var $modalDiv = $(event.delegateTarget);
-    var email = $(this).data('email');
 
-    $modalDiv.addClass('loading');
-    $.post('/emails/delEmail', { email: email }).then(function () {
-      $modalDiv.modal('hide').removeClass('loading');
-      location.reload();
+  // Show a confirmation box to delete an email for the database
+  $('.btn-delete').click(function (event) {
+    var element = this;
+    var email = $(element).data('email');
+    bootbox.confirm('Are you sure you wish to delete ' + email, function (result) {
+      if (result) {
+        $.post('/emails/delEmail', { email: email }).then(function () {
+          $(element).closest('tr').hide();
+        });
+      }
     });
   });
-  $('#confirm-delete').on('show.bs.modal', function (event) {
-    var data = $(event.relatedTarget).data();
-    $('.title', this).text(data.email);
-    $('.btn-ok', this).data('email', data.email);
+
+  // Save the selected subscriptions for the corresponding email
+  $('.btn-save').click(function (event) {
+    var element = this;
+    var email = $(this).data('email');
+    var subscriptions = [];
+    $(element).closest('tr').find('input:checkbox:checked').each(function (index, element) {
+      subscriptions.push($(element).data('index'));
+    });
+    $.post('/emails/saveSubscriptions', { email: email, subscriptions: JSON.stringify(subscriptions) }).then(function () {
+      $(element).closest('tr').find('.btn-delete').parent().removeClass('input-group-btn');
+      $(element).closest('tr').find('.btn-save').hide();
+    });
+  })
+
+  // Attempt to add email to the database else show error box
+  $('#btn-add').click(function (event) {
+    console.log($(this).closest('form.input-group'));
+    add_email($(this).closest('form.input-group'));
   });
 
-  $('#btn-add').click(function (event) {
-    console.log($(this).closest('div.input-group').find('input').val());
-    var email = $(this).closest('div.input-group').find('input').val();
+  // Same as above for pressing enter
+  $('#form-add').keypress(function (event) {
+    if ('13' == (event.keyCode ? event.keyCode : event.which)) {
+      add_email(this);
+    }
+  });
+
+  function add_email(event) {
+    var email = $(event).find('input').val();
     $.post('/emails/addEmail', { email: email }).then(function (res) {
       if (res == 'User added') {
         location.reload();
@@ -54,5 +88,5 @@ $(document).ready(function ($) {
         }, 3000);
       }
     });
-  });
+  }
 });

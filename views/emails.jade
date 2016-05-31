@@ -4,9 +4,8 @@ block append content
   div(class='jumbotron')
     table(id='email_table' class='table')
       tr
-        th.col-xs-5 Email
-        th.col-xs-5
-        th.col-xs-1
+        th.col-xs-4 Email
+        th.col-xs-7
         th.col-xs-1
       each email in emails
         tr
@@ -25,37 +24,30 @@ block append content
                   label
                     button.btn.uncheck_all(type='button')
                       | Uncheck all
-                each val in alarms
+                each val, index in alarms
                   li
                     .checkbox
                       label
                         - var checked = email.subscription.indexOf(val.alarm_name) > -1
-                        input(type='checkbox' checked=(checked))
+                        input(type='checkbox' checked=(checked) data-index=(index))
                         = val.alarm_name
           td
-            button.btn.btn-danger.confirm-delete(role='button' data-email=(email.email) data-toggle='modal' data-target='#confirm-delete')
-              | Delete
-          td
-            button.btn.btn-info.save(role='button' data-email=(email.email) data-target='#save')
-              | Save
-    .input-group
+            .input-group
+              span
+                button.btn.btn-danger.btn-delete(role='button' data-email=(email.email))
+                  | Delete
+              span.input-group-btn
+                button.btn.btn-info.btn-save(role='button' data-email=(email.email) style='display:none;')
+                  | Save
+    form.input-group#form-add
       input.form-control(type='text' placeholder='example@example.com')
       span.input-group-btn
         button.btn.btn-success#btn-add(type='button') Add
-    
-    div.modal.fade#confirm-delete(tabindex='-1' role='dialog')
-      div.modal-dialog
-        div.modal-header
-          | Header
-        div.modal-body
-          | Body
-        div.modal-footer
-          button.btn.btn-default(type='button' data-dismiss='modal') Cancel
-          a.btn.btn-danger.btn-ok Delete
-    
-    div.alert.alert-danger#error-alert(style='display:none')
+        
+    div.alert.alert-danger#error-alert(style='display:none;')
       strong
         | Error
       |  unable to add email.
+      
 block append scripts
   script(src='/javascripts/emails.js')

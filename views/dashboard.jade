@@ -1,0 +1,17 @@
+extends layout
+
+block append content
+  div(class='jumbotron')
+    table(id='dashboard_table' class='table')
+      tr
+        th.col-xs-4 System
+        th.col-xs-4 IP Address
+        th.col-xs-4 Status
+      if(systems)
+        each system in systems
+          tr
+            td= system.name
+            td= system.ip
+            td= system.status
+block append scripts
+  script(src='/javascripts/emails.js')

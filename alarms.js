@@ -1,15 +1,16 @@
 var request = require('request');
 var nodemailer = require('nodemailer');
 var async = require('async');
+var polling = require('./polling');
 var underscore = require('underscore');
 
 var db = require('./database');
 
 // Set up polling of alarms
 var alert_is_polling = true;
-// poll_alerts(function () {
-//   alert_is_polling = false;
-// });
+poll_alerts(function () {
+  alert_is_polling = false;
+});
 
 // Poll for updates to alarms every 30 seconds
 setInterval(function () {
@@ -23,36 +24,38 @@ setInterval(function () {
 
 // Check the active alerts against the database and send out emails
 function poll_alerts(next) {
-  var request_options = {
-    url: 'http://localhost:3000/api/monitor/alarms',
-    proxy: ''
-  };
+  // var request_options = {
+  //   url: 'http://localhost:3000/api/monitor/alarms',
+  //   proxy: ''
+  // };
 
-  // Get json object with state of alarms
-  request.get(request_options, function (err, res, body) {
-    if (!err && res.statusCode == 200) {
-      var alarms = JSON.parse(body);
-      var active_alarms = [];
+  // // Get json object with state of alarms
+  // request.get(request_options, function (err, res, body) {
+  //   if (!err && res.statusCode == 200) {
+  var alarms = polling.monitor_data.alarms;
+  var active_alarms = [];
 
-      // Remove from the array alarms that are not active
-      alarms.reduce(function (prev, curr, index, array) {
-        if (curr.alarm_status) {
-          prev.push(curr.alarm_name);
-        }
-        return prev;
-      }, active_alarms);
-
-      // If there are any active alarms retrive the database so we can continue with checks
-      if (active_alarms.length > 0) {
-        db.getAll(get_all_callback.bind(null, active_alarms));
+  if (alarms) {
+    // Remove from the array alarms that are not active
+    alarms.reduce(function (prev, curr, index, array) {
+      if (curr.alarm_status) {
+        prev.push(curr.alarm_name);
       }
-    }
-    else {
-      console.log('Something went wrong with get getting the alarm status');
-    }
+      return prev;
+    }, active_alarms);
+  }
 
-    next();
-  });
+  // If there are any active alarms retrive the database so we can continue with checks
+  if (active_alarms.length > 0) {
+    db.getAll(get_all_callback.bind(null, active_alarms));
+  }
+  // }
+  else {
+    console.log('Something went wrong with get getting the alarm status');
+  }
+
+  next();
+  // });
 }
 
 function send_mail(fromName, fromAddress, to, subject, text, callback) {
@@ -92,8 +95,7 @@ function get_all_callback(active_alarms, err, all) {
     // Check active alarms against alarms that the email is subscribed to
     // if they are subscribed and a message hasnt been sent recently
     // send them a new email for all active alarms.
-    // underscore.intersection(active_alarms, val.subscription)
-    active_alarms
+    underscore.intersection(active_alarms, val.subscription)
       .reduce(function (prev, curr) {
         // Check if alarm has never been sent or if its due to be sent
         if (!val.sent[curr] || val.sent[curr] <= Date.now()) {
@@ -107,7 +109,7 @@ function get_all_callback(active_alarms, err, all) {
     if (send) {
       var sent = val.sent;
       result.reduce(function (prev, curr) {
-        sent[curr] = Date.now() + 60000;
+        sent[curr] = Date.now() + 300000;
         return prev;
       }, sent);
       // Send mail for alarms and update database afterwards

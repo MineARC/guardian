@@ -62,7 +62,9 @@ function poll_monitor(next) {
     system['name'] = name;
 
     // Second add the mode gotten from the top of the document
-    system['mode'] = jq('p > span:not(.hide)').text().toLowerCase();
+    var mode = jq('p > span:not(.hide)').text().toLowerCase();
+    mode = capitalizeFirstLetter(mode);
+    system['mode'] = mode
 
     // Itterate over each of the elements in the table so they can be added to status
     jq('table.status').find('td.left').each(function (index, element) {

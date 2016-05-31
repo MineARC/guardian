@@ -1,4 +1,4 @@
-$(function () {
+$(document).ready(function ($) {
   $('#getUsers').on('click', function (e) {
     var parameters = {};
     $.get('/dbtest/getUsers', parameters, function (data) {

@@ -8,11 +8,13 @@ var auth = require('basic-auth');
 
 var routes = require('./routes/index');
 var emails = require('./routes/emails');
+var dashboard = require('./routes/dashboard');
 var monitor = require('./routes/monitor');
 var camera = require('./routes/camera');
 var dbtest = require('./routes/dbtest');
 var polling = require('./polling');
 var alert = require('./alarms');
+var hostdiscovery = require('./hostdiscovery');
 
 var app = express();
 
@@ -39,8 +41,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/home', routes);
 app.use('/emails', emails);
+app.use('/', dashboard);
 app.use('/api/monitor', monitor);
 app.use('/api/camera', camera);
 app.use('/dbtest', dbtest);

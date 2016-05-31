@@ -2,9 +2,9 @@ var express = require('express');
 var polling = require('../polling');
 var router = express.Router();
 
-/* GET home page. */
+/* GET dashboard page. */
 router.get('/', function (req, res, next) {
-  res.render('index', polling.monitor_data);
+  res.render('dashboard');
 });
 
 module.exports = router;
