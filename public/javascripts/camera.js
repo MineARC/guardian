@@ -13,8 +13,8 @@ $(document).ready(function ($) {
   }, 1000);
 
   function update_image(next) {
-    $('#camera-internal').find('img').attr('src', '/api/camera?' + Date.now);
-    $('#camera-external').find('img').attr('src', '/api/camera?' + Date.now);
+    $('#camera-internal').find('img').attr('src', '/api/camera?' + Date.now());
+    $('#camera-external').find('img').attr('src', '/api/camera?' + Date.now());
     next();
   }
 });

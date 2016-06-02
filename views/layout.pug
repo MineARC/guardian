@@ -1,10 +1,11 @@
 doctype html
 html
   head
-    title= title
+    title Guardian
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     block styles
+    
   body
     img.img-responsive(src='/images/minearc.png')
     nav.navbar.navbar-default#navbar
@@ -17,23 +18,23 @@ html
           li
             a#monitor-link(href='#') Monitor
             script.
-              document.getElementById('monitor-link').href='//'+window.location.origin+':8000/';
+              document.getElementById('monitor-link').href='//'+window.location.hostname+':8000/';
           li
             a#camera1-link(href='#') Camera
             script.
-              document.getElementById('camera1-link').href='//'+window.location.origin+':8001/';
+              document.getElementById('camera1-link').href='//'+window.location.hostname+':8001/';
           li
             a#camera2-link(href='#') Camera2
             script.
-              document.getElementById('camera2-link').href='//'+window.location.origin+':8002/';
+              document.getElementById('camera2-link').href='//'+window.location.hostname+':8002/';
           li
-            a#alarms-link(href='/emails') Alarms
+            a#alarms-link(href='/notifications') Notifications
     div(class='container')
       block content
+      
     script(src='/javascripts/jquery.min.js')
     script(src='/javascripts/bootstrap.min.js')
-    script(src='/javascripts/main.js')
     script(src='/javascripts/bootbox.min.js')
-    script(src='/javascripts/pug_runtime.js')
+    script(src='/javascripts/main.js')
     block scripts
   

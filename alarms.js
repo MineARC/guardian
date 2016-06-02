@@ -24,14 +24,6 @@ setInterval(function () {
 
 // Check the active alerts against the database and send out emails
 function poll_alerts(next) {
-  // var request_options = {
-  //   url: 'http://localhost:3000/api/monitor/alarms',
-  //   proxy: ''
-  // };
-
-  // // Get json object with state of alarms
-  // request.get(request_options, function (err, res, body) {
-  //   if (!err && res.statusCode == 200) {
   var alarms = polling.monitor_data.alarms;
   var active_alarms = [];
 

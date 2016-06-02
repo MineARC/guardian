@@ -1,5 +1,6 @@
 var express = require('express');
 var cheerio = require('cheerio');
+var nmap = require('libnmap');
 var jq = require('jquery');
 var polling = require('../polling');
 var router = express.Router();
@@ -14,7 +15,7 @@ function render_error(res, err) {
 
 router.get('/all', function (req, res, next) {
   res.json(polling.monitor_data);
-})
+});
 
 /* GET api json for S4 system name, mode, and info */
 router.get('/system', function (req, res, next) {

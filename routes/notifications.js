@@ -65,7 +65,7 @@ router.get('/', function (req, res, next) {
   var data = polling.monitor_data;
   db.getAll(function (err, all) {
     data['emails'] = all
-    res.render('emails', data);
+    res.render('notifications', data);
   });
 });
 

@@ -41,7 +41,7 @@ $(document).ready(function ($) {
     var email = $(element).data('email');
     bootbox.confirm('Are you sure you wish to delete ' + email, function (result) {
       if (result) {
-        $.post('/emails/delEmail', { email: email }).then(function () {
+        $.post('/notifications/delEmail', { email: email }).then(function () {
           $(element).closest('tr').hide();
         });
       }
@@ -56,7 +56,7 @@ $(document).ready(function ($) {
     $(element).closest('tr').find('input:checkbox:checked').each(function (index, element) {
       subscriptions.push($(element).data('index'));
     });
-    $.post('/emails/saveSubscriptions', { email: email, subscriptions: JSON.stringify(subscriptions) }).then(function () {
+    $.post('/notifications/saveSubscriptions', { email: email, subscriptions: JSON.stringify(subscriptions) }).then(function () {
       $(element).closest('tr').find('.btn-delete').parent().removeClass('input-group-btn');
       $(element).closest('tr').find('.btn-save').hide();
     });
@@ -77,7 +77,7 @@ $(document).ready(function ($) {
 
   function add_email(event) {
     var email = $(event).find('input').val();
-    $.post('/emails/addEmail', { email: email }).then(function (res) {
+    $.post('/notifications/addEmail', { email: email }).then(function (res) {
       if (res == 'User added') {
         location.reload();
       }

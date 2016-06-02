@@ -1,0 +1,25 @@
+extends layout
+
+block append content
+  div(class='jumbotron')
+    table(id='dashboard_table' class='table')
+      tr
+        th.col-xs-2 System
+        th.col-xs-2 IP Address
+        th.col-xs-2 Status
+        th.col-xs-2 Alarms
+        th.col-xs-2 Mode
+      if(systems)
+        each system in systems
+          tr
+            td= system.hostname
+            td
+              a(href='//#{system.ip}/home')= system.ip
+            td= system.status
+            td= system.alarms
+            td= system.mode
+            
+block append styles
+
+block append scripts
+  script(src='/javascripts/dashboard.js')
