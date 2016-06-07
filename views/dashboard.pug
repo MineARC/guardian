@@ -2,22 +2,28 @@ extends layout
 
 block append content
   div(class='jumbotron')
-    table(id='dashboard_table' class='table')
-      tr
-        th.col-xs-2 System
-        th.col-xs-2 IP Address
-        th.col-xs-2 Status
-        th.col-xs-2 Alarms
-        th.col-xs-2 Mode
-      if(systems)
-        each system in systems
-          tr
-            td= system.hostname
-            td
-              a(href='//#{system.ip}/home')= system.ip
-            td= system.status
-            td= system.alarms
-            td= system.mode
+    div#table-dashboard
+      table(id='dashboard_table' class='table')
+        tr
+          th.col-xs-2 System
+          th.col-xs-2 IP Address
+          th.col-xs-2 Alarms
+          th.col-xs-2 Mode
+          th.col-xs-2 Status
+        if(systems)
+          each system in systems
+            tr.dashboard-row
+              td= system.hostname
+              td
+                a(href='//' + system.ip + '/home')= system.ip
+              td= system.alarms
+              td= system.mode
+              if(system.status == 'Me too thanks.')
+                td
+                  img(src='/images/Error.png')
+              else
+                td
+                  img(src='/images/Good.png')
             
 block append styles
 

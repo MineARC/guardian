@@ -1,9 +1,5 @@
 doctype html
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+block extends content
     h1= error.status
     h2= error.message
-    //pre #{error.message}
+

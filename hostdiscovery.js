@@ -68,10 +68,10 @@ function poll_nmap(next) {
     flags: [
       '-e eth0',
       '--open'],
-    ports: '8000,445'
+    ports: '8000'
   };
 
-  // Scan all hosts to see which have port 80 open
+  // Scan all hosts to see which have port 8000 open
   nmap.scan(opts, function (err, report) {
     if (err) throw new Error(err);
     var hosts = [];
@@ -79,20 +79,18 @@ function poll_nmap(next) {
       // Seach through all the active hosts
       for (var host in report[range].host) {
         var ipv4_addr = '';
-        var hostname = '';
-        // All guardian systems run on raspberry pi's
+        // Each host can have multiple addresses so search them all
         for (var address in report[range].host[host].address) {
           // Grab only the ipv4 address
           if (report[range].host[host].address[address].item.addrtype == 'ipv4')
             ipv4_addr = report[range].host[host].address[address].item.addr
         }
-        if (report[range].host[host].hostnames[0].hostname)
-          hostname = report[range].host[host].hostnames[0].hostname[0].item.name;
-        hosts.push({ ip: ipv4_addr, hostname: hostname });
+        hosts.push({ ip: ipv4_addr });
       }
     }
 
     hosts.forEach(function (element) {
+      // Form a request for the guardian dashboard api endpoint
       var request_options = {
         url: 'http://' + element.ip + '/api/dashboard',
         proxy: ''
@@ -102,10 +100,11 @@ function poll_nmap(next) {
         try {
           if (!err && res.statusCode == 200) {
             api_res = JSON.parse(body);
+            // Check to see if the api response came from a guardian system
             if (api_res.guardian) {
-              element['status'] = api_res.status;
-              element['alarms'] = api_res.alarms;
-              hosts_data.push(element);
+              // Everything but the ip address comes from the api
+              api_res['ip'] = element.ip;
+              hosts_data.push(api_res);
             }
           }
           next();

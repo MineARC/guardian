@@ -130,6 +130,7 @@ function poll_monitor(next) {
     var alarms = [];
     var alarm_name = '';
     var alarm_status = false;
+    var alarms_active = 0;
     // Itterate over each of the alarms so they can be added
     jq('#alarms > p').each(function (index, element) {
       // Name is the label that shows for each error
@@ -139,9 +140,13 @@ function poll_monitor(next) {
       alarm_status = !jq(element).hasClass('hide');
       // Add the alarms to the object
       alarms.push({ 'alarm_name': alarm_name, 'alarm_status': alarm_status });
+
+      if (alarm_status)
+        alarms_active++;
     });
 
     system['alarms'] = alarms;
+    system['alarms_active'] = alarms_active;
 
     monitor_data = system;
 

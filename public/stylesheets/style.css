@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+.graph {
+  height: 240px;
+}
+
+#table-dashboard img {
+  max-height: 32px;
+}
