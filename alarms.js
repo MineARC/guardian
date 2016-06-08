@@ -51,8 +51,22 @@ function poll_alerts(next) {
 }
 
 function send_mail(fromName, fromAddress, to, subject, text, callback) {
+  var smtpConfig = {
+    host: 'remote.nessco.com.au',
+    port: 25,
+    ignoreTLS: true,
+    // authMethod: 'LOGIN',
+    // // secure: false, // use SSL
+    // auth: {
+    //   user: 'lhgroup\mitchell.pontague',
+    //   pass: ''
+    // }
+  }
+
   // create reusable transporter object using the default SMTP transport
-  var transporter = nodemailer.createTransport('smtp://aspmx.l.google.com');
+  var transporter = nodemailer.createTransport(smtpConfig);
+
+
 
   // setup e-mail data with unicode symbols
   var mailOptions = {
@@ -105,7 +119,7 @@ function get_all_callback(active_alarms, err, all) {
         return prev;
       }, sent);
       // Send mail for alarms and update database afterwards
-      send_mail('Guardian', 'guardian@example.com', val.email, 'Guardian', format_alarms(active_alarms), send_mail_callback.bind(null, val.email, sent));
+      send_mail('Guardian', 'guardian@minearc.com.au', val.email, 'Guardian', format_alarms(active_alarms), send_mail_callback.bind(null, val.email, sent));
     }
   });
 }

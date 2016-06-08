@@ -12,11 +12,11 @@ block append content
           td= email.email
           td
             div.dropdown
-              button.btn.btn-primary.dropdown-toggle(type='button' data-toggle='dropdown')
+              button.btn.btn-info.dropdown-toggle(type='button' data-toggle='dropdown')
                 span.num_subs= email.subscription.length
                 |  Subscriptions
                 span.caret
-              ul.col-xs-12.dropdown-menu
+              ul.alert.alert-default.dropdown-menu
                 li
                   label
                     button.btn.check_all(type='button')

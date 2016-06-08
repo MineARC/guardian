@@ -104,9 +104,7 @@ router.post('/saveSubscriptions', function (req, res, next) {
   subscriptions.reduce(function (prev, curr, index) {
     prev.push(alarms[subscriptions[index]]);
     return prev;
-  }, subs)
-
-  console.log(subs);
+  }, subs);
 
   db.setSubscription(email, subs, function (err, success) {
     if (err) {

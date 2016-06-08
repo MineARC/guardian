@@ -20,13 +20,13 @@ html
             script.
               document.getElementById('monitor-link').href='//'+window.location.hostname+':8000/';
           li
-            a#camera1-link(href='#') Camera
+            a#camera-internal-link(href='#') Internal Camera
             script.
-              document.getElementById('camera1-link').href='//'+window.location.hostname+':8001/';
+              document.getElementById('camera-internal-link').href='//'+window.location.hostname+':8001/';
           li
-            a#camera2-link(href='#') Camera2
+            a#camera-external-link(href='#') External Camera
             script.
-              document.getElementById('camera2-link').href='//'+window.location.hostname+':8002/';
+              document.getElementById('camera-external-link').href='//'+window.location.hostname+':8002/';
           li
             a#alarms-link(href='/notifications') Notifications
     div(class='container')

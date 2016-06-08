@@ -13,10 +13,18 @@ block append content
         if(systems)
           each system in systems
             tr.dashboard-row
-              td= system.hostname
+              td
+                a(href='//' + system.hostname + '/home')= system.hostname
               td
                 a(href='//' + system.ip + '/home')= system.ip
-              td= system.alarms
+              td
+                div.dropdown
+                  button.btn.btn-info.btn-sm.dropdown-toggle(type='button' data-toggle='dropdown')
+                    span.num_subs= system.alarms_active
+                  ul.alert.alert-danger.col-xs-12.dropdown-menu
+                    each val in system.alarms
+                      if(val.alarm_status)
+                        li= val.alarm_name
               td= system.mode
               if(system.status == 'Me too thanks.')
                 td

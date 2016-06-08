@@ -4,7 +4,6 @@ var os = require('os');
 var v6 = require('ip-address').Address6;
 var exports = module.exports;
 
-
 // Define object for access from where they are needed
 var hosts_data = [];
 exports.hosts_data = { systems: hosts_data };

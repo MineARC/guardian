@@ -2,16 +2,17 @@ extends layout
            
 block append content
   div(class='jumbotron')
-    div(class='container')
+    div(class='container-fluid')
       if(system_information)
-        div.col-xs-3#mode
-          h2 Mode: 
-            b #{mode}
-        div.col-xs-9#image-logo
-          if(alarms_active > 0)
-            img.img-responsive(src='/images/Error.png')
-          else
-            img.img-responsive(src='/images/Good.png')
+        div.row
+          div.col-xs-6.col-md-3#mode
+            h2 Mode: 
+              b #{mode}
+          div.col-xs-6.col-md-3#image-logo
+            if(alarms_active > 0)
+              img.img-responsive(src='/images/Error.png')
+            else
+              img.img-responsive(src='/images/Good.png')
         div.col-xs-12.col-md-6#camera-internal
           h2 Internal Camera
             div
