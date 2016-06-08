@@ -3,10 +3,10 @@ var os = require('os');
 var hostdiscovery = require('../hostdiscovery');
 var router = express.Router();
 
-/* GET dashboard page. */
+/* GET overview page. */
 router.get('/', function (req, res, next) {
   var data = hostdiscovery.hosts_data;
-  res.render('dashboard', data);
+  res.render('overview', data);
 });
 
 module.exports = router;

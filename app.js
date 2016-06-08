@@ -6,10 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var auth = require('basic-auth');
 
-var dashboard = require('./routes/dashboard');
-var home = require('./routes/home');
+var overview = require('./routes/overview');
+var dashboard = require('./routes/home');
+var monitor = require('./routes/monitor_s4');
+var camera_internal = require('./routes/camera_internal');
+var camera_external = require('./routes/camera_external');
 var notifications = require('./routes/notifications');
-var dashboard_api = require('./routes/dashboard_api');
+var overview_api = require('./routes/overview_api');
 var camera_api = require('./routes/camera_api');
 var monitor_api = require('./routes/monitor_api');
 
@@ -42,10 +45,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', dashboard);
-app.use('/home', home);
+app.use('/', overview);
+app.use('/dashboard', dashboard);
+app.use('/monitor', monitor);
+app.use('/camera_internal', camera_internal);
+app.use('/camera_external', camera_external);
 app.use('/notifications', notifications);
-app.use('/api/dashboard', dashboard_api)
+app.use('/api/overview', overview_api)
 app.use('/api/monitor', monitor_api);
 app.use('/api/camera', camera_api);
 

@@ -12,24 +12,18 @@ html
       div.container-fluid
         ul.nav.navbar-nav
           li
-            a#home-link(href='/home') Home
+            a#dashboard-link(href='/') Overview
           li
-            a#dashboard-link(href='/') Dashboard
+            a#home-link(href='/dashboard') Dashboard
           li
-            a#monitor-link(href='#') Monitor
-            script.
-              document.getElementById('monitor-link').href='//'+window.location.hostname+':8000/';
+            a#monitor-link(href='/monitor') Monitor
           li
-            a#camera-internal-link(href='#') Internal Camera
-            script.
-              document.getElementById('camera-internal-link').href='//'+window.location.hostname+':8001/';
+            a#camera-internal-link(href='/camera_internal') Internal Camera
           li
-            a#camera-external-link(href='#') External Camera
-            script.
-              document.getElementById('camera-external-link').href='//'+window.location.hostname+':8002/';
+            a#camera-external-link(href='/camera_external') External Camera
           li
             a#alarms-link(href='/notifications') Notifications
-    div(class='container')
+    div.container-fluid
       block content
       
     script(src='/javascripts/jquery.min.js')

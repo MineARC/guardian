@@ -89,9 +89,9 @@ function poll_nmap(next) {
     }
 
     hosts.forEach(function (element) {
-      // Form a request for the guardian dashboard api endpoint
+      // Form a request for the guardian overview api endpoint
       var request_options = {
-        url: 'http://' + element.ip + '/api/dashboard',
+        url: 'http://' + element.ip + '/api/overview',
         proxy: ''
       };
 

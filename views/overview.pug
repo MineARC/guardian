@@ -2,8 +2,8 @@ extends layout
 
 block append content
   div(class='jumbotron')
-    div#table-dashboard
-      table(id='dashboard_table' class='table')
+    div#table-overview
+      table(id='overview_table' class='table')
         tr
           th.col-xs-2 System
           th.col-xs-2 IP Address
@@ -12,11 +12,11 @@ block append content
           th.col-xs-2 Status
         if(systems)
           each system in systems
-            tr.dashboard-row
+            tr.overview-row
               td
-                a(href='//' + system.hostname + '/home')= system.hostname
+                a(href='//' + system.hostname + '/dashboard')= system.hostname
               td
-                a(href='//' + system.ip + '/home')= system.ip
+                a(href='//' + system.ip + '/dashboard')= system.ip
               td
                 div.dropdown
                   button.btn.btn-info.btn-sm.dropdown-toggle(type='button' data-toggle='dropdown')
@@ -36,4 +36,4 @@ block append content
 block append styles
 
 block append scripts
-  script(src='/javascripts/dashboard.js')
+  script(src='/javascripts/overview.js')
