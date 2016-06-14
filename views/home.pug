@@ -5,6 +5,9 @@ block append content
     div(class='container-fluid')
       if(system_information)
         div.row
+          div.col-xs-12.col-md-6#name
+            h2 Name: 
+              b #{name}
           div.col-xs-6.col-md-3#mode
             h2 Mode: 
               b #{mode}
@@ -16,11 +19,13 @@ block append content
         div.col-xs-12.col-md-6#camera-internal
           h2 Internal Camera
             div
-              img.img-responsive
+              img.img-responsive#internal-1
+              img.img-responsive#internal-2(style='visibility: visable;')
         div.col-xs-12.col-md-6#camera-external
           h2 External Camera
             div
-              img.img-responsive
+              img.img-responsive#external-1
+              img.img-responsive#external-2(style='display:block; z-index: -1; visibility: hidden;')
         if(alarms)
           div.col-xs-12#alarms
             h2 Alarms

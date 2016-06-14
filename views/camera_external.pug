@@ -2,9 +2,12 @@ extends layout
 
 block append content
   div(class='jumbotron')
-    .col-xs-12
-      iframe.col-xs-12(scrolling='no' src='http://localhost:8000/' frameborder="0" style='max-width: 100%;' height='100%')
-      
+    .row
+      .col-xs-12
+        iframe.col-xs-12#camera-external-iframe(src='' frameborder="0")
+          script.
+            document.getElementById('camera-external-iframe').src='//'+window.location.hostname+':8002/';
+
 block append styles
       
 block append scripts

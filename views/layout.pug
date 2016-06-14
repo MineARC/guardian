@@ -7,23 +7,24 @@ html
     block styles
     
   body
-    img.img-responsive(src='/images/minearc.png')
-    nav.navbar.navbar-default#navbar
-      div.container-fluid
-        ul.nav.navbar-nav
-          li
-            a#dashboard-link(href='/') Overview
-          li
-            a#home-link(href='/dashboard') Dashboard
-          li
-            a#monitor-link(href='/monitor') Monitor
-          li
-            a#camera-internal-link(href='/camera_internal') Internal Camera
-          li
-            a#camera-external-link(href='/camera_external') External Camera
-          li
-            a#alarms-link(href='/notifications') Notifications
     div.container-fluid
+      .row
+        img.img-responsive(src='/images/minearc.png')
+        nav.navbar.navbar-default#navbar
+          div.container-fluid
+            ul.nav.navbar-nav
+              li
+                a#dashboard-link(href='/') Overview
+              li
+                a#home-link(href='/dashboard') Dashboard
+              li
+                a#monitor-link(href='/monitor') Monitor
+              li
+                a#camera-internal-link(href='/camera_internal') Internal Camera
+              li
+                a#camera-external-link(href='/camera_external') External Camera
+              li
+                a#alarms-link(href='/notifications') Notifications
       block content
       
     script(src='/javascripts/jquery.min.js')

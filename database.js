@@ -20,10 +20,12 @@ exports.getAll = function (callback) {
   db.serialize(function () {
     db.all('SELECT email, subscription, sent FROM Alarms', function (err, rows) {
       var all = [];
-      rows.reduce(function (prev, curr) {
-        prev.push({ email: curr.email, subscription: JSON.parse(curr.subscription), sent: JSON.parse(curr.sent) });
-        return prev;
-      }, all);
+      if (rows) {
+        rows.reduce(function (prev, curr) {
+          prev.push({ email: curr.email, subscription: JSON.parse(curr.subscription), sent: JSON.parse(curr.sent) });
+          return prev;
+        }, all);
+      }
       callback(err, all);
     });
   });
@@ -35,10 +37,12 @@ exports.getEmailsAndSubscriptions = function (callback) {
   db.serialize(function () {
     db.all('SELECT email, subscription FROM Alarms', function (err, rows) {
       var all = [];
-      rows.reduce(function (prev, curr) {
-        prev.push({ email: curr.email, subscription: JSON.parse(curr.subscription) });
-        return prev;
-      }, all);
+      if (rows) {
+        rows.reduce(function (prev, curr) {
+          prev.push({ email: curr.email, subscription: JSON.parse(curr.subscription) });
+          return prev;
+        }, all);
+      }
       callback(err, all);
     });
   });
@@ -49,10 +53,12 @@ exports.getEmails = function (callback) {
   db.serialize(function () {
     db.all('SELECT email FROM Alarms', function (err, rows) {
       var emails = [];
-      rows.reduce(function (prev, curr) {
-        prev.push(curr.email);
-        return prev;
-      }, emails)
+      if (rows) {
+        rows.reduce(function (prev, curr) {
+          prev.push(curr.email);
+          return prev;
+        }, emails);
+      }
       callback(err, emails);
     });
   });
@@ -114,7 +120,7 @@ exports.getSubscription = function (email, callback) {
     }
 
     db.get('SELECT subscription FROM Alarms WHERE email LIKE ?', email, function (err, row) {
-      callback(err, JSON.parse(row.subscription));
+      callback(err, row ? JSON.parse(row.subscription) : '');
     });
   });
 }
@@ -144,7 +150,7 @@ exports.getSent = function (email, callback) {
     }
 
     db.get('SELECT sent FROM Alarms WHERE email LIKE ?', email, function (err, row) {
-      callback(err, JSON.parse(row.sent));
+      callback(err, row ? JSON.parse(row.sent) : '');
     });
   });
 }

@@ -26,8 +26,8 @@ function getMostRecentFileName(next) {
   var internal_image = '';
   var external_image = '';
 
-  var internal_dir = './public/images/internal';
-  var external_dir = './public/images/external';
+  var internal_dir = '/home/guardian/internal';
+  var external_dir = '/home/guardian/external';
 
   var internal_files = fs.readdirSync(internal_dir);
   var external_files = fs.readdirSync(external_dir);
@@ -51,7 +51,11 @@ function getMostRecentFileName(next) {
   del.forEach(function (element) { fs.unlink(path.join(internal_dir, element)); });
   del = [];
 
-  internal_image = fs.readFileSync(path.join(internal_dir, name), 'binary');
+  if (name != -Infinity) {
+    var file = path.join(internal_dir, name);
+    internal_image = fs.readFileSync(file, 'binary');
+    console.log('internal: ' + file);
+  }
 
   // Itterate over files in the directory to find the newest
   name = underscore.max(external_files, function (f) {
@@ -70,7 +74,11 @@ function getMostRecentFileName(next) {
   del = del.filter(function (element) { return element != name; });
   del.forEach(function (element) { fs.unlink(path.join(external_dir, element)); });
 
-  external_image = fs.readFileSync(path.join(external_dir, name), 'binary');
+  if (name != -Infinity) {
+    file = path.join(external_dir, name);
+    external_image = fs.readFileSync(file, 'binary');
+    console.log('external: ' + file);
+  }
 
   next(internal_image, external_image);
 }

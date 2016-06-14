@@ -19,6 +19,7 @@ var monitor_api = require('./routes/monitor_api');
 var polling = require('./polling');
 var alarms = require('./alarms');
 var hostdiscovery = require('./hostdiscovery');
+var cams = require('./cams');
 
 var app = express();
 
