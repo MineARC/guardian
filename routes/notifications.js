@@ -13,7 +13,7 @@ var alarms = ["Sdcard failed on display board",
   "Co2 fan 1 has failed on fan board 1",
   "Co2 fan 2 has failed on fan board 1",
   "Co fan has failed on fan board 1",
-  "Lightining has failed on fan board 1",
+  "Lighting has failed on fan board 1",
   "Siren has failed on fan board 1",
   "Green strobe light has failed on fan board 1",
   "Red strobe light has failed on fan board 1",
@@ -24,7 +24,7 @@ var alarms = ["Sdcard failed on display board",
   "Co2 fan 1 has failed on fan board 2",
   "Co2 fan 2 has failed on fan board 2",
   "Co fan has failed on fan board 2",
-  "Lightining has failed on fan board 2",
+  "Lighting has failed on fan board 2",
   "Siren has failed on fan board 2",
   "Green strobe light has failed on fan board 2",
   "Red strobe light has failed on fan board 2",
@@ -64,7 +64,8 @@ var alarms = ["Sdcard failed on display board",
 router.get('/', function (req, res, next) {
   var data = polling.monitor_data;
   db.getAll(function (err, all) {
-    data['emails'] = all
+    data['emails'] = all;
+    data['static_alarms'] = alarms;
     res.render('notifications', data);
   });
 });

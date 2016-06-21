@@ -24,8 +24,8 @@ $(document).ready(function ($) {
       maximum: 300,
       interval: 50,
       stripLines: [{
-        startValue: 235,
-        endValue: 245,
+        startValue: 220,
+        endValue: 250,
         color: "#C5E3BF"
       }]
     }
@@ -50,8 +50,8 @@ $(document).ready(function ($) {
       maximum: 60,
       interval: 10,
       stripLines: [{
-        startValue: 46,
-        endValue: 50,
+        startValue: 48,
+        endValue: 58,
         color: "#C5E3BF"
       }]
     }
@@ -76,28 +76,41 @@ $(document).ready(function ($) {
       maximum: 300,
       interval: 50,
       stripLines: [{
-        startValue: 235,
-        endValue: 245,
+        startValue: 220,
+        endValue: 250,
         color: "#C5E3BF"
       }]
     }
   });
 
   // Chamber temperature chart options
-  var chart_chamber = new CanvasJS.Chart("graph-chamber", {
-    title: { text: "Chamber temperature" },
+  var chart_temp = new CanvasJS.Chart("graph-temp", {
+    title: { text: "Temperature °C" },
+    legend: {
+      horizontalAlign: "right", // "center" , "right"
+      verticalAlign: "top",  // "top" , "bottom"
+      fontSize: 15
+    },
     data: [{
       type: "line",
       markerType: 'none',
-      dataPoints: chamber_data
-    }],
+      dataPoints: chamber_data,
+      showInLegend: true,
+      legendText: "Chamber",
+    }, {
+        type: "line",
+        markerType: 'none',
+        dataPoints: outside_data,
+        showInLegend: true,
+        legendText: "Outside",
+      }],
     axisX: {
       title: 'Time',
       interval: 1,
       valueFormatString: " "
     },
     axisY: {
-      title: 'Temperature',
+      title: 'Temperature °C',
       minimum: 0,
       maximum: 60,
       interval: 10,
@@ -109,31 +122,31 @@ $(document).ready(function ($) {
     }
   });
 
-  // Outside temperature chart options
-  var chart_outside = new CanvasJS.Chart("graph-outside", {
-    title: { text: "Outside temperature" },
-    data: [{
-      type: "line",
-      markerType: 'none',
-      dataPoints: outside_data
-    }],
-    axisX: {
-      title: 'Time',
-      interval: 1,
-      valueFormatString: " "
-    },
-    axisY: {
-      title: 'Temperature',
-      minimum: 0,
-      maximum: 60,
-      interval: 10,
-      stripLines: [{
-        startValue: 10,
-        endValue: 40,
-        color: "#C5E3BF"
-      }]
-    }
-  });
+  // // Outside temperature chart options
+  // var chart_outside = new CanvasJS.Chart("graph-outside", {
+  //   title: { text: "Outside temperature" },
+  //   data: [{
+  //     type: "line",
+  //     markerType: 'none',
+  //     dataPoints: outside_data
+  //   }],
+  //   axisX: {
+  //     title: 'Time',
+  //     interval: 1,
+  //     valueFormatString: " "
+  //   },
+  //   axisY: {
+  //     title: 'Temperature',
+  //     minimum: 0,
+  //     maximum: 60,
+  //     interval: 10,
+  //     stripLines: [{
+  //       startValue: 10,
+  //       endValue: 40,
+  //       color: "#C5E3BF"
+  //     }]
+  //   }
+  // });
 
   var xVal = 0;
   var yVal = 0;
@@ -178,8 +191,7 @@ $(document).ready(function ($) {
     chart_mains.render();
     chart_battery.render();
     chart_inverter.render();
-    chart_chamber.render();
-    chart_outside.render();
+    chart_temp.render();
   }
 
   // Updates each element in each table with data from the api
@@ -187,29 +199,35 @@ $(document).ready(function ($) {
     $('#mode').find('b').text(data.mode);
 
     $('#table-system-info').find('.row-info').each(function (index, element) {
-      $(element).text(data.system_information[index].row_info);
+      $(element).text(data.system_information[index].row_info + ' ' + data.system_information[index].row_unit);
     });
 
     $('#table-fan-board-1').find('.row-info').each(function (index, element) {
-      $(element).text(data.fan_board_1[index].row_info);
+      $(element).text(data.fan_board_1[index].row_info + ' ' + data.fan_board_1[index].row_unit);
     });
 
     $('#table-fan-board-2').find('.row-info').each(function (index, element) {
-      $(element).text(data.fan_board_1[index].row_info);
+      $(element).text(data.fan_board_2[index].row_info + ' ' + data.fan_board_2[index].row_unit);
     });
 
     $('#table-current-loops').find('.row-info').each(function (index, element) {
-      $(element).text(data.current_loops[index].row_info);
+      $(element).text(data.current_loops[index].row_info + ' ' + data.current_loops[index].row_unit);
     });
   }
 
   // Updates the active alarms from the api
   function updateAlarms(data) {
     var html = '<h2>Alarms</h2>'
-    data.alarms.forEach(function (alarm) {
-      if (alarm.alarm_status)
-        html += '<p class="alert alert-danger">' + alarm.alarm_name;
-    });
+    if (data.alarms_active > 0) {
+      $('#image-logo').find('img').attr('src', '/images/Error.png');
+      data.alarms.forEach(function (alarm) {
+        if (alarm.alarm_status)
+          html += '<p class="alert alert-danger">' + alarm.alarm_name;
+      });
+    } else {
+      $('#image-logo').find('img').attr('src', '/images/Good.png');
+      html += '<p class="alert alert-info">Everything is fine'
+    }
     $('#alarms').html(html);
   }
 

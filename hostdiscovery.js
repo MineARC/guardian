@@ -72,8 +72,6 @@ function poll_nmap(next) {
     ports: '8000'
   };
 
-  console.log(JSON.stringify(opts));
-
   // Scan all hosts to see which have port 8000 open
   nmap.scan(opts, function (err, report) {
     if (err) throw new Error(err);

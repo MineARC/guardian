@@ -15,10 +15,10 @@ gpio.on('change', function (channel, state) {
 });
 
 gpio.setup(11, gpio.DIR_IN, gpio.EDGE_BOTH, function (err) {
-  console.log(err);
+  // console.log(err);
 });
 gpio.setup(13, gpio.DIR_IN, gpio.EDGE_BOTH, function (err) {
-  console.log(err);
+  // console.log(err);
 });
 
 
@@ -89,8 +89,8 @@ function stats() {
       pin0_uptime = 300000 * state;
     }
 
-    console.log('uptime ' + pin0_uptime);
-    console.log('events' + pin0_events);
+    // console.log('uptime ' + pin0_uptime);
+    // console.log('events' + pin0_events);
   });
 }
 

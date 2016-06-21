@@ -4,45 +4,49 @@ block append content
   div(class='jumbotron')
     div(class='container-fluid')
       if(system_information)
-        div.row
-          div.col-xs-12.col-md-6#name
+        div.col-xs-12.col-md-6
+          div.col-xs-12#name
             h2 Name: 
               b #{name}
-          div.col-xs-6.col-md-3#mode
+          div.col-xs-8#mode
             h2 Mode: 
               b #{mode}
-          div.col-xs-6.col-md-3#image-logo
+          div.col-xs-4#image-logo
             if(alarms_active > 0)
               img.img-responsive(src='/images/Error.png')
             else
               img.img-responsive(src='/images/Good.png')
-        div.col-xs-12.col-md-6#camera-internal
-          h2 Internal Camera
-            div
-              img.img-responsive#internal-1
-              img.img-responsive#internal-2(style='visibility: visable;')
-        div.col-xs-12.col-md-6#camera-external
-          h2 External Camera
-            div
-              img.img-responsive#external-1
-              img.img-responsive#external-2(style='display:block; z-index: -1; visibility: hidden;')
-        if(alarms)
           div.col-xs-12#alarms
             h2 Alarms
-            each alarm in alarms
-              if(alarm.alarm_status)
-                p.alert.alert-danger= alarm.alarm_name
-        if(system_information)
-          div.col-xs-12.col-md-6#table-system-info
-            h2 System Information
-            table.table
+            if(alarms_active > 0)
+              each alarm in alarms
+                if(alarm.alarm_status)
+                  p.alert.alert-danger= alarm.alarm_name
+            else
+              p.alert.alert-info Everything is fine
+      div.col-xs-12.col-md-6#camera-internal
+        h2 Internal Camera
+          div
+            a(href='/camera_internal')
+              img.img-responsive#internal-1
+              //- img.img-responsive#internal-2(style='visibility: visable;')
+      //- div.col-xs-12.col-md-6#camera-external
+      //-   h2 External Camera
+      //-     div
+      //-       a(href='/camera_external')
+      //-         img.img-responsive#external-1
+      //-         img.img-responsive#external-2(style='display:block; z-index: -1; visibility: hidden;')
+      if(system_information)
+        div.col-xs-12.col-md-6#table-system-info
+          h2 System Information
+          table.table
+            tr
+              th Name
+              th Value
+            each row in system_information
               tr
-                th Name
-                th Value
-              each row in system_information
-                tr
-                  td.row-name= row.row_name
-                  td.row-info= row.row_info
+                td.row-name= row.row_name
+                td.row-info #{row.row_info} #{row.row_unit}
       if(fan_board_1)
         div.col-xs-12.col-md-6#table-fan-board-1
           h2 Fan Board
@@ -53,7 +57,7 @@ block append content
             each row in fan_board_1
               tr
                 td.row-name= row.row_name
-                td.row-info= row.row_info
+                td.row-info #{row.row_info} #{row.row_unit}
       if(fan_board_2)
         div.col-xs-12.col-md-6#table-fan-board-2
           h2 Fan Board 2
@@ -64,7 +68,7 @@ block append content
             each row in fan_board_2
               tr
                 td.row-name= row.row_name
-                td.row-info= row.row_info
+                td.row-info #{row.row_info} #{row.row_unit}
       if(current_loops)
         div.col-xs-12.col-md-6#table-current-loops
           h2 Current Loops
@@ -75,12 +79,12 @@ block append content
             each row in current_loops
               tr
                 td.row-name= row.row_name
-                td.row-info= row.row_info
+                td.row-info #{row.row_info} #{row.row_unit}
       div.col-xs-12.col-md-6.graph#graph-mains
       div.col-xs-12.col-md-6.graph#graph-battery
       div.col-xs-12.col-md-6.graph#graph-inverter
-      div.col-xs-12.col-md-6.graph#graph-chamber
-      div.col-xs-12.col-md-6.graph#graph-outside
+      div.col-xs-12.col-md-6.graph#graph-temp
+      //- div.col-xs-12.col-md-6.graph#graph-outside
                               
 block append styles
   script(src='/javascripts/canvasjs.min.js')

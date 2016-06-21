@@ -19,12 +19,14 @@ setInterval(function () {
       is_running = false;
     });
   }
-}, 500);
+}, 1000);
 
 
 function getMostRecentFileName(next) {
-  var internal_image = '';
-  var external_image = '';
+  var internal_image = (' ' + exports.camera_data.internal).slice(1);
+  var external_image = (' ' + exports.camera_data.external).slice(1);
+
+  console.log
 
   var internal_dir = '/home/guardian/internal';
   var external_dir = '/home/guardian/external';
@@ -34,7 +36,7 @@ function getMostRecentFileName(next) {
   var del = [];
 
   // Itterate over files in the directory to find the newest
-  var name = underscore.max(internal_files, function (f) {
+  var internal_name = underscore.max(internal_files, function (f) {
     // Check if the file is a jpeg
     if (f.match('.*\\.jpe?g')) {
       // Add images to list to delete
@@ -47,18 +49,12 @@ function getMostRecentFileName(next) {
   });
 
   // Remove the latest image from the list and delete the rest
-  del = del.filter(function (element) { return element != name; });
+  del = del.filter(function (element) { return element != internal_name; });
   del.forEach(function (element) { fs.unlink(path.join(internal_dir, element)); });
   del = [];
 
-  if (name != -Infinity) {
-    var file = path.join(internal_dir, name);
-    internal_image = fs.readFileSync(file, 'binary');
-    console.log('internal: ' + file);
-  }
-
   // Itterate over files in the directory to find the newest
-  name = underscore.max(external_files, function (f) {
+  var external_name = underscore.max(external_files, function (f) {
     // Check if the file is a jpeg
     if (f.match('.*\\.jpe?g')) {
       // Add images to list to delete
@@ -71,14 +67,20 @@ function getMostRecentFileName(next) {
   });
 
   // Remove the latest image from the list and delete the rest
-  del = del.filter(function (element) { return element != name; });
+  del = del.filter(function (element) { return element != external_name; });
   del.forEach(function (element) { fs.unlink(path.join(external_dir, element)); });
 
-  if (name != -Infinity) {
-    file = path.join(external_dir, name);
-    external_image = fs.readFileSync(file, 'binary');
-    console.log('external: ' + file);
-  }
+  setTimeout(function () {
+    if (internal_name != -Infinity) {
+      var file = path.join(internal_dir, internal_name);
+      internal_image = fs.readFileSync(file, 'binary');
+    }
 
-  next(internal_image, external_image);
+    if (external_name != -Infinity) {
+      file = path.join(external_dir, external_name);
+      external_image = fs.readFileSync(file, 'binary');
+    }
+
+    next(internal_image, external_image);
+  }, 200);
 }
