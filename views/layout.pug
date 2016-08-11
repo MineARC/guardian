@@ -9,7 +9,15 @@ html
   body
     div.container-fluid
       .row
-        img.img-responsive(src='/images/minearc.png')
+        span
+          img(src='/images/minearc.png')
+          block vars
+          //- div.col-xs-12#name
+          //-   h2 Name: 
+          //-     b #{name}
+          //- div.col-xs-8#mode
+          //-   h2 Mode: 
+          //-     b #{mode}
         nav.navbar.navbar-default#navbar
           div.container-fluid
             ul.nav.navbar-nav
@@ -18,9 +26,9 @@ html
               li
                 a#home-link(href='/dashboard') Dashboard
               li
-                a#monitor-link(href='/monitor') Monitor
-              li
                 a#camera-internal-link(href='/camera_internal') Internal Camera
+              li
+                a#monitor-link(href='/monitor') Series 4
               //- li
               //-   a#camera-external-link(href='/camera_external') External Camera
               li

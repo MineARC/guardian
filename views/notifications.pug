@@ -1,17 +1,28 @@
 extends layout
 
+block vars
+  span.right
+    span#name
+      h3.inline  Name: 
+        b #{name}
+    span#mode
+      h3.inline  Mode: 
+        b #{mode}
+
 block append content
   div(class='jumbotron')
+    h3 Email
+    div.spacer
+    form.input-group#form-add
+      input.form-control(type='text' placeholder='example@example.com')
+      span.input-group-btn
+        button.btn.btn-success#btn-add(type='button') Add
     table(id='email_table' class='table')
-      tr
-        th.col-xs-4 Email
-        th.col-xs-7
-        th.col-xs-1
       if(emails)
         each email in emails
           tr
-            td= email.email
-            td
+            td.col-xs-4= email.email
+            td.col-xs-7
               div.dropdown
                 button.btn.btn-info.dropdown-toggle(type='button' data-toggle='dropdown')
                   span.num_subs= email.subscription.length
@@ -32,7 +43,7 @@ block append content
                           - var checked = email.subscription.indexOf(val) > -1
                           input(type='checkbox' checked=(checked) data-index=(index))
                           = val
-            td
+            td.col-xs-1
               .input-group
                 span
                   button.btn.btn-danger.btn-delete(role='button' data-email=(email.email))
@@ -40,10 +51,6 @@ block append content
                 span.input-group-btn
                   button.btn.btn-info.btn-save(role='button' data-email=(email.email) style='display:none;')
                     | Save
-    form.input-group#form-add
-      input.form-control(type='text' placeholder='example@example.com')
-      span.input-group-btn
-        button.btn.btn-success#btn-add(type='button') Add
         
     div.alert.alert-danger#error-alert(style='display:none;')
       strong

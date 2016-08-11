@@ -1,4 +1,5 @@
 var express = require('express');
+var polling = require('../polling');
 var os = require('os');
 var hostdiscovery = require('../hostdiscovery');
 var router = express.Router();
