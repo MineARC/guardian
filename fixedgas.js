@@ -42,114 +42,22 @@ function processPage(data) {
 
   // Create an object to store the status
   var system = {};
-  var section = '';
-  var section_enabled = true;
-  var rows = [];
 
-  var row_name = '';
-  var row_info = '';
+  var gasses = [];
+  var gas_name = '';
+  var gas_value = '';
 
-  // First add the name gotten from the top of the document
-  // Use html() and and not text() so that we can seperate the bold text
-  var name = jq('b:contains(Chamber name:)').parent().html();
-  name = name.toLowerCase().replace(/<(?:.|\n)*>/g, '').trim();
-  system['name'] = name;
-
-  // Second add the mode gotten from the top of the document
-  var mode = jq('p > span:not(.hide)').text().toLowerCase();
-  mode = capitalizeFirstLetter(mode);
-  system['mode'] = mode
-
-  // Itterate over each of the elements in the table so they can be added to status
-  jq('table.status').find('td.left').each(function (index, element) {
-    // Name is found by the bold subchild
-    row_name = jq(element).find('b').text().toLowerCase();
-
-    // Standardise some of the names that contain html tags and other characters
-    row_name = row_name.replace(/:/g, '').trim();
-    row_name = capitalizeFirstLetter(row_name);
-    //system_name = system_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
-
-    // Info is found in the next column over
-    // Use html() here also for reasons
-    row_info = jq(element).next().html();
-    if (row_info != null) {
-      console.log(row_info);
-      row_unit = row_info.match(/(V|A|C|F|ppm)$/g);
-      if (row_unit)
-        row_unit = row_unit[0];
-      // Only care about numbers, sign, and decimal point
-      row_info = row_info.match(/[-+0-9.]+/g)[0];
-    }
-
-    if (row_name == 'System information') {
-      section = 'system_information';
-      section_enabled = !jq(element).parent().hasClass('hide');
-      return true
-    }
-    else if (row_name == 'Fan board 1') {
-      if (section_enabled) {
-        system[section] = rows;
-      }
-      section = 'fan_board_1';
-      rows = [];
-      section_enabled = !jq(element).parent().hasClass('hide');
-      return true;
-    }
-    else if (row_name == 'Fan board 2') {
-      if (section_enabled) {
-        system[section] = rows;
-      }
-      section = 'fan_board_2';
-      rows = [];
-      section_enabled = !jq(element).parent().hasClass('hide');
-      return true;
-    }
-    else if (row_name == 'Current loops') {
-      if (section_enabled) {
-        system[section] = rows;
-      }
-      section = 'current_loops';
-      rows = [];
-      section_enabled = !jq(element).parent().hasClass('hide');
-      return true;
-    }
-    else {
-      // Add the info to the object
-      rows.push({ 'row_name': row_name, 'row_info': row_info, 'row_unit': row_unit });
-    }
-  });
-
-  if (section_enabled) {
-    system[section] = rows;
-  }
-
-  // Create an object to store the alarms
-  var alarms = [];
-  var alarm_name = '';
-  var alarm_status = false;
-  var alarms_active = 0;
   // Itterate over each of the alarms so they can be added
-  jq('#alarms > p').each(function (index, element) {
+  jq('p').each(function (index, element) {
     // Name is the label that shows for each error
-    alarm_name = jq(element).text().toLowerCase().trim();
-    alarm_name = capitalizeFirstLetter(alarm_name);
+    gas_name = jq(element).text().trim().split(': ')[0];
     // If the alarm isnt hidden this will resolve to true
-    alarm_status = !jq(element).hasClass('hide');
+    gas_value = jq(element).text().trim().split(': ')[1];
     // Add the alarms to the object
-    alarms.push({ 'alarm_name': alarm_name, 'alarm_status': alarm_status });
-
-    if (alarm_status)
-      alarms_active++;
+    gasses.push({ 'gas_name': gas_name, 'gas_value': gas_value });
   });
 
-  system['alarms'] = alarms;
-  system['alarms_active'] = alarms_active;
+  system['gasses'] = gasses;
 
-  monitor_data = system;
+  fgm_data = system;
 }
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-

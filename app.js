@@ -17,6 +17,7 @@ var camera_api = require('./routes/camera_api');
 var monitor_api = require('./routes/monitor_api');
 
 var polling = require('./polling');
+var fixedgas = require('./fixedgas')
 var alarms = require('./alarms');
 var hostdiscovery = require('./hostdiscovery');
 var cams = require('./cams');

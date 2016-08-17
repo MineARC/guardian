@@ -10,6 +10,9 @@ block vars
         b #{mode}
            
 block append content
+  div.col-xs-12.col-md-6#cams
+        p #{cams.pin0}
+        p #{cams.pin2}
   div(class='jumbotron')
     div(class='container-fluid')
       if(system_information)

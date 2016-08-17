@@ -11,6 +11,7 @@ var db = new sqlite3.Database(file);
 db.serialize(function () {
   if (!exists) {
     db.run('CREATE TABLE Alarms (email TEXT UNIQUE, subscription, sent)');
+    db.run('CREATE TABLE Guardians (name TEXT UNIQUE, lastseen, status)');
   }
 });
 
