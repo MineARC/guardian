@@ -4,7 +4,7 @@ var jq = require('jquery');
 var fs = require('fs');
 
 // Define object for access from where they are needed
-var monitor_data = {};
+var monitor_data = { name: '', mode: '', system_information: '', fan_board_1: '', alarms_active: '', alarms_total: '' };
 exports.monitor_data = monitor_data;
 
 // Spin up polling of backend services
@@ -84,7 +84,7 @@ function processPage(data) {
     // Use html() here also for reasons
     row_info = jq(element).next().html();
     if (row_info != null) {
-      console.log(row_info);
+      // console.log(row_info);
       row_unit = row_info.match(/(V|A|C|F|ppm)$/g);
       if (row_unit)
         row_unit = row_unit[0];
@@ -135,10 +135,10 @@ function processPage(data) {
   }
 
   // Create an object to store the alarms
-  var alarms = [];
+  var alarms_active = [];
   var alarm_name = '';
   var alarm_status = false;
-  var alarms_active = 0;
+  var alarms_total = 0;
   // Itterate over each of the alarms so they can be added
   jq('#alarms > p').each(function (index, element) {
     // Name is the label that shows for each error
@@ -147,14 +147,15 @@ function processPage(data) {
     // If the alarm isnt hidden this will resolve to true
     alarm_status = !jq(element).hasClass('hide');
     // Add the alarms to the object
-    alarms.push({ 'alarm_name': alarm_name, 'alarm_status': alarm_status });
+    if (alarm_status)
+      alarms_active.push(alarm_name);
 
     if (alarm_status)
-      alarms_active++;
+      alarms_total++;
   });
 
-  system['alarms'] = alarms;
   system['alarms_active'] = alarms_active;
+  system['alarms_total'] = alarms_total;
 
   monitor_data = system;
 }

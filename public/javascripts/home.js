@@ -217,18 +217,17 @@ $(document).ready(function ($) {
 
   // Updates the active alarms from the api
   function updateAlarms(data) {
-    var html = '<h2>Alarms</h2>'
-    if (data.alarms_active > 0) {
-      $('#image-logo').find('img').attr('src', '/images/Error.png');
-      data.alarms.forEach(function (alarm) {
-        if (alarm.alarm_status)
-          html += '<p class="alert alert-danger">' + alarm.alarm_name;
+    var html = '';
+    if (data.alarms_total > 0) {
+      data.alarms_active.forEach(function (alarm) {
+        html += '<p class="alert alert-danger">' + alarm;
       });
-    } else {
-      $('#image-logo').find('img').attr('src', '/images/Good.png');
-      html += '<p class="alert alert-info">Everything is fine'
     }
     $('#alarms').html(html);
+  }
+
+  function updateCams(data) {
+    var html = '<h2>CAMS</h2><p>' + data.cams.pin0 + '</p><p>' + data.cams.pin2 + '</p>';
   }
 
   // Update charts, tables, and alarms after specified time. 
@@ -237,6 +236,7 @@ $(document).ready(function ($) {
       updateCharts(data);
       updateTables(data);
       updateAlarms(data);
+      updateCams(data);
     });
   }, updateInterval);
 });

@@ -10,32 +10,13 @@ block vars
         b #{mode}
            
 block append content
-  div.col-xs-12.col-md-6#cams
-        p #{cams.pin0}
-        p #{cams.pin2}
   div(class='jumbotron')
     div(class='container-fluid')
       if(system_information)
-        div.col-xs-12.col-md-6
-          //- div.col-xs-12#name
-          //-   h2 Name: 
-          //-     b #{name}
-          //- div.col-xs-8#mode
-          //-   h2 Mode: 
-          //-     b #{mode}
-          //- div.col-xs-4#image-logo
-          //-   if(alarms_active > 0)
-          //-     img.img-responsive(src='/images/Error.png')
-          //-   else
-          //-     img.img-responsive(src='/images/Good.png')
-          div.col-xs-12#alarms
-            if(alarms_active > 0)
-              h3 Alarms
-              each alarm in alarms
-                if(alarm.alarm_status)
-                  p.alert.alert-danger= alarm.alarm_name
-            //- else
-            //-   p.alert.alert-info Everything is fine
+        div.col-xs-12#alarms
+          if(alarms_total > 0)
+            each alarm in alarms_active
+              p.alert.alert-danger= alarm
       div.col-xs-12.col-md-6#camera-internal
         h3 Internal Camera
         div.spacer
@@ -103,6 +84,10 @@ block append content
       div.col-xs-12.col-md-6.graph#graph-inverter
       div.col-xs-12.col-md-6.graph#graph-temp
       //- div.col-xs-12.col-md-6.graph#graph-outside
+      div.col-xs-12.col-md-6#cams
+        h3 CAMS
+        p #{cams.pin0}
+        p #{cams.pin2}
                               
 block append styles
   script(src='/javascripts/canvasjs.min.js')

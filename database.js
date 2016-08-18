@@ -12,6 +12,7 @@ db.serialize(function () {
   if (!exists) {
     db.run('CREATE TABLE Alarms (email TEXT UNIQUE, subscription, sent)');
     db.run('CREATE TABLE Guardians (name TEXT UNIQUE, lastseen, status)');
+    db.run('CREATE TABLE Monitor (mainsvoltage, batteryvoltage, invertervoltage, insidetemp, outsidetemp, timestamp)');
   }
 });
 
@@ -169,6 +170,60 @@ exports.setSent = function (email, sent, callback) {
 
     db.run('UPDATE Alarms SET sent = ? WHERE email LIKE ?', sent, email, function (err) {
       callback(err, this.changes > 0);
+    });
+  });
+}
+
+exports.addGuardian = function (name, status, callback) {
+  if (!name) {
+    return callback(new Error('Invalid input'));
+  }
+  else if (!status) {
+    status = [];
+  }
+
+  db.serialize(function () {
+    if (typeof status !== 'string') {
+      status = JSON.stringify(status);
+    }
+
+    db.run('INSERT OR REPLACE INTO Guardians VALUES (?, ?, ?)', name, new Date().getTime(), status, function (err) {
+      return callback(err, this.lastID > 0);
+    });
+  });
+}
+
+exports.getRecentGuardians = function (callback) {
+  db.serialize(function () {
+    db.all('SELECT name, status FROM Guardians WHERE lastseen >= ' + ((new Date().getTime()) - 120000), function (err, rows) {
+      var all = [];
+      if (rows) {
+        rows.reduce(function (prev, curr) {
+          prev.push(JSON.parse(curr.status));
+          return prev;
+        }, all);
+        all.sort(function (a, b) {
+          return a.hostname.localeCompare(b.hostname);
+        })
+        console.log(all);
+      }
+      callback(err, all);
+    });
+  });
+}
+
+exports.addMonitorData = function (mainsvoltage, batteryvoltage, invertervoltage, insidetemp, outsidetemp, callback) {
+  db.serialize(function () {
+    db.run('INSERT INTO Monitor VALUES (?, ?, ?, ?, ?, ?)', mainsvoltage, batteryvoltage, invertervoltage, insidetemp, outsidetemp, new Date().getTime(), function (err) {
+      return callback(err, this.lastID > 0);
+    });
+  });
+}
+
+exports.getMonitorData = function (mainsvoltage, batteryvoltage, invertervoltage, insidetemp, outsidetemp, callback) {
+  db.serialize(function () {
+    db.all('SELECT mainsvoltage, batteryvoltage, invertervoltage, insidetemp, outsidetemp, timestamp FROM Monitor WHERE timestamp >= ' + ((new Date().getTime()) + 120000), mainsvoltage, batteryvoltage, invertervoltage, insidetemp, outsidetemp, new Date().getTime(), function (err) {
+      callback(err, all);
     });
   });
 }

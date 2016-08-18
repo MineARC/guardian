@@ -24,30 +24,17 @@ setInterval(function () {
 
 // Check the active alerts against the database and send out emails
 function poll_alerts(next) {
-  var alarms = polling.monitor_data.alarms;
-  var active_alarms = [];
-
-  if (alarms) {
-    // Remove from the array alarms that are not active
-    alarms.reduce(function (prev, curr, index, array) {
-      if (curr.alarm_status) {
-        prev.push(curr.alarm_name);
-      }
-      return prev;
-    }, active_alarms);
-  }
+  var active_alarms = polling.monitor_data.alarms_active;
 
   // If there are any active alarms retrive the database so we can continue with checks
   if (active_alarms.length > 0) {
     db.getAll(get_all_callback.bind(null, active_alarms));
   }
-  // }
   else {
-    console.log('Something went wrong with get getting the alarm status');
+    console.log('No active alarms');
   }
 
   next();
-  // });
 }
 
 function send_mail(fromName, fromAddress, to, subject, text, callback) {

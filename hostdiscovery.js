@@ -4,21 +4,45 @@ var os = require('os');
 var v6 = require('ip-address').Address6;
 var exports = module.exports;
 
+var db = require('./database');
+
 // Define object for access from where they are needed
-var hosts_data = [];
-exports.hosts_data = { systems: hosts_data };
+exports.hosts_data = { systems: '' };
+
+var database_is_polling = true;
+poll_database(function () {
+  database_is_polling = false;
+});
+
+setInterval(function () {
+  if (!database_is_polling) {
+    database_is_polling = true;
+    poll_database(function () {
+      database_is_polling = false;
+    });
+  }
+}, 60000);
+
+function poll_database(next) {
+  db.getRecentGuardians(function (err, data) {
+    if (err) {
+      return console.log(err.message);
+    }
+    exports.hosts_data = { systems: data };
+    next();
+  });
+}
 
 // Spin up polling of backend services
 var nmap_is_polling = true;
 poll_nmap(function () {
-  exports.hosts_data = { systems: hosts_data };
   nmap_is_polling = false;
 });
+
 setInterval(function () {
   if (!nmap_is_polling) {
     nmap_is_polling = true;
     poll_nmap(function () {
-      exports.hosts_data = { systems: hosts_data };
       nmap_is_polling = false;
     });
   }
@@ -62,8 +86,6 @@ function adapters() {
 }
 
 function poll_nmap(next) {
-  hosts_data = [];
-
   var opts = {
     // timeout: 1,
     range: adapters(),
@@ -105,7 +127,11 @@ function poll_nmap(next) {
             if (api_res.guardian) {
               // Everything but the ip address comes from the api
               api_res['ip'] = element.ip;
-              hosts_data.push(api_res);
+              db.addGuardian(api_res.hostname, api_res, function (err, changes) {
+                if (err) {
+                  console.log(err.message);
+                }
+              });
             }
           }
           next();
