@@ -17,6 +17,9 @@ a {
 
 .inline {
   display: inline;
+  font-size:16px;
+  font-weight:bold;
+  padding:60px 0 0 0;
 }
 
 #table-overview img {
@@ -34,4 +37,8 @@ a {
 
 .right {
   float: right;
+}
+
+.r-green {
+	color:#05763d;
 }
