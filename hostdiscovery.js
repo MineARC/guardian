@@ -91,7 +91,7 @@ function poll_nmap(next) {
     range: adapters(),
     flags: [
       '--open'],
-    ports: '8000'
+    ports: '80'
   };
 
   // Scan all hosts to see which have port 8000 open

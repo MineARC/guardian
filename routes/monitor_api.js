@@ -6,7 +6,7 @@ var router = express.Router();
 
 router.get('/', function (req, res, next) {
   var data = polling.monitor_data;
-  data['fixedgas'] = fixedgas.fgm_data;
+  data['fgm'] = fixedgas.fgm_data;
   data['cams'] = cams.cams_data;
   res.json(data);
 });

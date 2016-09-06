@@ -47,7 +47,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', overview);
+// app.use('/', overview);
 app.use('/dashboard', dashboard);
 app.use('/monitor', monitor);
 app.use('/camera_internal', camera_internal);

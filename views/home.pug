@@ -79,15 +79,47 @@ block append content
               tr
                 td.row-name= row.row_name
                 td.table-right.row-info #{row.row_info} #{row.row_unit}
-      div.col-xs-12.col-md-6.graph#graph-mains
-      div.col-xs-12.col-md-6.graph#graph-battery
-      div.col-xs-12.col-md-6.graph#graph-inverter
-      div.col-xs-12.col-md-6.graph#graph-temp
-      //- div.col-xs-12.col-md-6.graph#graph-outside
-      div.col-xs-12.col-md-6#cams
-        h3 CAMS
-        p #{cams.pin0}
-        p #{cams.pin2}
+      div.col-xs-12.col-md-6
+        .graph#graph-mains
+      div.col-xs-12.col-md-6
+        .graph#graph-battery
+      div.col-xs-12.col-md-6
+        .graph#graph-inverter
+      div.col-xs-12.col-md-6
+        .graph#graph-temp
+      //- div.col-xs-12.col-md-6
+      //-   .graph#graph-outside
+
+      if(cams)
+        div.col-xs-12.col-md-6#cams
+          h3 CAMS
+          table.table
+            tr
+              td Occupied
+              td.table-right 
+                if(cams.occupied)
+                  | Yes
+                else
+                  | No
+            tr
+              td Airflow
+              td.table-right
+                if(cams.rate > 0)
+                  | Yes
+                else
+                  | No
+
+      if(fgm)
+        div.col-xs-12.col-md-6#fgm
+          h3 Aura-FX
+          table.table
+            tr
+              th Name
+              th.table-right Value
+            each row in fgm
+              tr
+                td= row.gas_name
+                td.table-right= row.gas_value
                               
 block append styles
   script(src='/javascripts/canvasjs.min.js')

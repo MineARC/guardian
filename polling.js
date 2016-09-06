@@ -25,7 +25,7 @@ setInterval(function () {
 
 function poll_monitor(next) {
   var request_options = {
-    url: 'http://localhost:8000/',
+    url: 'http://localhost/pt/monitor/',
     proxy: ''
   };
 
@@ -62,22 +62,20 @@ function processPage(data) {
   // First add the name gotten from the top of the document
   // Use html() and and not text() so that we can seperate the bold text
   var name = jq('b:contains(Chamber name:)').parent().html();
-  name = name.toLowerCase().replace(/<(?:.|\n)*>/g, '').trim();
+  name = name.replace(/<(?:.|\n)*>/g, '').trim();
   system['name'] = name;
 
   // Second add the mode gotten from the top of the document
-  var mode = jq('p > span:not(.hide)').text().toLowerCase();
-  mode = capitalizeFirstLetter(mode);
+  var mode = jq('p > span:not(.hide)').text();
   system['mode'] = mode
 
   // Itterate over each of the elements in the table so they can be added to status
   jq('table.status').find('td.left').each(function (index, element) {
     // Name is found by the bold subchild
-    row_name = jq(element).find('b').text().toLowerCase();
+    row_name = jq(element).find('b').text();
 
     // Standardise some of the names that contain html tags and other characters
     row_name = row_name.replace(/:/g, '').trim();
-    row_name = capitalizeFirstLetter(row_name);
     //system_name = system_name.replace(/<(?:.|\n)*?>/g, '').replace(/:/g, '').trim();
 
     // Info is found in the next column over
@@ -89,15 +87,15 @@ function processPage(data) {
       if (row_unit)
         row_unit = row_unit[0];
       // Only care about numbers, sign, and decimal point
-      row_info = row_info.match(/[-+0-9.]+/g)[0];
+      row_info = parseFloat(row_info.match(/[-+0-9.]+/g)[0]);
     }
 
-    if (row_name == 'System information') {
+    if (row_name.toLowerCase() == 'system information') {
       section = 'system_information';
       section_enabled = !jq(element).parent().hasClass('hide');
       return true
     }
-    else if (row_name == 'Fan board 1') {
+    else if (row_name.toLowerCase() == 'fan board 1') {
       if (section_enabled) {
         system[section] = rows;
       }
@@ -106,7 +104,7 @@ function processPage(data) {
       section_enabled = !jq(element).parent().hasClass('hide');
       return true;
     }
-    else if (row_name == 'Fan board 2') {
+    else if (row_name.toLowerCase() == 'fan board 2') {
       if (section_enabled) {
         system[section] = rows;
       }
@@ -115,7 +113,7 @@ function processPage(data) {
       section_enabled = !jq(element).parent().hasClass('hide');
       return true;
     }
-    else if (row_name == 'Current loops') {
+    else if (row_name.toLowerCase() == 'current loops') {
       if (section_enabled) {
         system[section] = rows;
       }
@@ -142,8 +140,7 @@ function processPage(data) {
   // Itterate over each of the alarms so they can be added
   jq('#alarms > p').each(function (index, element) {
     // Name is the label that shows for each error
-    alarm_name = jq(element).text().toLowerCase().trim();
-    alarm_name = capitalizeFirstLetter(alarm_name);
+    alarm_name = jq(element).text().trim();
     // If the alarm isnt hidden this will resolve to true
     alarm_status = !jq(element).hasClass('hide');
     // Add the alarms to the object

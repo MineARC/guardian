@@ -28,8 +28,8 @@ function getMostRecentFileName(next) {
 
   console.log
 
-  var internal_dir = '/home/guardian/internal';
-  var external_dir = '/home/guardian/external';
+  var internal_dir = '/ftp/internal';
+  var external_dir = '/ftp/external';
 
   var internal_files = fs.readdirSync(internal_dir);
   var external_files = fs.readdirSync(external_dir);
@@ -82,5 +82,5 @@ function getMostRecentFileName(next) {
     }
 
     next(internal_image, external_image);
-  }, 200);
+  }, 300);
 }

@@ -227,7 +227,22 @@ $(document).ready(function ($) {
   }
 
   function updateCams(data) {
-    var html = '<h2>CAMS</h2><p>' + data.cams.pin0 + '</p><p>' + data.cams.pin2 + '</p>';
+    if (data.cams) {
+      var html = '<h3>CAMS</h3><table class="table"><tr><td>Occupied</td><td class="table-right">' + (data.cams.occupied ? 'Yes' : 'No') + '</tr><tr><td>Airflow</td><td class="table-right">' + ((data.cams.rate > 0) ? 'Yes' : 'No') + '</td></tr></table>';
+      $('#cams').html(html);
+    }
+  }
+
+  function updateFGM(data) {
+    if (data.fgm) {
+      var html = '<h3>Aura-FX</h3><table class="table"><tr><th>Name</th><th class="table-right">Value</th></tr>';
+      data.fgm.forEach(function (gas) {
+        html += '<tr><td>' + gas.gas_name + '</td>';
+        html += '<td class="table-right">' + gas.gas_value + '</td></tr>';
+      });
+      html += '</table>';
+      $('#fgm').html(html);
+    }
   }
 
   // Update charts, tables, and alarms after specified time. 
@@ -237,6 +252,7 @@ $(document).ready(function ($) {
       updateTables(data);
       updateAlarms(data);
       updateCams(data);
+      updateFGM(data);
     });
   }, updateInterval);
 });

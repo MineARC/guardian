@@ -25,7 +25,7 @@ setInterval(function () {
 
 function poll_fgm(next) {
   var request_options = {
-    url: 'http://localhost:8003/',
+    url: 'http://localhost/pt/gas/',
     proxy: ''
   };
 
@@ -42,22 +42,21 @@ function processPage(data) {
 
   // Create an object to store the status
   var system = {};
-
   var gasses = [];
   var gas_name = '';
   var gas_value = '';
 
   // Itterate over each of the alarms so they can be added
-  jq('p').each(function (index, element) {
+  jq('tr').each(function (index, element) {
     // Name is the label that shows for each error
-    gas_name = jq(element).text().trim().split(': ')[0];
+    gas_name = jq(element).find('td').first().text();
     // If the alarm isnt hidden this will resolve to true
-    gas_value = jq(element).text().trim().split(': ')[1];
+    gas_value = jq(element).find('td').last().text();
     // Add the alarms to the object
     gasses.push({ 'gas_name': gas_name, 'gas_value': gas_value });
   });
 
-  system['gasses'] = gasses;
+  system = gasses;
 
   fgm_data = system;
 }
