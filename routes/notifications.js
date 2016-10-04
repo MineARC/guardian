@@ -1,5 +1,9 @@
 var express = require('express');
-var polling = require('../polling');
+var jumpers = require('../jumpers');
+if (jumpers.mode == 0) var elv_polling = require('../elv_polling');
+if (jumpers.mode == 1) var elvp_polling = require('../elvp_polling');
+if (jumpers.mode == 2) var series3_polling = require('../series3_polling');
+if (jumpers.mode == 3) var series4_polling = require('../series4_polling');
 var db = require('../database')
 var router = express.Router();
 
@@ -13,7 +17,7 @@ var alarms = ["SDCard failed on Display board",
   "CO2 fan 1 has failed on Fan board 1",
   "CO2 fan 2 has failed on Fan board 1",
   "CO fan has failed on Fan board 1",
-  "Lightining has failed on Fan board 1",
+  "Lighting has failed on Fan board 1",
   "Siren has failed on Fan board 1",
   "Green strobe light has failed on Fan board 1",
   "Red strobe light has failed on Fan board 1",
@@ -24,7 +28,7 @@ var alarms = ["SDCard failed on Display board",
   "CO2 fan 1 has failed on Fan board 2",
   "CO2 fan 2 has failed on Fan board 2",
   "CO fan has failed on Fan board 2",
-  "Lightining has failed on Fan board 2",
+  "Lighting has failed on Fan board 2",
   "Siren has failed on Fan board 2",
   "Green strobe light has failed on Fan board 2",
   "Red strobe light has failed on Fan board 2",
@@ -62,10 +66,14 @@ var alarms = ["SDCard failed on Display board",
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  var data = polling.monitor_data;
+  var data = {};
+  if (jumpers.mode == 0) data['elv'] = elv_polling.data;
+  if (jumpers.mode == 1) data['elvp'] = elvp_polling.data;
+  if (jumpers.mode == 2) data['series3'] = series3_polling.data;
+  if (jumpers.mode == 3) data['series4'] = series4_polling.data;
+  data['static_alarms'] = alarms;
   db.getAll(function (err, all) {
     data['emails'] = all;
-    data['static_alarms'] = alarms;
     res.render('notifications', data);
   });
 });

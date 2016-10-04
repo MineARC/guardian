@@ -12,26 +12,26 @@ block append content
           th.col-xs-2 Alarms
           th.col-xs-2 Mode
           th.col-xs-2 Status
-        if(systems)
-          each system in systems
+        if(hosts)
+          each host in hosts
             tr.overview-row
               td
-                a(href='//' + system.hostname + '/dashboard')= system.hostname
-              td
-                a(href='//' + system.ip + '/dashboard')= system.ip
+                a(href='//' + host.hostname + '/dashboard')= host.hostname
+              //- td
+              //-   a(href='//' + host.ip + '/dashboard')= host.ip
               td
                 div.dropdown
                   button.btn.btn-info.btn-sm.dropdown-toggle(type='button' data-toggle='dropdown')
-                    span.num_subs= system.alarms_total
-                  if(system.alarms_total > 0)
+                    span.num_subs= host.alarms_total
+                  if(host.alarms_total > 0)
                     ul.alert.alert-danger.col-xs-12.dropdown-menu
-                      each val in system.alarms_active
+                      each val in host.alarms_active
                         li= val
                   else
                     ul.alert.alert-info.col-xs-12.dropdown-menu
                       | Everything is fine
-              td= system.mode
-              if(system.alarms_total > 0)
+              td= host.mode
+              if(host.alarms_total > 0)
                 td
                   img(src='/images/Error.png')
               else

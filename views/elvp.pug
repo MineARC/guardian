@@ -1,0 +1,27 @@
+extends layout
+
+block vars
+  span.right
+    span#name
+      p.inline Name: 
+        b.r-green #{name}
+    span#mode
+      p.inline  Mode: 
+        b.r-green #{mode}
+
+block append content
+  div(class='jumbotron')
+    .row
+      .col-xs-12
+        table.table
+          tr
+            th Name
+            th.table-right Value
+          each value, key in elvp.serial
+            tr
+              td.row-name= key
+              td.table-right.row-info= value
+             
+block append styles
+      
+block append scripts

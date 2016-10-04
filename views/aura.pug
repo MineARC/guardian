@@ -1,0 +1,22 @@
+extends layout
+
+block vars
+  span.right
+    span#name
+      p.inline Name: 
+        b.r-green #{name}
+    span#mode
+      p.inline  Mode: 
+        b.r-green #{mode}
+
+block append content
+  div(class='jumbotron')
+    .row
+      .col-xs-12
+        iframe.col-xs-12#aura-iframe(src='' frameborder="0")
+        script.
+          document.getElementById('aura-iframe').src='//'+window.location.hostname+'/pt/aura/';
+          
+block append styles
+      
+block append scripts

@@ -1,8 +1,8 @@
 $(document).ready(function ($) {
-  var internal_showing = $('#internal-1');
+  var internal_showing = $('#internal');
   var timeout;
   var timestamp = Date.now();
-  $('#internal-1').bind('load', update_internal_image);
+  $('#internal').bind('load', update_internal_image);
 
   update_internal_image();
 

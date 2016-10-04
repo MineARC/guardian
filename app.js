@@ -5,22 +5,31 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var auth = require('basic-auth');
+var jumpers = require('./jumpers');
 
 var overview = require('./routes/overview');
 var dashboard = require('./routes/home');
-var monitor = require('./routes/monitor_s4');
+
+if (jumpers.mode == 0) var elv = require('./routes/elv');
+if (jumpers.mode == 1) var elvp = require('./routes/elvp');
+if (jumpers.mode == 2) var series3 = require('./routes/series3');
+if (jumpers.mode == 3) var series4 = require('./routes/series4');
+
 var camera_internal = require('./routes/camera_internal');
-var camera_external = require('./routes/camera_external');
+if (jumpers.extn) var camera_external = require('./routes/camera_external');
 var notifications = require('./routes/notifications');
 var overview_api = require('./routes/overview_api');
 var camera_api = require('./routes/camera_api');
 var monitor_api = require('./routes/monitor_api');
 
-var polling = require('./polling');
-var fixedgas = require('./fixedgas')
-var alarms = require('./alarms');
+if (jumpers.mode == 0) var elv_polling = require('./elv_polling');
+if (jumpers.mode == 1) var elvp_polling = require('./elvp_polling');
+if (jumpers.mode == 2) var series3_polling = require('./series3_polling');
+if (jumpers.mode == 3) var series4_polling = require('./series4_polling');
+if (jumpers.cams) var cams_polling = require('./cams_polling');
+if (jumpers.aura) var aura_polling = require('./aura_polling')
+var alarms_polling = require('./alarms_polling');
 var hostdiscovery = require('./hostdiscovery');
-var cams = require('./cams');
 
 var app = express();
 
@@ -47,11 +56,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', overview);
+app.use('/', overview);
 app.use('/dashboard', dashboard);
-app.use('/monitor', monitor);
+
+if (jumpers.mode == 0) app.use('/monitor', elv);
+if (jumpers.mode == 1) app.use('/monitor', elvp);
+if (jumpers.mode == 2) app.use('/monitor', series3);
+if (jumpers.mode == 3) app.use('/monitor', series4);
+
 app.use('/camera_internal', camera_internal);
-app.use('/camera_external', camera_external);
+if (jumpers.extn) app.use('/camera_external', camera_external);
 app.use('/notifications', notifications);
 app.use('/api/overview', overview_api)
 app.use('/api/monitor', monitor_api);

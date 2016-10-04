@@ -12,12 +12,6 @@ html
         span
           img(src='/images/minearc.png')
           block vars
-          //- div.col-xs-12#name
-          //-   h2 Name: 
-          //-     b #{name}
-          //- div.col-xs-8#mode
-          //-   h2 Mode: 
-          //-     b #{mode}
         nav.navbar.navbar-default#navbar
           div.container-fluid
             ul.nav.navbar-nav
@@ -27,10 +21,21 @@ html
                 a#home-link(href='/dashboard') Dashboard
               li
                 a#camera-internal-link(href='/camera_internal') Internal Camera
-              li
-                a#monitor-link(href='/monitor') Series 4
-              //- li
-              //-   a#camera-external-link(href='/camera_external') External Camera
+              if(extn)
+                li
+                  a#camera-external-link(href='/camera_external') External Camera
+              if(aura)
+                li
+                  a#aura-link(href='/aura') Aura-FX
+              if(elv)
+                li
+                  a#monitor-link(href='/monitor') ELV
+              if(series3)
+                li
+                  a#monitor-link(href='/monitor') Series 3
+              if(series4)
+                li
+                  a#monitor-link(href='/monitor') Series 4
               li
                 a#alarms-link(href='/notifications') Notifications
       block content

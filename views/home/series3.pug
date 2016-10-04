@@ -1,0 +1,66 @@
+if(series3.system_information)
+  div.col-xs-12.col-md-6#table-system-info
+    h3 System Information
+    div.spacer
+    table.table
+      tr
+        th Name
+        th.table-right Value
+      each row in series3.system_information
+        tr
+          td.row-name= row.row_name
+          td.table-right.row-info #{row.row_info} #{row.row_unit}
+
+if(series3.fan_board_1)
+  div.col-xs-12.col-md-6#table-fan-board-1
+    h3 Fan Board
+    div.spacer
+    table.table
+      tr
+        th Name
+        th.table-right Value
+      each row in series3.fan_board_1
+        tr
+          td.row-name= row.row_name
+          td.table-right.row-info #{row.row_info} #{row.row_unit}
+
+if(series3.fan_board_2)
+  div.col-xs-12.col-md-6#table-fan-board-2
+    h3 Fan Board 2
+    div.spacer
+    table.table
+      tr
+        th Name
+        th.table-right Value
+      each row in series3.fan_board_2
+        tr
+          td.row-name= row.row_name
+          td.table-right.row-info #{row.row_info} #{row.row_unit}
+
+if(series3.current_loops)
+  div.col-xs-12.col-md-6#table-current-loops
+    h3 Current Loops
+    div.spacer
+    table.table
+      tr
+        th Name
+        th.table-right Value
+      each row in series3.current_loops
+        tr
+          td.row-name= row.row_name
+          td.table-right.row-info #{row.row_info} #{row.row_unit}
+
+if(series3.system_information)
+  div.col-xs-12.col-md-6
+    .graph#graph-mains
+  div.col-xs-12.col-md-6
+    .graph#graph-battery
+  div.col-xs-12.col-md-6
+    .graph#graph-inverter
+  div.col-xs-12.col-md-6
+    .graph#graph-temp
+
+
+block append styles
+            
+block append scripts

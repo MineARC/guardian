@@ -3,19 +3,19 @@ var path = require('path');
 var underscore = require('underscore');
 
 // Define object for access from where they are needed
-exports.camera_data = { internal: '', external: '' };
+exports.data = { internal: '', external: '' };
 
 // Spin up polling of backend services
 var is_running = true;
 getMostRecentFileName(function (internal, external) {
-  exports.camera_data = { internal: internal, external: external };
+  exports.data = { internal: internal, external: external };
   is_running = false;
 });
 setInterval(function () {
   if (!is_running) {
     is_running = true;
     getMostRecentFileName(function (internal, external) {
-      exports.camera_data = { internal: internal, external: external };
+      exports.data = { internal: internal, external: external };
       is_running = false;
     });
   }
@@ -23,8 +23,8 @@ setInterval(function () {
 
 
 function getMostRecentFileName(next) {
-  var internal_image = (' ' + exports.camera_data.internal).slice(1);
-  var external_image = (' ' + exports.camera_data.external).slice(1);
+  var internal_image = (' ' + exports.data.internal).slice(1);
+  var external_image = (' ' + exports.data.external).slice(1);
 
   console.log
 

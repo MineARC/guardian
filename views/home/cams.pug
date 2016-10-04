@@ -1,0 +1,16 @@
+div.col-xs-12.col-md-6#cams
+  h3 CAMS
+  table.table
+    tr
+      td Occupied
+      td.table-right= cams.occupied ? 'Yes' : 'No'
+    tr
+      td Airflow
+      td.table-right= cams.solenoid ? 'No' : 'Yes'
+    tr
+      td Airflow Uptime
+      td.table-right= (cams.rate * 100).toFixed(2) + ' %'
+
+block append styles
+            
+block append scripts

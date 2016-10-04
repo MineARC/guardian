@@ -227,32 +227,61 @@ $(document).ready(function ($) {
   }
 
   function updateCams(data) {
-    if (data.cams) {
-      var html = '<h3>CAMS</h3><table class="table"><tr><td>Occupied</td><td class="table-right">' + (data.cams.occupied ? 'Yes' : 'No') + '</tr><tr><td>Airflow</td><td class="table-right">' + ((data.cams.rate > 0) ? 'Yes' : 'No') + '</td></tr></table>';
-      $('#cams').html(html);
-    }
+    var html = '<h3>ELV</h3><table class="table"><tr><td>Occupied</td><td class="table-right">' + (data.occupied ? 'Yes' : 'No') + '</tr><tr><td>Airflow</td><td class="table-right">' + (data.solenoid ? 'No' : 'Yes') + '</td></tr><tr><td>Airflow Uptime</td><td class="table-right">' + (data.rate * 100).toFixed(2) + ' %</td></tr></table>';
+    $('#cams').html(html);
   }
 
-  function updateFGM(data) {
-    if (data.fgm) {
-      var html = '<h3>Aura-FX</h3><table class="table"><tr><th>Name</th><th class="table-right">Value</th></tr>';
-      data.fgm.forEach(function (gas) {
-        html += '<tr><td>' + gas.gas_name + '</td>';
-        html += '<td class="table-right">' + gas.gas_value + '</td></tr>';
-      });
-      html += '</table>';
-      $('#fgm').html(html);
+  function updateSeries3(data) {
+
+  }
+
+  function updateELV(data) {
+    var html = '<h3>ELV</h3><table class="table"><tr><th>Name</th><th class="table-right">Value</th></tr>' +
+      '<tr><td>Mains Present</td><td class="table-right">' + (data.mains ? 'Yes' : 'No') + '</td>' +
+      '<tr><td>Inverter Output</td><td class="table-right">' + (data.inverter ? 'Yes' : 'No') + '</td>' +
+      '<tr><td>Emergency Bank Voltage</td><td class="table-right">' + (data.serial.V / 1000).toFixed(2) + ' V' + '</td>' +
+      '<tr><td>Standby Bank Voltage</td><td class="table-right">' + (data.serial.VS / 1000).toFixed(2) + ' V' + '</td>' +
+      '<tr><td>Current</td><td class="table-right">' + (data.serial.I / 1000).toFixed(2) + ' A' + '</td>' +
+      '<tr><td>Power</td><td class="table-right">' + data.serial.P + ' W' + '</td>' +
+      '<tr><td>Consumed Energy</td><td class="table-right">' + (data.serial.CE / 1000).toFixed(2) + ' Ah' + '</td>';
+
+    $('#elv').html(html);
+  }
+
+  function updateELVP(data) {
+    var html = '<h3>ELVP</h3><table class="table"><tr><th>Name</th><th class="table-right">Value</th></tr>' +
+      '<tr><td>Mains Present</td><td class="table-right">' + (data.mains ? 'Yes' : 'No') + '</td>' +
+      '<tr><td>Inverter Output</td><td class="table-right">' + (data.inverter ? 'Yes' : 'No') + '</td>' +
+      '<tr><td>Emergency Bank Voltage</td><td class="table-right">' + (data.serial.V / 1000).toFixed(2) + ' V' + '</td>' +
+      '<tr><td>Standby Bank Voltage</td><td class="table-right">' + (data.serial.VS / 1000).toFixed(2) + ' V' + '</td>' +
+      '<tr><td>Current</td><td class="table-right">' + (data.serial.I / 1000).toFixed(2) + ' A' + '</td>' +
+      '<tr><td>Power</td><td class="table-right">' + data.serial.P + ' W' + '</td>' +
+      '<tr><td>Consumed Energy</td><td class="table-right">' + (data.serial.CE / 1000).toFixed(2) + ' Ah' + '</td>';
+
+    $('#elvp').html(html);
+  }
+
+  function updateAura(data) {
+    var html = '<h3>Aura-FX</h3><table class="table"><tr><th>Name</th><th class="table-right">Value</th></tr>';
+    for (var key in data) {
+      html += '<tr><td>' + data[key].gas_name + '</td>';
+      html += '<td class="table-right">' + data[key].gas_value + ' ' + data[key].gas_unit + '</td></tr>';
     }
+    html += '</table>';
+    $('#aura').html(html);
   }
 
   // Update charts, tables, and alarms after specified time. 
   setInterval(function () {
     $.get('/api/monitor/').then(function (data) {
-      updateCharts(data);
-      updateTables(data);
-      updateAlarms(data);
-      updateCams(data);
-      updateFGM(data);
+      if (data.series4) updateCharts(data.series4);
+      if (data.series4) updateTables(data.series4);
+      if (data.series4) updateAlarms(data.series4);
+      if (data.series3) updateSeries3(data.series3);
+      if (data.elv) updateELV(data.elv);
+      if (data.elvp) updateELVP(data.elvp);
+      if (data.cams) updateCams(data.cams);
+      if (data.aura) updateAura(data.aura);
     });
   }, updateInterval);
 });
