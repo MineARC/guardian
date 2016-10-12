@@ -25,7 +25,7 @@ block append content
             td.col-xs-7
               div.dropdown
                 button.btn.btn-info.dropdown-toggle(type='button' data-toggle='dropdown')
-                  span.num_subs= email.subscription.length
+                  span.num_subs
                   |  Subscriptions
                   span.caret
                 ul.alert.alert-default.dropdown-menu
@@ -36,13 +36,67 @@ block append content
                     label
                       button.btn.uncheck_all(type='button')
                         | Uncheck all
-                  each val, index in static_alarms
+                  if(elv)
                     li
-                      .checkbox
-                        label
-                          - var checked = email.subscription.indexOf(val) > -1
-                          input(type='checkbox' checked=(checked) data-index=(index))
-                          = val
+                      label
+                        b ELV
+                    each value, key in elv
+                      li
+                        .checkbox
+                          label
+                            input(type='checkbox' checked=(key in email.subscription.elv) data-type='elv' data-index=key)
+                            = key
+                  if(elvp)
+                    li
+                      label
+                        b ELVP
+                    each value, key in elvp
+                      li
+                        .checkbox
+                          label
+                            input(type='checkbox' checked=(key in email.subscription.elvp) data-type='elvp' data-index=key)
+                            = key
+                  if(series3)
+                    li
+                      label
+                        b Series4
+                    each value, key in series3
+                      li
+                        .checkbox
+                          label
+                            input(type='checkbox' checked=(key in email.subscription.series3) data-type='series3' data-index=key)
+                            = key
+                  if(series4)
+                    li
+                      label
+                        b Series4
+                    each value, key in series4
+                      li
+                        .checkbox
+                          label
+                            input(type='checkbox' checked=(key in email.subscription.series4) data-type='series4' data-index=key)
+                            = key
+                  if(cams)
+                    li
+                      label
+                        b CAMS
+                    each value, key in cams
+                      li
+                        .checkbox
+                          label
+                            input(type='checkbox' checked=(key in email.subscription.cams) data-type='cams' data-index=key)
+                            = key
+                  if(aura)
+                    li
+                      label
+                        b Aura-FX
+                    each value, key in aura
+                      li
+                        .checkbox
+                          label
+                            input(type='checkbox' checked=(key in email.subscription.aura) data-type='aura' data-index=key)
+                            = key
+                  
             td.col-xs-1
               .input-group
                 span

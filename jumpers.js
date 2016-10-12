@@ -1,8 +1,8 @@
 var rpio = require('rpio');
 
-rpio.open(36, rpio.INPUT, rpio.PULL_DOWN);
-rpio.open(32, rpio.INPUT, rpio.PULL_DOWN);
-rpio.open(37, rpio.INPUT, rpio.PULL_DOWN);
+rpio.open(36, rpio.INPUT, rpio.PULL_UP);
+rpio.open(32, rpio.INPUT, rpio.PULL_UP);
+rpio.open(37, rpio.INPUT, rpio.PULL_UP);
 rpio.open(40, rpio.INPUT, rpio.PULL_DOWN);
 rpio.open(38, rpio.INPUT, rpio.PULL_DOWN);
 

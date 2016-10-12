@@ -3,30 +3,22 @@ var cheerio = require('cheerio');
 var jq = require('jquery');
 var fs = require('fs');
 
-// Define object for access from where they are needed
-var timestamps = {
-  Temp: 0,
-  Humid: 0,
-  Press: 0,
-  O2: 0,
-  CO2: 0,
-  CO: 0,
-}
 var aura_alarms = {
-  'Oxygen Low': { state: false },
-  'Oxygen High': { state: false }
+  'Oxygen Low': { state: false, type: 'aura' },
+  'Oxygen High': { state: false, type: 'aura' }
 }
+
 var aura_data = {
-  Temp: { value: 0, unit: 'C' },
-  Humid: { value: 0, unit: '%' },
-  Press: { value: 0, unit: 'hPa' },
-  O2: { value: 0, unit: '%' },
-  CO2: { value: 0, unit: 'ppm' },
-  CO: { value: 0, unit: 'ppm' },
-  alarms: aura_alarms,
-  alarms_total: 0
+  Temp: { value: 0, unit: 'C', timestamp: 0 },
+  Humid: { value: 0, unit: '%', timestamp: 0 },
+  Press: { value: 0, unit: 'hPa', timestamp: 0 },
+  O2: { value: 0, unit: '%', timestamp: 0 },
+  CO2: { value: 0, unit: '%', timestamp: 0 },
+  CO: { value: 0, unit: 'ppm', timestamp: 0 },
 };
+
 exports.data = aura_data;
+exports.alarms = aura_alarms;
 
 // Spin up polling of backend services
 var aura_is_polling = true;
@@ -71,7 +63,7 @@ function processPage(data) {
     gas_value = jq(element).find('td').first().next().text();
     if (gas_name in aura_data) {
       aura_data[gas_name].value = gas_value;
-      timestamps[gas_name] = Date.now();
+      aura_data[gas_name].timestamp = Date.now();
     }
   });
 }

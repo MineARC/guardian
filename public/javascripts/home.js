@@ -83,7 +83,7 @@ $(document).ready(function ($) {
     }
   });
 
-  // Chamber temperature chart options
+  // Temperature chart options
   var chart_temp = new CanvasJS.Chart("graph-temp", {
     title: { text: "Temperature °C" },
     legend: {
@@ -122,32 +122,6 @@ $(document).ready(function ($) {
     }
   });
 
-  // // Outside temperature chart options
-  // var chart_outside = new CanvasJS.Chart("graph-outside", {
-  //   title: { text: "Outside temperature" },
-  //   data: [{
-  //     type: "line",
-  //     markerType: 'none',
-  //     dataPoints: outside_data
-  //   }],
-  //   axisX: {
-  //     title: 'Time',
-  //     interval: 1,
-  //     valueFormatString: " "
-  //   },
-  //   axisY: {
-  //     title: 'Temperature',
-  //     minimum: 0,
-  //     maximum: 60,
-  //     interval: 10,
-  //     stripLines: [{
-  //       startValue: 10,
-  //       endValue: 40,
-  //       color: "#C5E3BF"
-  //     }]
-  //   }
-  // });
-
   var xVal = 0;
   var yVal = 0;
   var updateInterval = 2000; // How often api is polled to update page
@@ -162,9 +136,29 @@ $(document).ready(function ($) {
     outside_data.push({ x: i, y: null });
   }
 
-  // Gets data from api relevent for the charts,
-  // updates the chart data, and renders the new data
-  function updateCharts(data) {
+  function updateSeries4(data) {
+    // Updates each element in each table with data from the api
+    $('#mode').find('b').text(data.mode);
+
+    $('#table-system-info').find('.row-info').each(function (index, element) {
+      $(element).text(data.system_information[index].row_info + ' ' + data.system_information[index].row_unit);
+    });
+
+    $('#table-fan-board-1').find('.row-info').each(function (index, element) {
+      $(element).text(data.fan_board_1[index].row_info + ' ' + data.fan_board_1[index].row_unit);
+    });
+
+    $('#table-fan-board-2').find('.row-info').each(function (index, element) {
+      $(element).text(data.fan_board_2[index].row_info + ' ' + data.fan_board_2[index].row_unit);
+    });
+
+    $('#table-current-loops').find('.row-info').each(function (index, element) {
+      $(element).text(data.current_loops[index].row_info + ' ' + data.current_loops[index].row_unit);
+    });
+
+
+    // Get data from api relevent for the charts,
+    // updates the chart data, and renders the new data
     yVal = parseFloat(data.system_information[0].row_info);
     mains_data.push({ x: xVal, y: yVal });
 
@@ -194,40 +188,18 @@ $(document).ready(function ($) {
     chart_temp.render();
   }
 
-  // Updates each element in each table with data from the api
-  function updateTables(data) {
-    $('#mode').find('b').text(data.mode);
-
-    $('#table-system-info').find('.row-info').each(function (index, element) {
-      $(element).text(data.system_information[index].row_info + ' ' + data.system_information[index].row_unit);
-    });
-
-    $('#table-fan-board-1').find('.row-info').each(function (index, element) {
-      $(element).text(data.fan_board_1[index].row_info + ' ' + data.fan_board_1[index].row_unit);
-    });
-
-    $('#table-fan-board-2').find('.row-info').each(function (index, element) {
-      $(element).text(data.fan_board_2[index].row_info + ' ' + data.fan_board_2[index].row_unit);
-    });
-
-    $('#table-current-loops').find('.row-info').each(function (index, element) {
-      $(element).text(data.current_loops[index].row_info + ' ' + data.current_loops[index].row_unit);
-    });
-  }
-
   // Updates the active alarms from the api
   function updateAlarms(data) {
     var html = '';
-    if (data.alarms_total > 0) {
-      data.alarms_active.forEach(function (alarm) {
-        html += '<p class="alert alert-danger">' + alarm;
-      });
+    for (key in data) {
+      if (data[key].state)
+        html += '<p class="alert alert-danger">' + key;
     }
     $('#alarms').html(html);
   }
 
   function updateCams(data) {
-    var html = '<h3>ELV</h3><table class="table"><tr><td>Occupied</td><td class="table-right">' + (data.occupied ? 'Yes' : 'No') + '</tr><tr><td>Airflow</td><td class="table-right">' + (data.solenoid ? 'No' : 'Yes') + '</td></tr><tr><td>Airflow Uptime</td><td class="table-right">' + (data.rate * 100).toFixed(2) + ' %</td></tr></table>';
+    var html = '<h3>CAMS</h3><table class="table"><tr><td>Occupied</td><td class="table-right">' + (data.occupied ? 'Yes' : 'No') + '</tr><tr><td>Airflow</td><td class="table-right">' + (data.solenoid ? 'No' : 'Yes') + '</td></tr><tr><td>Airflow Uptime</td><td class="table-right">' + (data.rate * 100).toFixed(2) + ' %</td></tr></table>';
     $('#cams').html(html);
   }
 
@@ -264,8 +236,8 @@ $(document).ready(function ($) {
   function updateAura(data) {
     var html = '<h3>Aura-FX</h3><table class="table"><tr><th>Name</th><th class="table-right">Value</th></tr>';
     for (var key in data) {
-      html += '<tr><td>' + data[key].gas_name + '</td>';
-      html += '<td class="table-right">' + data[key].gas_value + ' ' + data[key].gas_unit + '</td></tr>';
+      html += '<tr><td>' + key + '</td>';
+      html += '<td class="table-right">' + data[key].value + ' ' + data[key].unit + '</td></tr>';
     }
     html += '</table>';
     $('#aura').html(html);
@@ -274,14 +246,13 @@ $(document).ready(function ($) {
   // Update charts, tables, and alarms after specified time. 
   setInterval(function () {
     $.get('/api/monitor/').then(function (data) {
-      if (data.series4) updateCharts(data.series4);
-      if (data.series4) updateTables(data.series4);
-      if (data.series4) updateAlarms(data.series4);
-      if (data.series3) updateSeries3(data.series3);
       if (data.elv) updateELV(data.elv);
       if (data.elvp) updateELVP(data.elvp);
+      if (data.series3) updateSeries3(data.series3);
+      if (data.series4) updateSeries4(data.series4);
       if (data.cams) updateCams(data.cams);
       if (data.aura) updateAura(data.aura);
+      updateAlarms(data.alarms);
     });
   }, updateInterval);
 });

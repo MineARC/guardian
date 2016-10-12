@@ -1,5 +1,7 @@
 var express = require('express');
 var jumpers = require('../jumpers');
+if (jumpers.cams) var cams_polling = require('../cams_polling');
+if (jumpers.aura) var aura_polling = require('../aura_polling');
 if (jumpers.mode == 0) var elv_polling = require('../elv_polling');
 if (jumpers.mode == 1) var elvp_polling = require('../elvp_polling');
 if (jumpers.mode == 2) var series3_polling = require('../series3_polling');
@@ -7,73 +9,18 @@ if (jumpers.mode == 3) var series4_polling = require('../series4_polling');
 var db = require('../database')
 var router = express.Router();
 
-var alarms = ["SDCard failed on Display board",
-  "Internal log is full",
-  "Battery Rail has failed on Display board",
-  "SMPS Rail has failed on Display board",
-  "Fan board 1 has failed",
-  "Battery Rail has failed on Fan board 1",
-  "SMPS Rail has failed on Fan board 1",
-  "CO2 fan 1 has failed on Fan board 1",
-  "CO2 fan 2 has failed on Fan board 1",
-  "CO fan has failed on Fan board 1",
-  "Lighting has failed on Fan board 1",
-  "Siren has failed on Fan board 1",
-  "Green strobe light has failed on Fan board 1",
-  "Red strobe light has failed on Fan board 1",
-  "Yellow strobe light has failed on Fan board 1",
-  "Fan board 2 has failed",
-  "Battery Rail has failed on Fan board 2",
-  "SMPS Rail has failed on Fan board 2",
-  "CO2 fan 1 has failed on Fan board 2",
-  "CO2 fan 2 has failed on Fan board 2",
-  "CO fan has failed on Fan board 2",
-  "Lighting has failed on Fan board 2",
-  "Siren has failed on Fan board 2",
-  "Green strobe light has failed on Fan board 2",
-  "Red strobe light has failed on Fan board 2",
-  "Yellow strobe light has failed on Fan board 2",
-  "Current board has failed",
-  "Battery Rail has failed on Current board",
-  "SMPS Rail has failed on Current board",
-  "Current Loop 1 has failed",
-  "Current Loop 2 has failed",
-  "Current Loop 3 has failed",
-  "Current Loop 4 has failed",
-  "Current Loop 5 has failed",
-  "Current Loop 6 has failed",
-  "Voice board has failed",
-  "Battery Rail has failed on Voice board",
-  "SMPS Rail has failed on Voice board",
-  "SDCard has failed on Voice board",
-  "Speaker failed",
-  "General board has failed",
-  "Battery Rail has failed on General board",
-  "SMPS Rail has failed on General board",
-  "Chamber temperature failed",
-  "Outside temperature failed",
-  "Mains power has been disconnected",
-  "Inverter voltage has failed",
-  "Inverter fault signal has been detected",
-  "Battery board has failed",
-  "Battery power is unavailable",
-  "Battery discharge current failed",
-  "Battery charge current failed",
-  "Battery voltage failed",
-  "Battery temperature failed",
-  "Battery current failed",
-  "Load Test has failed"];
-
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   var data = {};
-  if (jumpers.mode == 0) data['elv'] = elv_polling.data;
-  if (jumpers.mode == 1) data['elvp'] = elvp_polling.data;
-  if (jumpers.mode == 2) data['series3'] = series3_polling.data;
-  if (jumpers.mode == 3) data['series4'] = series4_polling.data;
-  data['static_alarms'] = alarms;
+  if (jumpers.cams) data['cams'] = cams_polling.alarms;
+  if (jumpers.aura) data['aura'] = aura_polling.alarms;
+  if (jumpers.mode == 0) data['elv'] = elv_polling.alarms;
+  if (jumpers.mode == 1) data['elvp'] = elvp_polling.alarms;
+  if (jumpers.mode == 2) data['series3'] = series3_polling.alarms;
+  if (jumpers.mode == 3) data['series4'] = series4_polling.alarms;
   db.getAll(function (err, all) {
     data['emails'] = all;
+    console.log(all);
     res.render('notifications', data);
   });
 });
@@ -109,11 +56,49 @@ router.post('/saveSubscriptions', function (req, res, next) {
     return res.send('Invalid information supplied');
   }
 
-  var subs = [];
-  subscriptions.reduce(function (prev, curr, index) {
-    prev.push(alarms[subscriptions[index]]);
-    return prev;
-  }, subs);
+  var subs = {};
+  for (key in subscriptions) {
+    switch (key) {
+      case 'elv':
+        if (subscriptions[key].length > 0)
+          subs['elv'] = subscriptions[key].filter(function (element) {
+            return element in elv_polling.alarms;
+          });
+        break;
+      case 'elvp':
+        if (subscriptions[key].length > 0)
+          subs['elvp'] = subscriptions[key].filter(function (element) {
+            return element in elvp_polling.alarms;
+          });
+        break;
+      case 'series3':
+        if (subscriptions[key].length > 0)
+          subs['series3'] = subscriptions[key].filter(function (element) {
+            return element in elv_polling.alarms;
+          });
+        break;
+      case 'series4':
+        if (subscriptions[key].length > 0)
+          subs['series4'] = subscriptions[key].filter(function (element) {
+            return element in series4_polling.alarms;
+          });
+        break;
+      case 'cams':
+        if (subscriptions[key].length > 0)
+          subs['cams'] = subscriptions[key].filter(function (element) {
+            return element in cams_polling.alarms;
+          });
+        break;
+      case 'aura':
+        if (subscriptions[key].length > 0)
+          subs['aura'] = subscriptions[key].filter(function (element) {
+            return element in aura_polling.alarms;
+          });
+        break;
+      default:
+        break;
+    }
+  }
 
   db.setSubscription(email, subs, function (err, success) {
     if (err) {
@@ -151,9 +136,9 @@ router.post('/delEmail', function (req, res, next) {
   });
 });
 
-router.get('/getAlarms', function (req, res, next) {
-  res.send(alarms);
-});
+// router.get('/getAlarms', function (req, res, next) {
+//   res.send(alarms);
+// });
 
 function merge() {
   var args = Array.from(arguments);

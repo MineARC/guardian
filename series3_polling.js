@@ -5,35 +5,35 @@ var fs = require('fs');
 
 // Define object for access from where they are needed
 var series3_alarms = {
-  'Mains power has been disconnected': { state: false },
-  'Transformer has failed': { state: false },
-  'Battery temperature is outside safe limits': { state: false },
-  'Chamber temperature is outside safe limits': { state: false },
-  'Outside temperature is outside safe limits': { state: false },
-  'Fluorescent lighting has failed': { state: false },
-  'CO2 fan has failed': { state: false },
-  'CO fan has failed': { state: false },
-  'Red strobe light has failed': { state: false },
-  'Inverter current is outside safe limits': { state: false },
-  'Green strobe light has failed': { state: false },
-  'Siren has failed': { state: false },
-  'Inverter DC voltage is outside safe limits': { state: false },
-  'Loading self-test has failed': { state: false },
-  'Battery was not available during self-test': { state: false },
-  'Inverter AC voltage is outside safe limits': { state: false },
-  'SD card has been removed': { state: false },
-  'Low free storage space on EEPROM for logging': { state: false },
-  'Inverter has failed': { state: false },
+  'Mains power has been disconnected': { state: false, type: 'series3' },
+  'Transformer has failed': { state: false, type: 'series3' },
+  'Battery temperature is outside safe limits': { state: false, type: 'series3' },
+  'Chamber temperature is outside safe limits': { state: false, type: 'series3' },
+  'Outside temperature is outside safe limits': { state: false, type: 'series3' },
+  'Fluorescent lighting has failed': { state: false, type: 'series3' },
+  'CO2 fan has failed': { state: false, type: 'series3' },
+  'CO fan has failed': { state: false, type: 'series3' },
+  'Red strobe light has failed': { state: false, type: 'series3' },
+  'Inverter current is outside safe limits': { state: false, type: 'series3' },
+  'Green strobe light has failed': { state: false, type: 'series3' },
+  'Siren has failed': { state: false, type: 'series3' },
+  'Inverter DC voltage is outside safe limits': { state: false, type: 'series3' },
+  'Loading self-test has failed': { state: false, type: 'series3' },
+  'Battery was not available during self-test': { state: false, type: 'series3' },
+  'Inverter AC voltage is outside safe limits': { state: false, type: 'series3' },
+  'SD card has been removed': { state: false, type: 'series3' },
+  'Low free storage space on EEPROM for logging': { state: false, type: 'series3' },
+  'Inverter has failed': { state: false, type: 'series3' },
 };
 var series3_data = {
   name: 'Not Found',
   mode: 'Not Found',
   raw: [],
-  alarms: series3_alarms,
   alarms_total: 0
 };
 
 exports.data = series3_data;
+exports.alarms = series3_alarms;
 
 // Spin up polling of backend services
 var monitor_is_polling = true;
@@ -131,8 +131,8 @@ function processPage(data) {
     // If the alarm isnt hidden this will resolve to true
     alarm_status = !jq(element).hasClass('hide');
     // Add the alarms to the object
-    if (alarm_name in series3_data.alarms) {
-      series3_data.alarms[alarm_name].state = alarm_status;
+    if (alarm_name in series3_alarms) {
+      series3_alarms[alarm_name].state = alarm_status;
       if (alarm_status)
         alarms_total++;
     }

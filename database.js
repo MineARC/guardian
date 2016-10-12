@@ -89,7 +89,7 @@ exports.addEmail = function (email, subscription, callback) {
     return callback(new Error("Invalid input"));
   }
   else if (!subscription) {
-    subscription = [];
+    subscription = { elv: {}, elvp: {}, series3: {}, series4: {}, cams: {}, aura: {} };
   }
 
   db.serialize(function () {

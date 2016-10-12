@@ -2,6 +2,8 @@ var request = require('request');
 var nodemailer = require('nodemailer');
 var async = require('async');
 var jumpers = require('./jumpers');
+if (jumpers.cams) var cams_polling = require('./cams_polling');
+if (jumpers.aura) var aura_polling = require('./aura_polling');
 if (jumpers.mode == 0) var elv_polling = require('./elv_polling');
 if (jumpers.mode == 1) var elvp_polling = require('./elvp_polling');
 if (jumpers.mode == 2) var series3_polling = require('./series3_polling');
@@ -27,15 +29,19 @@ setInterval(function () {
 
 // Check the active alerts against the database and send out emails
 function poll_alerts(next) {
-  if (jumpers.mode == 0) var alarms = elv_polling.data.alarms;
-  if (jumpers.mode == 1) var alarms = elvp_polling.data.alarms;
-  if (jumpers.mode == 2) var alarms = series3_polling.data.alarms;
-  if (jumpers.mode == 3) var alarms = series4_polling.data.alarms;
+  var alarms = {};
+  if (jumpers.cams) alarms['cams'] = cams_polling.alarms;
+  if (jumpers.aura) alarms['aura'] = aura_polling.alarms;
+  if (jumpers.mode == 0) alarms['elv'] = elv_polling.alarms;
+  if (jumpers.mode == 1) alarms['elvp'] = elvp_polling.alarms;
+  if (jumpers.mode == 2) alarms['series3'] = series3_polling.alarms;
+  if (jumpers.mode == 3) alarms['series4'] = series4_polling.alarms;
 
   var alarms_active = [];
-  for (var alarm in alarms) {
-    if (alarms[alarm])
-      alarms_active.push(alarm);
+  for (var type in alarms) {
+    for (var alarm in alarms[type])
+      if (alarm.state)
+        alarms_active.push(alarm);
   }
 
   // If there are any active alarms retrive the database so we can continue with checks
@@ -87,23 +93,23 @@ function send_mail(fromName, fromAddress, to, subject, text, callback) {
 }
 
 // Called when the database returns with everything
-function get_all_callback(alarms, err, all) {
+function get_all_callback(alarms_active, err, all) {
   if (err) {
     return console.log(err.message);
   }
 
   // For each email in the database do checks individually
-  all.forEach(function (val) {
+  all.forEach(function (email) {
     var result = [];
     var send = false;
 
     // Check active alarms against alarms that the email is subscribed to
     // if they are subscribed and a message hasnt been sent recently
     // send them a new email for all active alarms.
-    underscore.intersection(alarms, val.subscription)
+    underscore.intersection(alarms_active, email.subscription)
       .reduce(function (prev, curr) {
         // Check if alarm has never been sent or if its due to be sent
-        if (!val.sent[curr] || val.sent[curr] <= Date.now()) {
+        if (!email.sent[curr] || email.sent[curr] <= Date.now()) {
           send = true;
         }
         prev.push(curr);
@@ -112,13 +118,13 @@ function get_all_callback(alarms, err, all) {
 
     // If any active alarms meet the test to be sent, send     
     if (send) {
-      var sent = val.sent;
+      var sent = email.sent;
       result.reduce(function (prev, curr) {
         sent[curr] = Date.now() + 300000;
         return prev;
       }, sent);
       // Send mail for alarms and update database afterwards
-      send_mail('Guardian', 'guardian@minearc.com.au', val.email, 'Guardian', format_alarms(alarms), send_mail_callback.bind(null, val.email, sent));
+      send_mail('Guardian', 'guardian@minearc.com.au', email.email, 'Guardian', format_alarms(alarms_active), send_mail_callback.bind(null, email.email, sent));
     }
   });
 }

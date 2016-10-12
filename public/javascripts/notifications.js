@@ -54,7 +54,7 @@ $(document).ready(function ($) {
     var email = $(this).data('email');
     var subscriptions = [];
     $(element).closest('tr').find('input:checkbox:checked').each(function (index, element) {
-      subscriptions.push($(element).data('index'));
+      subscriptions.push({name: $(element).data('index'), type: $(element).data('type')});
     });
     $.post('/notifications/saveSubscriptions', { email: email, subscriptions: JSON.stringify(subscriptions) }).then(function () {
       $(element).closest('tr').find('.btn-delete').parent().removeClass('input-group-btn');
@@ -89,4 +89,9 @@ $(document).ready(function ($) {
       }
     });
   }
+
+  $('ul.dropdown-menu').each(function (index, value) {
+    var length = $(value).closest('ul.dropdown-menu').find('input:checkbox:checked').length;
+    $(value).closest('div.dropdown').find('.num_subs').text(length);
+  });
 });

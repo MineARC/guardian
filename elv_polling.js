@@ -5,12 +5,17 @@ var db = require('./database');
 var mains_pin = 33;
 var inverter_pin = 35;
 
+var delay = 2000;
+var next = 0;
+
 rpio.open(mains_pin, rpio.INPUT, rpio.PULL_DOWN);
 rpio.open(inverter_pin, rpio.INPUT, rpio.PULL_DOWN);
+
 var elv_alarms = {
-  'Low Battery Voltage': { state: false },
-  'No Mains Power': { state: false }
+  'Low Battery Voltage': { state: false, type: 'elv' },
+  'No Mains Power': { state: false, type: 'elv' }
 };
+
 var elv_data = {
   mains: false,
   inverter: false,
@@ -45,10 +50,11 @@ var elv_data = {
     H17: '',
     H18: ''
   },
-  alarms: elv_alarms,
   alarms_total: 0
 }
+
 exports.data = elv_data;
+exports.alarms = elv_alarms;
 
 var battMon = new serialport('/dev/ttyS0', {
   baudRate: 19200,
@@ -73,7 +79,9 @@ function sendSerialData(data) {
     elv_data.serial[v[0]] = v[1];
   }
 
-  if (v[0] == 'H18') {
+  if (v[0] == 'H18' && next <= Date.now()) {
+    updateAlarms();
+    next = Date.now() + delay;
     exports.data = elv_data;
     db.addMonitorData(0, elv_data, function (err, success) {
       if (err)
@@ -108,6 +116,23 @@ function pollPins(pin) {
       break;
   }
 }
+
+function updateAlarms() {
+  var alarms_totals = 0;
+  elv_alarms['Low Battery Voltage'] = elv_data.serial.Relay == 'ON';
+  elv_alarms['No Mains Power'] = !elv_data.mains;
+
+  for (key in elv_alarms) {
+    if (elv_alarms[key]) {
+      alarms_totals++;
+    }
+  }
+
+  elv_data.alarms_totals = alarms_totals;
+}
+
+elv_data.mains = !!rpio.read(mains_pin);
+elv_data.inverter = !!rpio.read(inverter_pin);
 
 rpio.poll(mains_pin, pollPins);
 rpio.poll(inverter_pin, pollPins);
