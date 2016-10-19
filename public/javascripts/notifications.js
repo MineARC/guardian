@@ -52,9 +52,11 @@ $(document).ready(function ($) {
   $('.btn-save').click(function (event) {
     var element = this;
     var email = $(this).data('email');
-    var subscriptions = [];
+    var subscriptions = {};
     $(element).closest('tr').find('input:checkbox:checked').each(function (index, element) {
-      subscriptions.push({name: $(element).data('index'), type: $(element).data('type')});
+      if (!($(element).data('type') in subscriptions))
+        subscriptions[$(element).data('type')] = [];
+      subscriptions[$(element).data('type')].push($(element).data('index'));
     });
     $.post('/notifications/saveSubscriptions', { email: email, subscriptions: JSON.stringify(subscriptions) }).then(function () {
       $(element).closest('tr').find('.btn-delete').parent().removeClass('input-group-btn');

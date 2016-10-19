@@ -4,6 +4,17 @@ var jq = require('jquery');
 var fs = require('fs');
 var db = require('./database');
 
+setInterval(poll_database, 10000);
+
+function poll_database() {
+  db.getMonitorData(3, function (err, data) {
+    if (err) {
+      return console.log(err.message);
+    }
+    exports.history = data;
+  });
+}
+
 // Define object for access from where they are needed
 var series4_alarms = {
   'SDCard failed on Display board': { state: false, type: 'series4' },
@@ -67,28 +78,16 @@ var series4_data = {
   name: 'Not Found',
   mode: 'Not Found',
   system_information: [],
-  fan_board_1: [],
-  alarms_total: 0
+  fan_board_1: []
 };
 
 exports.data = series4_data;
 exports.alarms = series4_alarms;
 
 // Spin up polling of backend services
-var monitor_is_polling = true;
-poll_monitor(function () {
-  monitor_is_polling = false;
-});
-setInterval(function () {
-  if (!monitor_is_polling) {
-    monitor_is_polling = true;
-    poll_monitor(function () {
-      monitor_is_polling = false;
-    });
-  }
-}, 5000);
+setInterval(poll_monitor, 10000);
 
-function poll_monitor(next) {
+function poll_monitor() {
   var request_options = {
     url: 'http://localhost/pt/monitor/',
     proxy: ''
@@ -97,17 +96,6 @@ function poll_monitor(next) {
   request.get(request_options, function (err, res, body) {
     if (!err && (res.statusCode == 200 || res.statusCode == 304)) {
       processPage(body);
-      next();
-    } else {
-      // Using file reader during testing with monitor off
-      fs.readFile('series4.html', 'utf8', function (err, data) {
-        if (err) {
-          console.log('something went wrong in the polling service');
-          return next();
-        }
-        processPage(data);
-        next();
-      });
     }
   });
 }
@@ -146,7 +134,6 @@ function processPage(data) {
     // Use html() here also for reasons
     row_info = jq(element).next().html();
     if (row_info != null) {
-      // console.log(row_info);
       row_unit = row_info.match(/(V|A|C|F|ppm)$/g);
       if (row_unit)
         row_unit = row_unit[0];
@@ -199,7 +186,6 @@ function processPage(data) {
   // Create an object to store the alarms
   var alarm_name = '';
   var alarm_status = false;
-  var alarms_total = 0;
   // Itterate over each of the alarms so they can be added
   jq('#alarms > p').each(function (index, element) {
     // Name is the label that shows for each error
@@ -209,13 +195,18 @@ function processPage(data) {
     // Add the alarms to the object
     if (alarm_name in series4_alarms) {
       series4_alarms[alarm_name].status = alarm_status;
-      if (alarm_status)
-        alarms_total++;
     }
   });
-  series4_data.alarms_total = alarms_total;
 
-  db.addMonitorData(3, series4_data, function (err, success) {
+  var graph_data = {
+    Mains: parseFloat(series4_data.system_information[0].row_info),
+    Battery: parseFloat(series4_data.system_information[1].row_info),
+    Inverter: parseFloat(series4_data.system_information[2].row_info),
+    Chamber: parseFloat(series4_data.system_information[5].row_info),
+    Outside: parseFloat(series4_data.system_information[6].row_info)
+  }
+
+  db.addMonitorData(3, graph_data, function (err, success) {
     if (err)
       return console.log(err.message);
   });

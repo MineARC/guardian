@@ -7,7 +7,7 @@ var exports = module.exports;
 var db = require('./database');
 
 // Define object for access from where they are needed
-exports.hosts_data = { systems: '' };
+exports.hosts_data = [];
 
 var database_is_polling = true;
 poll_database(function () {
@@ -28,7 +28,7 @@ function poll_database(next) {
     if (err) {
       return console.log(err.message);
     }
-    exports.hosts_data = { systems: data };
+    exports.hosts_data = data;
     next();
   });
 }

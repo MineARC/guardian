@@ -2,9 +2,8 @@ var express = require('express');
 var jumpers = require('../jumpers');
 var router = express.Router();
 
-/* GET internal camera */
 router.get('/', function (req, res, next) {
-  var data = {}
+  var data = {};
   if (jumpers.cams) data['cams'] = true;
   if (jumpers.aura) data['aura'] = true;
   if (jumpers.extn) data['extn'] = true;
@@ -12,7 +11,7 @@ router.get('/', function (req, res, next) {
   if (jumpers.mode == 1) data['elvp'] = true;
   if (jumpers.mode == 2) data['series3'] = true;
   if (jumpers.mode == 3) data['series4'] = true;
-  res.render('camera_internal', data);
+  res.render('settings', data);
 });
 
 module.exports = router;

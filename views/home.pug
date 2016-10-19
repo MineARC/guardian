@@ -45,3 +45,18 @@ block prepend styles
             
 block prepend scripts
   script(src='/javascripts/home.js')
+  script(src='/javascripts/camera_internal.js')
+  if(extn)
+    script(src='/javascripts/camera_external.js')
+  if(elv)
+    script(src='/javascripts/elv.js')
+  if(elvp)
+    script(src='/javascripts/elvp.js')
+  if(series3)
+    script(src='/javascripts/series3.js')
+  if(series4)
+    script(src='/javascripts/series4.js')
+  if(cams)
+    script(src='/javascripts/cams.js')
+  if(aura)
+    script(src='/javascripts/aura.js')

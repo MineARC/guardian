@@ -5,10 +5,7 @@ div.col-xs-12.col-md-6#aura
       th Name
       th.table-right Value
     each gas, key in aura
-      tr
-        td= key
-        td.table-right #{gas.value} #{gas.unit}
-
-block append styles
-            
-block append scripts
+      if(gas.isRecent)
+        tr
+          td= key
+          td.table-right #{gas.value} #{gas.unit}

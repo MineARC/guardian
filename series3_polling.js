@@ -28,8 +28,7 @@ var series3_alarms = {
 var series3_data = {
   name: 'Not Found',
   mode: 'Not Found',
-  raw: [],
-  alarms_total: 0
+  raw: []
 };
 
 exports.data = series3_data;
@@ -122,7 +121,6 @@ function processPage(data) {
   // Create an object to store the alarms
   var alarm_name = '';
   var alarm_status = false;
-  var alarms_total = 0;
   // Itterate over each of the alarms so they can be added
   jq('#alarms > p').each(function (index, element) {
     // Name is the label that shows for each error
@@ -133,11 +131,8 @@ function processPage(data) {
     // Add the alarms to the object
     if (alarm_name in series3_alarms) {
       series3_alarms[alarm_name].state = alarm_status;
-      if (alarm_status)
-        alarms_total++;
     }
   });
-  series3_data.alarms_total = alarms_total;
 
   db.addMonitorData(2, series3_data, function (err, success) {
     if (err)

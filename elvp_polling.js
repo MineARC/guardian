@@ -5,8 +5,19 @@ var db = require('./database');
 var mains_pin = 33;
 var inverter_pin = 35;
 
-var delay = 2000;
-var next = 0;
+var delay = 10000;
+var next = Date.now();
+
+setInterval(poll_database, 10000);
+
+function poll_database() {
+  db.getMonitorData(1, function (err, data) {
+    if (err) {
+      return console.log(err.message);
+    }
+    exports.history = data;
+  });
+}
 
 rpio.open(mains_pin, rpio.INPUT, rpio.PULL_DOWN);
 rpio.open(inverter_pin, rpio.INPUT, rpio.PULL_DOWN);
@@ -48,8 +59,7 @@ var elvp_data = {
     H16: '',
     H17: '',
     H18: ''
-  },
-  alarms_total: 0
+  }
 }
 
 exports.data = elvp_data;
@@ -71,7 +81,6 @@ function showPortOpen() {
 }
 
 function sendSerialData(data) {
-  //console.log(data);
   var v = data.split('\t');
 
   if (v[0] in elvp_data.serial) {
@@ -82,7 +91,8 @@ function sendSerialData(data) {
     updateAlarms();
     next = Date.now() + delay;
     exports.data = elvp_data;
-    db.addMonitorData(1, elvp_data, function (err, success) {
+    var graph_data = { V: +((elvp_data.serial.V / 1000).toFixed(2)), VS: +((elvp_data.serial.VS / 1000).toFixed(2)), I: +((elvp_data.serial.I / 1000).toFixed(2)) }
+    db.addMonitorData(1, graph_data, function (err, success) {
       if (err)
         return console.log(err.message);
     });
@@ -104,8 +114,6 @@ serialport.list(function (err, ports) {
 });
 
 function pollPins(pin) {
-  console.log(pin);
-  console.log(rpio.read(pin));
   switch (pin) {
     case mains_pin:
       elvp_data.mains = !!rpio.read(pin);
@@ -117,16 +125,7 @@ function pollPins(pin) {
 }
 
 function updateAlarms() {
-  var alarms_totals = 0;
-  elvp_alarms['Low Battery Voltage'] = elvp_data.serial.Relay == 'ON';
-
-  for (key in elvp_alarms) {
-    if (elvp_alarms[key]) {
-      alarms_totals++;
-    }
-  }
-
-  elvp_data.alarms_totals = alarms_totals;
+  elvp_alarms['Low Battery Voltage'].state = elvp_data.serial.Relay == 'ON';
 }
 
 elvp_data.mains = !!rpio.read(mains_pin);

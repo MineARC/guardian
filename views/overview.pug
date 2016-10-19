@@ -8,29 +8,40 @@ block append content
       table(id='overview_table' class='table')
         tr
           th.col-xs-2 System
-          th.col-xs-2 IP Address
+          th.col-xs-2 Type
           th.col-xs-2 Alarms
-          th.col-xs-2 Mode
+          //- th.col-xs-2 Mode
           th.col-xs-2 Status
         if(hosts)
           each host in hosts
             tr.overview-row
               td
                 a(href='//' + host.hostname + '/dashboard')= host.hostname
-              //- td
-              //-   a(href='//' + host.ip + '/dashboard')= host.ip
+              td
+                 case host.type
+                  when 0 
+                    | ELV
+                  when 1 
+                    | ELVP
+                  when 2 
+                    | Series 3
+                  when 3 
+                    | Series 4
+                  default
+                    | Unknown
               td
                 div.dropdown
                   button.btn.btn-info.btn-sm.dropdown-toggle(type='button' data-toggle='dropdown')
                     span.num_subs= host.alarms_total
                   if(host.alarms_total > 0)
                     ul.alert.alert-danger.col-xs-12.dropdown-menu
-                      each val in host.alarms_active
-                        li= val
+                      each t in host.alarms_active
+                        each val in t
+                          li= val
                   else
                     ul.alert.alert-info.col-xs-12.dropdown-menu
                       | Everything is fine
-              td= host.mode
+              //- td= host.mode
               if(host.alarms_total > 0)
                 td
                   img(src='/images/Error.png')

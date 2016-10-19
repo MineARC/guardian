@@ -14,13 +14,13 @@ router.get('/', function (req, res, next) {
   var data = {};
   if (jumpers.cams) data['cams'] = cams_polling.alarms;
   if (jumpers.aura) data['aura'] = aura_polling.alarms;
+  if (jumpers.extn) data['extn'] = true;
   if (jumpers.mode == 0) data['elv'] = elv_polling.alarms;
   if (jumpers.mode == 1) data['elvp'] = elvp_polling.alarms;
   if (jumpers.mode == 2) data['series3'] = series3_polling.alarms;
   if (jumpers.mode == 3) data['series4'] = series4_polling.alarms;
   db.getAll(function (err, all) {
     data['emails'] = all;
-    console.log(all);
     res.render('notifications', data);
   });
 });

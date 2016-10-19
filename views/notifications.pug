@@ -44,7 +44,7 @@ block append content
                       li
                         .checkbox
                           label
-                            input(type='checkbox' checked=(key in email.subscription.elv) data-type='elv' data-index=key)
+                            input(type='checkbox' checked=(email.subscription.elv && email.subscription.elv.indexOf(key) > -1) data-type='elv' data-index=key)
                             = key
                   if(elvp)
                     li
@@ -54,7 +54,7 @@ block append content
                       li
                         .checkbox
                           label
-                            input(type='checkbox' checked=(key in email.subscription.elvp) data-type='elvp' data-index=key)
+                            input(type='checkbox' checked=(email.subscription.elvp && email.subscription.elvp).indexOf(key) > -1 data-type='elvp' data-index=key)
                             = key
                   if(series3)
                     li
@@ -64,7 +64,7 @@ block append content
                       li
                         .checkbox
                           label
-                            input(type='checkbox' checked=(key in email.subscription.series3) data-type='series3' data-index=key)
+                            input(type='checkbox' checked=(email.subscription.series3 && email.subscription.series3.indexOf(key) > -1) data-type='series3' data-index=key)
                             = key
                   if(series4)
                     li
@@ -74,7 +74,7 @@ block append content
                       li
                         .checkbox
                           label
-                            input(type='checkbox' checked=(key in email.subscription.series4) data-type='series4' data-index=key)
+                            input(type='checkbox' checked=(email.subscription.series4 && email.subscription.series4.indexOf(key) > -1) data-type='series4' data-index=key)
                             = key
                   if(cams)
                     li
@@ -84,7 +84,7 @@ block append content
                       li
                         .checkbox
                           label
-                            input(type='checkbox' checked=(key in email.subscription.cams) data-type='cams' data-index=key)
+                            input(type='checkbox' checked=(email.subscription.cams && email.subscription.cams.indexOf(key) > -1) data-type='cams' data-index=key)
                             = key
                   if(aura)
                     li
@@ -94,7 +94,7 @@ block append content
                       li
                         .checkbox
                           label
-                            input(type='checkbox' checked=(key in email.subscription.aura) data-type='aura' data-index=key)
+                            input(type='checkbox' checked=(email.subscription.aura && email.subscription.aura.indexOf(key) > -1) data-type='aura' data-index=key)
                             = key
                   
             td.col-xs-1

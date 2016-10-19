@@ -14,22 +14,22 @@ db.serialize(function () {
     db.run("CREATE TABLE Guardians (name TEXT UNIQUE, status BLOB, lastseen DATETIME)");
 
     db.run("CREATE TABLE ELV (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER ELV_Cleanup AFTER INSERT ON ELV BEGIN DELETE FROM ELV WHERE time <= datetime('now', '-30 second'); END");
+    db.run("CREATE TRIGGER ELV_Cleanup AFTER INSERT ON ELV BEGIN DELETE FROM ELV WHERE time <= datetime('now', '-1 hour'); END");
 
     db.run("CREATE TABLE ELVP (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER ELVP_Cleanup AFTER INSERT ON ELVP BEGIN DELETE FROM ELVP WHERE time <= datetime('now', '-30 second'); END");
+    db.run("CREATE TRIGGER ELVP_Cleanup AFTER INSERT ON ELVP BEGIN DELETE FROM ELVP WHERE time <= datetime('now', '-1 hour'); END");
 
     db.run("CREATE TABLE Series3 (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER Series3_Cleanup AFTER INSERT ON Series3 BEGIN DELETE FROM Series3 WHERE time <= datetime('now', '-30 second'); END");
+    db.run("CREATE TRIGGER Series3_Cleanup AFTER INSERT ON Series3 BEGIN DELETE FROM Series3 WHERE time <= datetime('now', '-1 hour'); END");
 
     db.run("CREATE TABLE Series4 (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER Series4_Cleanup AFTER INSERT ON Series4 BEGIN DELETE FROM Series4 WHERE time <= datetime('now', '-30 second'); END");
+    db.run("CREATE TRIGGER Series4_Cleanup AFTER INSERT ON Series4 BEGIN DELETE FROM Series4 WHERE time <= datetime('now', '-1 hour'); END");
 
     db.run("CREATE TABLE CAMS (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER CAMS_Cleanup AFTER INSERT ON CAMS BEGIN DELETE FROM CAMS WHERE time <= datetime('now', '-30 second'); END");
+    db.run("CREATE TRIGGER CAMS_Cleanup AFTER INSERT ON CAMS BEGIN DELETE FROM CAMS WHERE time <= datetime('now', '-1 hour'); END");
 
     db.run("CREATE TABLE Aura (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER Aura_Cleanup AFTER INSERT ON Aura BEGIN DELETE FROM Aura WHERE time <= datetime('now', '-30 second'); END");
+    db.run("CREATE TRIGGER Aura_Cleanup AFTER INSERT ON Aura BEGIN DELETE FROM Aura WHERE time <= datetime('now', '-1 hour'); END");
   }
 });
 
@@ -85,11 +85,11 @@ exports.getEmails = function (callback) {
 
 // Adds a email to the database with supplied subscription list and empty sent status
 exports.addEmail = function (email, subscription, callback) {
-  if (!email) {
+  if (email == null) {
     return callback(new Error("Invalid input"));
   }
   else if (!subscription) {
-    subscription = { elv: {}, elvp: {}, series3: {}, series4: {}, cams: {}, aura: {} };
+    subscription = {};
   }
 
   db.serialize(function () {
@@ -108,7 +108,7 @@ exports.addEmail = function (email, subscription, callback) {
 // Removes given email
 exports.removeEmail = function (email, callback) {
   db.serialize(function () {
-    if (!email) {
+    if (email == null) {
       return callback(new Error("Invalid input"));
     }
 
@@ -121,7 +121,7 @@ exports.removeEmail = function (email, callback) {
 // Changes the email of an entry
 exports.setEmail = function (email, update, callback) {
   db.serialize(function () {
-    if (!email || !update) {
+    if (email == null || update == null) {
       return callback(new Error("Invalid input"));
     }
 
@@ -134,7 +134,7 @@ exports.setEmail = function (email, update, callback) {
 // Gets the subscription of the given email
 exports.getSubscription = function (email, callback) {
   db.serialize(function () {
-    if (!email) {
+    if (email == null) {
       return callback(new Error("Invalid input"));
     }
 
@@ -147,7 +147,7 @@ exports.getSubscription = function (email, callback) {
 // Updates the subscription of the given email
 exports.setSubscription = function (email, subscription, callback) {
   db.serialize(function () {
-    if (!email || !subscription) {
+    if (email == null || subscription == null) {
       return callback(new Error("Invalid input"));
     }
 
@@ -164,7 +164,7 @@ exports.setSubscription = function (email, subscription, callback) {
 // Gets the sent state of the given email
 exports.getSent = function (email, callback) {
   db.serialize(function () {
-    if (!email) {
+    if (email == null) {
       return callback(new Error("Invalid input"));
     }
 
@@ -177,7 +177,7 @@ exports.getSent = function (email, callback) {
 // Updates the sent state of the given email
 exports.setSent = function (email, sent, callback) {
   db.serialize(function () {
-    if (!email || !sent) {
+    if (email == null || sent == null) {
       return callback(new Error("Invalid input"));
     }
 
@@ -192,7 +192,7 @@ exports.setSent = function (email, sent, callback) {
 }
 
 exports.addGuardian = function (name, status, callback) {
-  if (!name) {
+  if (name == null) {
     return callback(new Error("Invalid input"));
   }
   else if (!status) {
@@ -212,17 +212,13 @@ exports.addGuardian = function (name, status, callback) {
 
 exports.getRecentGuardians = function (callback) {
   db.serialize(function () {
-    db.all("SELECT name, status FROM Guardians WHERE lastseen >= datetime('now', '-5 minutes')", function (err, rows) {
+    db.all("SELECT name, status FROM Guardians WHERE lastseen >= datetime('now', '-5 minutes') ORDER BY name", function (err, rows) {
       var all = [];
       if (rows) {
         rows.reduce(function (prev, curr) {
           prev.push(JSON.parse(curr.status));
           return prev;
         }, all);
-        all.sort(function (a, b) {
-          return a.hostname.localeCompare(b.hostname);
-        })
-        console.log(all);
       }
       callback(err, all);
     });
@@ -230,7 +226,7 @@ exports.getRecentGuardians = function (callback) {
 }
 
 exports.addMonitorData = function (type, data, callback) {
-  if (!data) {
+  if (data == null) {
     return callback(new Error("Invalid input"));
   }
 
@@ -249,6 +245,12 @@ exports.addMonitorData = function (type, data, callback) {
       case 3:
         monitor = "Series4";
         break;
+      case 4:
+        monitor = "CAMS";
+        break;
+      case 5:
+        monitor = "AURA";
+        break;
       default:
         return callback(new Error("Invalid input"));
     }
@@ -256,7 +258,6 @@ exports.addMonitorData = function (type, data, callback) {
     if (typeof data !== "string") {
       data = JSON.stringify(data);
     }
-
     db.run("INSERT INTO " + monitor + " VALUES (?, datetime())", data, function (err) {
       return callback(err, this.lastID > 0);
     });
@@ -264,12 +265,12 @@ exports.addMonitorData = function (type, data, callback) {
 }
 
 exports.getMonitorData = function (type, callback) {
-  if (!type) {
+  if (type == null) {
     return callback(new Error("Invalid input"));
   }
 
   db.serialize(function () {
-    var monitor;
+    var monitor = "";
     switch (type) {
       case 0:
         monitor = "ELV";
@@ -284,15 +285,21 @@ exports.getMonitorData = function (type, callback) {
       default:
         monitor = "Series4";
         break;
+      case 4:
+        monitor = "CAMS";
+        break;
+      case 5:
+        monitor = "AURA";
+        break;
     }
-    db.all("SELECT data, time  FROM " + monitor + " WHERE time >= datetime('now', '-1 hour')", function (err) {
+    db.all("SELECT data, strftime('%s', time) AS seconds FROM " + monitor + " WHERE time >= datetime('now', '-1 hour') ORDER BY seconds", function (err, rows) {
       var all = [];
       if (rows) {
-        rows.reduce(function (prev, curr) {
-          prev.push(JSON.parse(curr.status));
-          return prev;
-        }, all);
-        console.log(all);
+        for (var i = 0; i < rows.length; i++) {
+          var event = JSON.parse(rows[i].data);
+          event.Time = +(rows[i].seconds);
+          all.push(event);
+        }
       }
       callback(err, all);
     });

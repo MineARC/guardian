@@ -5,15 +5,26 @@ var db = require('./database');
 var mains_pin = 33;
 var inverter_pin = 35;
 
-var delay = 2000;
-var next = 0;
+var delay = 10000;
+var next = Date.now();
+
+setInterval(poll_database, 10000);
+
+function poll_database() {
+  db.getMonitorData(0, function (err, data) {
+    if (err) {
+      return console.log(err.message);
+    }
+    exports.history = data;
+  });
+}
 
 rpio.open(mains_pin, rpio.INPUT, rpio.PULL_DOWN);
 rpio.open(inverter_pin, rpio.INPUT, rpio.PULL_DOWN);
 
 var elv_alarms = {
   'Low Battery Voltage': { state: false, type: 'elv' },
-  'No Mains Power': { state: false, type: 'elv' }
+  'No Mains Power': { state: false, type: 'elv' },
 };
 
 var elv_data = {
@@ -49,8 +60,7 @@ var elv_data = {
     H16: '',
     H17: '',
     H18: ''
-  },
-  alarms_total: 0
+  }
 }
 
 exports.data = elv_data;
@@ -72,18 +82,18 @@ function showPortOpen() {
 }
 
 function sendSerialData(data) {
-  //console.log(data);
   var v = data.split('\t');
 
   if (v[0] in elv_data.serial) {
     elv_data.serial[v[0]] = v[1];
   }
 
-  if (v[0] == 'H18' && next <= Date.now()) {
+  if (v[0] == 'H18' && next <= Date.now() && elv_data.V != '') {
     updateAlarms();
-    next = Date.now() + delay;
+    next += delay;
     exports.data = elv_data;
-    db.addMonitorData(0, elv_data, function (err, success) {
+    var graph_data = { V: +((elv_data.serial.V / 1000).toFixed(2)), VS: +((elv_data.serial.VS / 1000).toFixed(2)), I: +((elv_data.serial.I / 1000).toFixed(2)) }
+    db.addMonitorData(0, graph_data, function (err, success) {
       if (err)
         return console.log(err.message);
     });
@@ -105,8 +115,6 @@ serialport.list(function (err, ports) {
 });
 
 function pollPins(pin) {
-  console.log(pin);
-  console.log(rpio.read(pin));
   switch (pin) {
     case mains_pin:
       elv_data.mains = !!rpio.read(pin);
@@ -118,17 +126,8 @@ function pollPins(pin) {
 }
 
 function updateAlarms() {
-  var alarms_totals = 0;
-  elv_alarms['Low Battery Voltage'] = elv_data.serial.Relay == 'ON';
-  elv_alarms['No Mains Power'] = !elv_data.mains;
-
-  for (key in elv_alarms) {
-    if (elv_alarms[key]) {
-      alarms_totals++;
-    }
-  }
-
-  elv_data.alarms_totals = alarms_totals;
+  elv_alarms['Low Battery Voltage'].state = elv_data.serial.Relay == 'ON';
+  elv_alarms['No Mains Power'].state = !elv_data.mains;
 }
 
 elv_data.mains = !!rpio.read(mains_pin);

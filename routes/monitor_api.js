@@ -17,7 +17,6 @@ router.get('/', function (req, res, next) {
     }
   }
   if (jumpers.aura) {
-    var data = aura_polling.data.filter(function (value, index) { value.timestamp >= Date.now() - 120000 });
     data['aura'] = aura_polling.data;
     for (var key in aura_polling.alarms) {
       data.alarms[key] = aura_polling.alarms[key];
@@ -48,6 +47,18 @@ router.get('/', function (req, res, next) {
     }
   }
   res.json(data);
+});
+
+router.get('/history', function (req, res, next) {
+  var history = {};
+  if (jumpers.cams) history['cams'] = cams_polling.history;
+  if (jumpers.aura) history['aura'] = aura_polling.history;
+  if (jumpers.mode == 0) history['elv'] = elv_polling.history;
+  if (jumpers.mode == 1) history['elvp'] = elvp_polling.history;
+  if (jumpers.mode == 2) history['series3'] = series3_polling.history;
+  if (jumpers.mode == 3) history['series4'] = series4_polling.history;
+
+  res.json(history);
 });
 
 module.exports = router;

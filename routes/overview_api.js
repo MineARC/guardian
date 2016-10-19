@@ -14,11 +14,28 @@ router.get('/', function (req, res, next) {
   var data = {};
   data['guardian'] = true;
   data['hostname'] = os.hostname();
+  data['alias'] = '';
   data['type'] = jumpers.mode;
-  if (jumpers.mode == 0) data['elv'] = elv_polling.data;
-  if (jumpers.mode == 1) data['elvp'] = elvp_polling.data;
-  if (jumpers.mode == 2) data['series3'] = series3_polling.data;
-  if (jumpers.mode == 3) data['series4'] = series4_polling.data;
+  var alarms = {};
+  if (jumpers.cams) alarms['cams'] = cams_polling.alarms;
+  if (jumpers.aura) alarms['aura'] = aura_polling.alarms;
+  if (jumpers.mode == 0) alarms['elv'] = elv_polling.alarms;
+  if (jumpers.mode == 1) alarms['elvp'] = elvp_polling.alarms;
+  if (jumpers.mode == 2) alarms['series3'] = series3_polling.alarms;
+  if (jumpers.mode == 3) alarms['series4'] = series4_polling.alarms;
+  var alarms_active = {};
+  var alarms_total = 0;
+  for (var type in alarms) {
+    alarms_active[type] = [];
+    for (var alarm in alarms[type]) {
+      if (alarms[type][alarm].state) {
+        alarms_active[type].push(alarm);
+        alarms_total++;
+      }
+    }
+  }
+  data['alarms_total'] = alarms_total;
+  data['alarms_active'] = alarms_active;
   res.json(data);
 });
 

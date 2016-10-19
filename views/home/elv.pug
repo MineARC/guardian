@@ -25,7 +25,8 @@ div.col-xs-12.col-md-6#elv
     tr
       td.row-name Consumed Energy
       td.table-right.row-info= (elv.serial.CE / 1000).toFixed(2) + ' Ah'
-      
-block append styles
-            
-block append scripts
+
+div.col-xs-12.col-md-6
+  .graph#elv-graph-voltage
+div.col-xs-12.col-md-6
+  .graph#elv-graph-current

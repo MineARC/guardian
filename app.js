@@ -18,6 +18,7 @@ if (jumpers.mode == 3) var series4 = require('./routes/series4');
 var camera_internal = require('./routes/camera_internal');
 if (jumpers.extn) var camera_external = require('./routes/camera_external');
 var notifications = require('./routes/notifications');
+var settings = require('./routes/settings');
 var overview_api = require('./routes/overview_api');
 var camera_api = require('./routes/camera_api');
 var monitor_api = require('./routes/monitor_api');
@@ -67,6 +68,7 @@ if (jumpers.mode == 3) app.use('/monitor', series4);
 app.use('/camera_internal', camera_internal);
 if (jumpers.extn) app.use('/camera_external', camera_external);
 app.use('/notifications', notifications);
+app.use('/settings', settings);
 app.use('/api/overview', overview_api)
 app.use('/api/monitor', monitor_api);
 app.use('/api/camera', camera_api);

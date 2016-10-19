@@ -14,9 +14,14 @@ router.get('/', function (req, res, next) {
   if (jumpers.aura) data['aura'] = aura_polling.data;
   if (jumpers.extn) data['extn'] = true;
   if (jumpers.mode == 0) data['elv'] = elv_polling.data;
+  if (jumpers.mode == 0) data['history'] = elv_polling.history;
   if (jumpers.mode == 1) data['elvp'] = elvp_polling.data;
+  if (jumpers.mode == 1) data['history'] = elvp_polling.history;
   if (jumpers.mode == 2) data['series3'] = series3_polling.data;
+  if (jumpers.mode == 2) data['history'] = series3_polling.history;
   if (jumpers.mode == 3) data['series4'] = series4_polling.data;
+  if (jumpers.mode == 3) data['history'] = series4_polling.history;
+
   res.render('home', data);
 });
 
