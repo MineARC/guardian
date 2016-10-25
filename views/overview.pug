@@ -1,5 +1,8 @@
 extends layout
 
+block vars
+  = alias
+
 block append content
   div(class='jumbotron')
     div#table-overview
@@ -16,7 +19,7 @@ block append content
           each host in hosts
             tr.overview-row
               td
-                a(href='//' + host.hostname + '/dashboard')= host.hostname
+                a(href='//' + host.ip + '/chamber')= host.alias
               td
                  case host.type
                   when 0 

@@ -7,8 +7,8 @@ var bodyParser = require('body-parser');
 var auth = require('basic-auth');
 var jumpers = require('./jumpers');
 
-var overview = require('./routes/overview');
-var dashboard = require('./routes/home');
+var dashboard = require('./routes/overview');
+var chamber = require('./routes/home');
 
 if (jumpers.mode == 0) var elv = require('./routes/elv');
 if (jumpers.mode == 1) var elvp = require('./routes/elvp');
@@ -57,8 +57,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', overview);
-app.use('/dashboard', dashboard);
+app.use('/', dashboard);
+app.use('/chamber', chamber);
 
 if (jumpers.mode == 0) app.use('/monitor', elv);
 if (jumpers.mode == 1) app.use('/monitor', elvp);

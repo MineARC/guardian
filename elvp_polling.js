@@ -23,7 +23,8 @@ rpio.open(mains_pin, rpio.INPUT, rpio.PULL_DOWN);
 rpio.open(inverter_pin, rpio.INPUT, rpio.PULL_DOWN);
 
 var elvp_alarms = {
-  'Low Battery Voltage': { state: false, type: 'elvp' }
+  'Low Battery Voltage': { state: false, type: 'elvp' },
+  'Always Alarming': { state: true, type: 'elvp' }
 };
 
 var elvp_data = {
@@ -87,10 +88,9 @@ function sendSerialData(data) {
     elvp_data.serial[v[0]] = v[1];
   }
 
-  if (v[0] == 'H18' && next <= Date.now()) {
+  if (v[0] == 'H18' && next <= Date.now() && elvp_data.PID != '') {
     updateAlarms();
     next = Date.now() + delay;
-    exports.data = elvp_data;
     var graph_data = { V: +((elvp_data.serial.V / 1000).toFixed(2)), VS: +((elvp_data.serial.VS / 1000).toFixed(2)), I: +((elvp_data.serial.I / 1000).toFixed(2)) }
     db.addMonitorData(1, graph_data, function (err, success) {
       if (err)

@@ -4,6 +4,7 @@ html
     title Guardian
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-editable.css')
     block styles
     
   body
@@ -11,14 +12,18 @@ html
       .row
         span
           img(src='/images/minearc.png')
-          block vars
+          span.right
+            span#name
+              p.inline Name: 
+                b#alias.r-green
+                  block vars
         nav.navbar.navbar-default#navbar
           div.container-fluid
             ul.nav.navbar-nav
               li
-                a#dashboard-link(href='/') Overview
+                a#dashboard-link(href='/') Dashboard
               li
-                a#home-link(href='/dashboard') Dashboard
+                a#home-link(href='/chamber') Chamber
               li
                 a#camera-internal-link(href='/camera_internal') Internal Camera
               if(extn)
@@ -46,6 +51,7 @@ html
     script(src='/javascripts/jquery.min.js')
     script(src='/javascripts/bootstrap.min.js')
     script(src='/javascripts/bootbox.min.js')
+    script(src='/javascripts/bootstrap-editable.min.js')
     script(src='/javascripts/main.js')
     block scripts
   

@@ -1,13 +1,7 @@
 extends layout
 
 block vars
-  span.right
-    span#name
-      p.inline Name: 
-        b.r-green #{name}
-    span#mode
-      p.inline  Mode: 
-        b.r-green #{mode}
+  = alias
 
 block append content
   div(class='jumbotron')
@@ -54,7 +48,7 @@ block append content
                       li
                         .checkbox
                           label
-                            input(type='checkbox' checked=(email.subscription.elvp && email.subscription.elvp).indexOf(key) > -1 data-type='elvp' data-index=key)
+                            input(type='checkbox' checked=(email.subscription.elvp && email.subscription.elvp.indexOf(key) > -1) data-type='elvp' data-index=key)
                             = key
                   if(series3)
                     li

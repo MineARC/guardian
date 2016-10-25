@@ -56,13 +56,15 @@ function send_mail(fromName, fromAddress, to, subject, text, callback) {
   var smtpConfig = {
     host: 'remote.nessco.com.au',
     port: 25,
-    ignoreTLS: true,
-    // authMethod: 'LOGIN',
-    // // secure: false, // use SSL
-    // auth: {
-    //   user: 'lhgroup\mitchell.pontague',
-    //   pass: ''
-    // }
+    // requireTLS: true,
+    tls: { rejectUnauthorized: false },
+    authMethod: 'LOGIN',
+    auth: {
+      user: 'LHgroup.local\\Guardian',
+      pass: 'Guardian'
+    },
+    logger: true,
+    debug: true
   }
 
   // create reusable transporter object using the default SMTP transport
@@ -127,7 +129,7 @@ function get_all_callback(alarms_active, err, all) {
         }
       }
       // Send mail for alarms and update database afterwards
-      send_mail('Guardian', 'guardian@minearc.com.au', email.email, 'Guardian', format_alarms(alarms_active), send_mail_callback.bind(null, email.email, sent));
+      send_mail('Guardian', 'Guardian@minearc.com.au', email.email, 'Guardian', format_alarms(alarms_active), send_mail_callback.bind(null, email.email, sent));
     }
   });
 }

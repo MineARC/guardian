@@ -7,11 +7,13 @@ if (jumpers.mode == 1) var elvp_polling = require('../elvp_polling');
 if (jumpers.mode == 2) var series3_polling = require('../series3_polling');
 if (jumpers.mode == 3) var series4_polling = require('../series4_polling');
 var db = require('../database')
+var state = require('../state');
 var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   var data = {};
+  data['alias'] = state.alias;
   if (jumpers.cams) data['cams'] = cams_polling.alarms;
   if (jumpers.aura) data['aura'] = aura_polling.alarms;
   if (jumpers.extn) data['extn'] = true;

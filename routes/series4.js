@@ -1,10 +1,12 @@
 var express = require('express');
 var jumpers = require('../jumpers');
 var series4_polling = require('../series4_polling');
+var state = require('../state');
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
   var data = {};
+  data['alias'] = state.alias;
   if (jumpers.cams) data['cams'] = true;
   if (jumpers.aura) data['aura'] = true;
   if (jumpers.extn) data['extn'] = true;

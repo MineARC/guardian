@@ -1,5 +1,5 @@
 var updateInterval = 10000; // How often api is polled to update page
-var dataLength = 360; // number of dataPoints visible at any point
+var dataLength = 8630; // number of dataPoints visible at any point
 
 // Updates the active alarms from the api
 function updateAlarms(data) {

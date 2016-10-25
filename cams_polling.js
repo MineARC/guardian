@@ -1,10 +1,19 @@
 var rpio = require('rpio');
+var state = require('./state');
 
 var occupied_pin = 31;
 var solenoid_pin = 29
 
 var buffer = [];
-var state = false;
+state.getState('cams', function (err, data) {
+  if (err) {
+    return console.log(err.message);
+  }
+
+  for (var i = 0; i < data.length; i++) {
+    buffer.push(data[i]);
+  }
+});
 
 var cams_alarms = {
   'Air Leak': { state: false, type: 'cams' },
@@ -29,10 +38,9 @@ function pollPins(pin) {
       cams_data.occupied = !!rpio.read(pin);
       break;
     case solenoid_pin:
-      state = !!rpio.read(pin);
-      cams_data.solenoid = state;
-      if ((buffer.length == 0) || buffer[buffer.length - 1].state != state) {
-        buffer.push({ time: Date.now(), state: state });
+      cams_data.solenoid = !!rpio.read(pin);
+      if ((buffer.length == 0) || buffer[buffer.length - 1].state != cams_data.solenoid) {
+        buffer.push({ time: Date.now(), state: cams_data.solenoid });
       }
       break;
   }
@@ -60,6 +68,8 @@ function update() {
 
   cams_alarms['Air Leak'].state = (!cams_data.occupied && cams_data.rate >= 0.15);
   cams_alarms['Air Quality'].state = (cams_data.occupied && cams_data.solenoid);
+
+  state.setState('cams', buffer);
 }
 
 cams_data.occupied = !!rpio.read(occupied_pin);

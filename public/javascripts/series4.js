@@ -10,11 +10,13 @@ var series4_chart_mains = new CanvasJS.Chart("graph-mains", {
   data: [{
     type: "line",
     markerType: 'none',
+    toolTipContent: "{y} V",
     dataPoints: series4_mains_data
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " "
+    valueFormatString: " ",
+    interval: 3600,
   },
   axisY: {
     title: 'Voltage',
@@ -35,11 +37,13 @@ var series4_chart_battery = new CanvasJS.Chart("graph-battery", {
   data: [{
     type: "line",
     markerType: 'none',
+    toolTipContent: "{y} V",
     dataPoints: series4_battery_data
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " "
+    valueFormatString: " ",
+    interval: 3600,
   },
   axisY: {
     title: 'Voltage',
@@ -60,11 +64,13 @@ var series4_chart_inverter = new CanvasJS.Chart("graph-inverter", {
   data: [{
     type: "line",
     markerType: 'none',
+    toolTipContent: "{y} V",
     dataPoints: series4_inverter_data
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " "
+    valueFormatString: " ",
+    interval: 3600,
   },
   axisY: {
     title: 'Voltage',
@@ -90,19 +96,22 @@ var series4_chart_temp = new CanvasJS.Chart("graph-temp", {
   data: [{
     type: "line",
     markerType: 'none',
+    toolTipContent: "{y} °C",
     dataPoints: series4_chamber_data,
     showInLegend: true,
     legendText: "Chamber",
   }, {
     type: "line",
     markerType: 'none',
+    toolTipContent: "{y} °C",
     dataPoints: series4_outside_data,
     showInLegend: true,
     legendText: "Outside",
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " "
+    valueFormatString: " ",
+    interval: 3600,
   },
   axisY: {
     title: 'Temperature °C',
@@ -119,7 +128,7 @@ var series4_chart_temp = new CanvasJS.Chart("graph-temp", {
 
 
 $.get('/api/monitor/history').then(function (data) {
-  var last = (Date.now() / 1000 | 0) - 3600;
+  var last = (Date.now() / 1000 | 0) - 86400;
   if ('series4' in data) {
     while (data.series4[0].Time > last) {
       series4_mains_data.push({ x: last, y: 0 });

@@ -35,20 +35,9 @@ exports.data = series3_data;
 exports.alarms = series3_alarms;
 
 // Spin up polling of backend services
-var monitor_is_polling = true;
-poll_monitor(function () {
-  monitor_is_polling = false;
-});
-setInterval(function () {
-  if (!monitor_is_polling) {
-    monitor_is_polling = true;
-    poll_monitor(function () {
-      monitor_is_polling = false;
-    });
-  }
-}, 5000);
+setInterval(poll_monitor, 10000);
 
-function poll_monitor(next) {
+function poll_monitor() {
   var request_options = {
     url: 'http://localhost/pt/monitor/',
     proxy: ''
@@ -57,17 +46,6 @@ function poll_monitor(next) {
   request.get(request_options, function (err, res, body) {
     if (!err && (res.statusCode == 200 || res.statusCode == 304)) {
       processPage(body);
-      next();
-    } else {
-      // Using file reader during testing with monitor off
-      fs.readFile('series3.html', 'utf8', function (err, data) {
-        if (err) {
-          console.log('something went wrong in the polling service');
-          return next();
-        }
-        processPage(data);
-        next();
-      });
     }
   });
 }

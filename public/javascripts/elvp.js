@@ -13,19 +13,22 @@ var elvp_chart_voltage = new CanvasJS.Chart("elvp-graph-voltage", {
   data: [{
     type: "line",
     markerType: 'none',
+    toolTipContent: "{y} V",
     dataPoints: elvp_voltage_data,
     showInLegend: true,
     legendText: "Emergency"
   }, {
     type: "line",
     markerType: 'none',
+    toolTipContent: "{y} V",
     dataPoints: elvp_voltage_standby_data,
     showInLegend: true,
     legendText: "Standby"
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " "
+    valueFormatString: " ",
+    interval: 3600,
   },
   axisY: {
     title: 'Voltage',
@@ -45,6 +48,7 @@ var elvp_chart_current = new CanvasJS.Chart("elvp-graph-current", {
   data: [{
     type: "line",
     markerType: 'none',
+    toolTipContent: "{y} A",
     dataPoints: elvp_current_data
   }],
   axisX: {
@@ -55,17 +59,12 @@ var elvp_chart_current = new CanvasJS.Chart("elvp-graph-current", {
     title: 'Current',
     minimum: -100,
     maximum: 100,
-    interval: 50,
-    // stripLines: [{
-    //   startValue: 0,
-    //   endValue: 20,
-    //   color: "#C5E3BF"
-    // }]
+    interval: 50
   }
 });
 
 $.get('/api/monitor/history').then(function (data) {
-  var last = (Date.now() / 1000 | 0) - 3600;
+  var last = (Date.now() / 1000 | 0) - 86400;
   if ('elvp' in data) {
     while (data.elvp[0].Time > last) {
       elvp_voltage_data.push({ x: last, y: 0 });

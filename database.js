@@ -1,5 +1,6 @@
 var sqlite3 = require("sqlite3").verbose();
 var fs = require("fs");
+var os = require('os');
 var crypto = require("crypto");
 var exports = module.exports;
 
@@ -12,24 +13,26 @@ db.serialize(function () {
   if (!exists) {
     db.run("CREATE TABLE Alarms (email TEXT UNIQUE, subscription BLOB, sent INT)");
     db.run("CREATE TABLE Guardians (name TEXT UNIQUE, status BLOB, lastseen DATETIME)");
+    db.run("CREATE TABLE State (state TEXT UNIQUE, value BLOB)");
+    db.run("INSERT INTO State VALUES ('alias', ?)", JSON.stringify(os.hostname()));
 
     db.run("CREATE TABLE ELV (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER ELV_Cleanup AFTER INSERT ON ELV BEGIN DELETE FROM ELV WHERE time <= datetime('now', '-1 hour'); END");
+    db.run("CREATE TRIGGER ELV_Cleanup AFTER INSERT ON ELV BEGIN DELETE FROM ELV WHERE time <= datetime('now', '-24 hour'); END");
 
     db.run("CREATE TABLE ELVP (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER ELVP_Cleanup AFTER INSERT ON ELVP BEGIN DELETE FROM ELVP WHERE time <= datetime('now', '-1 hour'); END");
+    db.run("CREATE TRIGGER ELVP_Cleanup AFTER INSERT ON ELVP BEGIN DELETE FROM ELVP WHERE time <= datetime('now', '-24 hour'); END");
 
     db.run("CREATE TABLE Series3 (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER Series3_Cleanup AFTER INSERT ON Series3 BEGIN DELETE FROM Series3 WHERE time <= datetime('now', '-1 hour'); END");
+    db.run("CREATE TRIGGER Series3_Cleanup AFTER INSERT ON Series3 BEGIN DELETE FROM Series3 WHERE time <= datetime('now', '-24 hour'); END");
 
     db.run("CREATE TABLE Series4 (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER Series4_Cleanup AFTER INSERT ON Series4 BEGIN DELETE FROM Series4 WHERE time <= datetime('now', '-1 hour'); END");
+    db.run("CREATE TRIGGER Series4_Cleanup AFTER INSERT ON Series4 BEGIN DELETE FROM Series4 WHERE time <= datetime('now', '-24 hour'); END");
 
     db.run("CREATE TABLE CAMS (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER CAMS_Cleanup AFTER INSERT ON CAMS BEGIN DELETE FROM CAMS WHERE time <= datetime('now', '-1 hour'); END");
+    db.run("CREATE TRIGGER CAMS_Cleanup AFTER INSERT ON CAMS BEGIN DELETE FROM CAMS WHERE time <= datetime('now', '-24 hour'); END");
 
     db.run("CREATE TABLE Aura (data BLOB, time DATETIME)");
-    db.run("CREATE TRIGGER Aura_Cleanup AFTER INSERT ON Aura BEGIN DELETE FROM Aura WHERE time <= datetime('now', '-1 hour'); END");
+    db.run("CREATE TRIGGER Aura_Cleanup AFTER INSERT ON Aura BEGIN DELETE FROM Aura WHERE time <= datetime('now', '-24 hour'); END");
   }
 });
 
@@ -151,9 +154,7 @@ exports.setSubscription = function (email, subscription, callback) {
       return callback(new Error("Invalid input"));
     }
 
-    if (typeof subscription !== "string") {
-      subscription = JSON.stringify(subscription);
-    }
+    subscription = JSON.stringify(subscription);
 
     db.run("UPDATE Alarms SET subscription = ? WHERE email LIKE ?", subscription, email, function (err) {
       callback(err, this.changes > 0);
@@ -181,9 +182,7 @@ exports.setSent = function (email, sent, callback) {
       return callback(new Error("Invalid input"));
     }
 
-    if (typeof sent !== "string") {
-      sent = JSON.stringify(sent);
-    }
+    sent = JSON.stringify(sent);
 
     db.run("UPDATE Alarms SET sent = ? WHERE email LIKE ?", sent, email, function (err) {
       callback(err, this.changes > 0);
@@ -200,9 +199,7 @@ exports.addGuardian = function (name, status, callback) {
   }
 
   db.serialize(function () {
-    if (typeof status !== "string") {
-      status = JSON.stringify(status);
-    }
+    status = JSON.stringify(status);
 
     db.run("INSERT OR REPLACE INTO Guardians VALUES (?, ?, datetime())", name, status, function (err) {
       return callback(err, this.lastID > 0);
@@ -255,9 +252,8 @@ exports.addMonitorData = function (type, data, callback) {
         return callback(new Error("Invalid input"));
     }
 
-    if (typeof data !== "string") {
-      data = JSON.stringify(data);
-    }
+    data = JSON.stringify(data);
+
     db.run("INSERT INTO " + monitor + " VALUES (?, datetime())", data, function (err) {
       return callback(err, this.lastID > 0);
     });
@@ -292,7 +288,7 @@ exports.getMonitorData = function (type, callback) {
         monitor = "AURA";
         break;
     }
-    db.all("SELECT data, strftime('%s', time) AS seconds FROM " + monitor + " WHERE time >= datetime('now', '-1 hour') ORDER BY seconds", function (err, rows) {
+    db.all("SELECT data, strftime('%s', time) AS seconds FROM " + monitor + " WHERE time >= datetime('now', '-24 hour') ORDER BY seconds", function (err, rows) {
       var all = [];
       if (rows) {
         for (var i = 0; i < rows.length; i++) {
@@ -302,6 +298,36 @@ exports.getMonitorData = function (type, callback) {
         }
       }
       callback(err, all);
+    });
+  });
+}
+
+// Gets the subscription of the given email
+exports.getState = function (callback) {
+  db.serialize(function () {
+    db.all("SELECT state, value FROM State", function (err, rows) {
+      var all = {};
+      if (rows) {
+        for (var i = 0; i < rows.length; i++) {
+          all[rows[i].state] = JSON.parse(rows[i].value);
+        }
+      }
+      callback(err, all);
+    });
+  });
+}
+
+// Updates the subscription of the given email
+exports.setState = function (state, value, callback) {
+  db.serialize(function () {
+    if (state == null || value == null) {
+      return callback(new Error("Invalid input"));
+    }
+
+    value = JSON.stringify(value);
+
+    db.run("INSERT OR REPLACE INTO State VALUES (?, ?)", state, value, function (err) {
+      callback(err, this.changes > 0);
     });
   });
 }

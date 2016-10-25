@@ -88,10 +88,9 @@ function sendSerialData(data) {
     elv_data.serial[v[0]] = v[1];
   }
 
-  if (v[0] == 'H18' && next <= Date.now() && elv_data.V != '') {
+  if (v[0] == 'H18' && next <= Date.now() && elv_data.PID != '') {
     updateAlarms();
     next += delay;
-    exports.data = elv_data;
     var graph_data = { V: +((elv_data.serial.V / 1000).toFixed(2)), VS: +((elv_data.serial.VS / 1000).toFixed(2)), I: +((elv_data.serial.I / 1000).toFixed(2)) }
     db.addMonitorData(0, graph_data, function (err, success) {
       if (err)
