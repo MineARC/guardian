@@ -166,7 +166,7 @@ $.get('/api/monitor/history').then(function (data) {
 
 function updateSeries4(data) {
   // Updates each element in each table with data from the api
-  $('#mode').find('b').text(data.mode);
+  $('.row-mode').text(data.mode);
 
   $('#table-system-info').find('.row-info').each(function (index, element) {
     $(element).text(data.system_information[index].row_info + ' ' + data.system_information[index].row_unit);

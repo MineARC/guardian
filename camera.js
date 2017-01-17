@@ -28,8 +28,8 @@ function getMostRecentFileName(next) {
 
   console.log
 
-  var internal_dir = '/ftp/internal';
-  var external_dir = '/ftp/external';
+  var internal_dir = '/media/ftp/internal';
+  var external_dir = '/media/ftp/external';
 
   var internal_files = fs.readdirSync(internal_dir);
   var external_files = fs.readdirSync(external_dir);

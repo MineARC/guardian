@@ -42,3 +42,14 @@ a {
 .r-green {
 	color:#05763d;
 }
+
+.alert-danger {
+  text-align: center;
+}
+
+/*.items {
+ display: inline-block;
+ margin:  0.25rem;
+ padding:  1rem;
+ width:  100%; 
+}*/

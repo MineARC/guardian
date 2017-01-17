@@ -1,6 +1,8 @@
 var request = require('request');
 var nodemailer = require('nodemailer');
 var async = require('async');
+var os = require('os');
+var alias = require('./alias');
 var jumpers = require('./jumpers');
 if (jumpers.cams) var cams_polling = require('./cams_polling');
 if (jumpers.aura) var aura_polling = require('./aura_polling');
@@ -10,6 +12,7 @@ if (jumpers.mode == 2) var series3_polling = require('./series3_polling');
 if (jumpers.mode == 3) var series4_polling = require('./series4_polling');
 var underscore = require('underscore');
 var db = require('./database');
+
 
 // Set up polling of alarms
 var alert_is_polling = true;
@@ -39,9 +42,10 @@ function poll_alerts(next) {
 
   var alarms_active = {};
   for (var type in alarms) {
-    alarms_active[type] = [];
     for (var alarm in alarms[type]) {
       if (alarms[type][alarm].state) {
+        if (!(type in alarms_active))
+          alarms_active[type] = [];
         alarms_active[type].push(alarm);
       }
     }
@@ -75,7 +79,12 @@ function send_mail(fromName, fromAddress, to, subject, text, callback) {
     from: '"' + fromName + '"' + fromAddress, // sender address
     to: to, // list of receivers
     subject: subject, // Subject line
-    text: text // plaintext body
+    html: text, // html body
+    attachments: [{
+      filename: 'header.jpg',
+      path: process.cwd() + '/public/images/header.jpg',
+      cid: 'header'
+    }]
   };
 
   // send mail with defined transport object
@@ -125,7 +134,7 @@ function get_all_callback(alarms_active, err, all) {
       var sent = email.sent;
       for (var type in result) {
         for (var alarm in result[type]) {
-          sent[type][result[type][alarm]] = Date.now() + 300000;
+          sent[type][result[type][alarm]] = Date.now() + 3600000;
         }
       }
       // Send mail for alarms and update database afterwards
@@ -148,5 +157,88 @@ function send_mail_callback(email, sent, success) {
 
 // Put the active alarms into an attractive format for the message body
 function format_alarms(alarms) {
-  return JSON.stringify(alarms);
+  var ma = os.hostname().split('-')[1];
+  var name = alias.alias;
+
+  var strVar = "";
+  strVar += "<body>";
+  strVar += "	<style>";
+  strVar += "		.small {";
+  strVar += "			font-size: 7pt;";
+  strVar += "		}";
+  strVar += "		";
+  strVar += "		div {";
+  strVar += "			margin: 0;";
+  strVar += "		}";
+  strVar += "		p {";
+  strVar += "			font-family: Arial, Helvetica, sans-serif";
+  strVar += "		}";
+  strVar += "	<\/style>";
+  strVar += "	<div>";
+  strVar += "		<table width=\"798\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse;background-color:white;\">";
+  strVar += "			<tbody>";
+  strVar += "				<tr>";
+  strVar += "					<td>";
+  strVar += "						<div><img src=\"cid:header\"";
+  strVar += "								height=\"76\" width=\"794\">";
+  strVar += "						<\/div>";
+  strVar += "					<\/td>";
+  strVar += "				<\/tr>";
+  strVar += "				<tr>";
+  strVar += "					<td>";
+  strVar += "            <br>";
+  strVar += "						<div>";
+  strVar += "							<span>The chamber: <b>" + name + "<\/b> with MA number: <b>" + ma + "<\/b> has experienced the following fault(s)<\/span>";
+  strVar += "						<\/div>";
+  strVar += "            <br>";
+  strVar += "						<div>";
+  strVar += "							<table>";
+  strVar += "								<tbody>";
+  for (var t in alarms) {
+    strVar += "									<tr>";
+    strVar += "										<td>";
+    strVar += "											<span><b>" + t.toUpperCase() + ":<\/b><\/span>";
+    strVar += "										<\/td>";
+    strVar += "									<\/tr>";
+    for (var j = 0; j < alarms[t].length; j++) {
+      strVar += "									<tr>";
+      strVar += "										<td>";
+      strVar += "											<span>" + alarms[t][j] + "<\/span>";
+      strVar += "										<\/td>";
+      strVar += "									<\/tr>";
+    }
+  }
+  strVar += "								<\/tbody>";
+  strVar += "							<\/table>";
+  strVar += "						<\/div>";
+  strVar += "            <br>";
+  strVar += "						<div>";
+  strVar += "							<span>Please check and reset fault(s).<\/span>";
+  strVar += "						<\/div>";
+  strVar += "						<div>";
+  strVar += "							<span>For further information about this fault please contact MineARC service at <\/span>";
+  strVar += "							<a href=\"redir.aspx?C=8lGQmt9ZmEmZpGFhDyAd65Vtg5J0B9QIFKPjm_Mbrm8zTSVOj8PfpwYR2rL2jg4GcP0sxnpf1wk.&amp;URL=mailto%3aservice%40minearc.com.au%3fSubject%3dGuardian%2520Event\"";
+  strVar += "								target=\"_blank\">";
+  strVar += "								<span>service@minearc.com.au<\/span>";
+  strVar += "							<\/a>";
+  strVar += "						<\/div>";
+  strVar += "						<div align=\"center\" style=\"text-align:center;margin:0;\">";
+  strVar += "							<hr width=\"100%\" size=\"2\" align=\"center\" style=\"width:100%;\">";
+  strVar += "						<\/div>";
+  strVar += "						<div class=\"small\">";
+  strVar += "							<span><i>This transmission is for the intended addressee only and is confidential information. If you have received this transmission in error, please delete it and notify the sender or forward the message to <\/i><\/span>";
+  strVar += "							<a href=\"redir.aspx?C=8lGQmt9ZmEmZpGFhDyAd65Vtg5J0B9QIFKPjm_Mbrm8zTSVOj8PfpwYR2rL2jg4GcP0sxnpf1wk.&amp;URL=mailto%3ainfo%40minearc.com.au\"";
+  strVar += "								target=\"_blank\">";
+  strVar += "								<span><i>info@minearc.com.au<\/i><\/span>";
+  strVar += "							<\/a>";
+  strVar += "							<span><i>. The contents of this e-mail are the opinion of the writer only and are not endorsed by MineARC&nbsp;unless expressly stated otherwise. MineARC do not represent that this communication (including any files attached) is free from computer viruses or other faults or defects. It is the responsibility of any person opening any files attached to this communication to scan those files for computer viruses<\/i><\/span>";
+  strVar += "						<\/div>";
+  strVar += "					<\/td>";
+  strVar += "				<\/tr>";
+  strVar += "			<\/tbody>";
+  strVar += "		<\/table>";
+  strVar += "	<\/div>";
+  strVar += "<\/body>";
+
+  return strVar;
 }

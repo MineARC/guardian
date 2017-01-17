@@ -27,7 +27,7 @@ var series4_alarms = {
   'CO2 fan 1 has failed on Fan board 1': { state: false, type: 'series4' },
   'CO2 fan 2 has failed on Fan board 1': { state: false, type: 'series4' },
   'CO fan has failed on Fan board 1': { state: false, type: 'series4' },
-  'Lightining has failed on Fan board 1': { state: false, type: 'series4' },
+  'Lighting has failed on Fan board 1': { state: false, type: 'series4' },
   'Siren has failed on Fan board 1': { state: false, type: 'series4' },
   'Green strobe light has failed on Fan board 1': { state: false, type: 'series4' },
   'Red strobe light has failed on Fan board 1': { state: false, type: 'series4' },
@@ -38,7 +38,7 @@ var series4_alarms = {
   'CO2 fan 1 has failed on Fan board 2': { state: false, type: 'series4' },
   'CO2 fan 2 has failed on Fan board 2': { state: false, type: 'series4' },
   'CO fan has failed on Fan board 2': { state: false, type: 'series4' },
-  'Lightining has failed on Fan board 2': { state: false, type: 'series4' },
+  'Lighting has failed on Fan board 2': { state: false, type: 'series4' },
   'Siren has failed on Fan board 2': { state: false, type: 'series4' },
   'Green strobe light has failed on Fan board 2': { state: false, type: 'series4' },
   'Red strobe light has failed on Fan board 2': { state: false, type: 'series4' },
@@ -194,7 +194,7 @@ function processPage(data) {
     alarm_status = !jq(element).hasClass('hide');
     // Add the alarms to the object
     if (alarm_name in series4_alarms) {
-      series4_alarms[alarm_name].status = alarm_status;
+      series4_alarms[alarm_name].state = alarm_status;
     }
   });
 

@@ -94,50 +94,52 @@ function poll_nmap(next) {
     ports: '80'
   };
 
-  // Scan all hosts to see which have port 8000 open
-  nmap.scan(opts, function (err, report) {
-    if (err) throw new Error(err);
-    var hosts = [];
-    for (var range in report) {
-      // Seach through all the active hosts
-      for (var host in report[range].host) {
-        var ipv4_addr = '';
-        // Each host can have multiple addresses so search them all
-        for (var address in report[range].host[host].address) {
-          // Grab only the ipv4 address
-          if (report[range].host[host].address[address].item.addrtype == 'ipv4')
-            ipv4_addr = report[range].host[host].address[address].item.addr
-        }
-        hosts.push({ ip: ipv4_addr });
-      }
-    }
-
-    hosts.forEach(function (element) {
-      // Form a request for the guardian overview api endpoint
-      var request_options = {
-        url: 'http://' + element.ip + '/api/overview',
-        proxy: ''
-      };
-
-      request.get(request_options, function (err, res, body) {
-        try {
-          if (!err && res.statusCode == 200) {
-            api_res = JSON.parse(body);
-            // Check to see if the api response came from a guardian system
-            if (api_res.guardian) {
-              // Everything but the ip address comes from the api
-              api_res['ip'] = element.ip;
-              db.addGuardian(api_res.hostname, api_res, function (err, changes) {
-                if (err) {
-                  console.log(err.message);
-                }
-              });
-            }
+  if (opts.range) {
+    // Scan all hosts to see which have port 8000 open
+    nmap.scan(opts, function (err, report) {
+      if (err) throw new Error(err);
+      var hosts = [];
+      for (var range in report) {
+        // Seach through all the active hosts
+        for (var host in report[range].host) {
+          var ipv4_addr = '';
+          // Each host can have multiple addresses so search them all
+          for (var address in report[range].host[host].address) {
+            // Grab only the ipv4 address
+            if (report[range].host[host].address[address].item.addrtype == 'ipv4')
+              ipv4_addr = report[range].host[host].address[address].item.addr
           }
-          next();
+          hosts.push({ ip: ipv4_addr });
         }
-        catch (e) { }
+      }
+
+      hosts.forEach(function (element) {
+        // Form a request for the guardian overview api endpoint
+        var request_options = {
+          url: 'http://' + element.ip + '/api/overview',
+          proxy: ''
+        };
+
+        request.get(request_options, function (err, res, body) {
+          try {
+            if (!err && res.statusCode == 200) {
+              api_res = JSON.parse(body);
+              // Check to see if the api response came from a guardian system
+              if (api_res.guardian) {
+                // Everything but the ip address comes from the api
+                api_res['ip'] = element.ip;
+                db.addGuardian(api_res.hostname, api_res, function (err, changes) {
+                  if (err) {
+                    console.log(err.message);
+                  }
+                });
+              }
+            }
+            next();
+          }
+          catch (e) { }
+        });
       });
     });
-  });
+  }
 };

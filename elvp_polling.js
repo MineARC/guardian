@@ -24,7 +24,6 @@ rpio.open(inverter_pin, rpio.INPUT, rpio.PULL_DOWN);
 
 var elvp_alarms = {
   'Low Battery Voltage': { state: false, type: 'elvp' },
-  'Always Alarming': { state: true, type: 'elvp' }
 };
 
 var elvp_data = {

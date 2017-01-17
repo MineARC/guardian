@@ -1,4 +1,13 @@
 $(document).ready(function ($) {
+
+  // $.getScript('https://unpkg.com/isotope-layout@3.0/dist/isotope.pkgd.min.js', function () {
+  //   $('#container').isotope({
+  //     itemSelector: '.items',
+  //     layoutMode: 'fitRows'
+  //   });
+  // });
+
+
   $('#alias').editable({
     type: 'text',
     mode: 'inline',

@@ -1,17 +1,17 @@
 var rpio = require('rpio');
-var state = require('./state');
+var db = require('./database');
 
 var occupied_pin = 31;
 var solenoid_pin = 29
 
-var buffer = [];
-state.getState('cams', function (err, data) {
+db.getState('cams', function (err, data) {
   if (err) {
     return console.log(err.message);
   }
 
-  for (var i = 0; i < data.length; i++) {
-    buffer.push(data[i]);
+  if (data) {
+    cams_data.buffer = data;
+    pollPins(solenoid_pin);
   }
 });
 
@@ -23,7 +23,8 @@ var cams_alarms = {
 var cams_data = {
   occupied: false,
   solenoid: true,
-  rate: 0
+  rate: 0,
+  buffer: []
 };
 
 exports.data = cams_data;
@@ -39,8 +40,8 @@ function pollPins(pin) {
       break;
     case solenoid_pin:
       cams_data.solenoid = !!rpio.read(pin);
-      if ((buffer.length == 0) || buffer[buffer.length - 1].state != cams_data.solenoid) {
-        buffer.push({ time: Date.now(), state: cams_data.solenoid });
+      if ((cams_data.buffer.length == 0) || cams_data.buffer[cams_data.buffer.length - 1].state != cams_data.solenoid) {
+        cams_data.buffer.push({ time: Date.now(), state: cams_data.solenoid });
       }
       break;
   }
@@ -48,13 +49,13 @@ function pollPins(pin) {
 
 function update() {
   var now = Date.now();
-  buffer = buffer.filter(function (event) {
+  cams_data.buffer = cams_data.buffer.filter(function (event) {
     return event.time > (now - 3600000);
   });
   var uptime = 0;
-  if (buffer.length > 0) {
-    buffer.forEach(function (event, index) {
-      if (index == buffer.length - 1 && !event.state)
+  if (cams_data.buffer.length > 0) {
+    cams_data.buffer.forEach(function (event, index) {
+      if (index == cams_data.buffer.length - 1 && !event.state)
         uptime += now - event.time;
       else if (index == 0 && event.state)
         ; // Do nothing
@@ -64,12 +65,20 @@ function update() {
         uptime -= event.time;
     });
     cams_data.rate = uptime / 3600000;
+    if (cams_data.rate < 0)
+      cams_data.rate = 0;
+    if (cams_data.rate > 1)
+      cams_data.rate = 1;
   }
 
   cams_alarms['Air Leak'].state = (!cams_data.occupied && cams_data.rate >= 0.15);
   cams_alarms['Air Quality'].state = (cams_data.occupied && cams_data.solenoid);
 
-  state.setState('cams', buffer);
+  db.setState('cams', cams_data.buffer, function (err, result) {
+    if (err) {
+      console.log(err.message);
+    }
+  });
 }
 
 cams_data.occupied = !!rpio.read(occupied_pin);

@@ -1,6 +1,5 @@
 var express = require('express');
 var jumpers = require('../jumpers');
-var elv_polling = require('../elv_polling');
 var alias = require('../alias');
 var router = express.Router();
 
@@ -10,9 +9,8 @@ router.get('/', function (req, res, next) {
   if (jumpers.cams) data['cams'] = true;
   if (jumpers.aura) data['aura'] = true;
   if (jumpers.extn) data['extn'] = true;
-  data['elv'] = elv_polling.data;
 
-  res.render('elv', data);
+  res.render('contact', data);
 });
 
 module.exports = router;

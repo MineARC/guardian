@@ -1,9 +1,10 @@
-div.col-xs-12.col-md-6#elvp
+div.col-xs-12.col-md-6#elvp.items
   h3 ELVP
+    a.right#monitor-link(href='/monitor') Info
   table.table
-    tr
-      th Name
-      th.table-right Value
+    //- tr
+    //-   th Name
+    //-   th.table-right Value
     tr
       td.row-name Mains Present
       td.table-right.row-info= elvp.mains ? 'Yes' : 'No'
@@ -25,8 +26,3 @@ div.col-xs-12.col-md-6#elvp
     tr
       td.row-name Consumed Energy
       td.table-right.row-info= (elvp.serial.CE / 1000).toFixed(2) + ' Ah'
-
-div.col-xs-12.col-md-6
-  .graph#elvp-graph-voltage
-div.col-xs-12.col-md-6
-  .graph#elvp-graph-current

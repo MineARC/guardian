@@ -246,7 +246,7 @@ exports.addMonitorData = function (type, data, callback) {
         monitor = "CAMS";
         break;
       case 5:
-        monitor = "AURA";
+        monitor = "Aura";
         break;
       default:
         return callback(new Error("Invalid input"));
@@ -285,7 +285,7 @@ exports.getMonitorData = function (type, callback) {
         monitor = "CAMS";
         break;
       case 5:
-        monitor = "AURA";
+        monitor = "Aura";
         break;
     }
     db.all("SELECT data, strftime('%s', time) AS seconds FROM " + monitor + " WHERE time >= datetime('now', '-24 hour') ORDER BY seconds", function (err, rows) {
@@ -303,16 +303,11 @@ exports.getMonitorData = function (type, callback) {
 }
 
 // Gets the subscription of the given email
-exports.getState = function (callback) {
+exports.getState = function (state, callback) {
   db.serialize(function () {
-    db.all("SELECT state, value FROM State", function (err, rows) {
-      var all = {};
-      if (rows) {
-        for (var i = 0; i < rows.length; i++) {
-          all[rows[i].state] = JSON.parse(rows[i].value);
-        }
-      }
-      callback(err, all);
+    db.get("SELECT value FROM State WHERE state = ?", state, function (err, row) {
+      console.log(JSON.stringify(row));
+      callback(err, row ? JSON.parse(row.value) : null);
     });
   });
 }
@@ -323,9 +318,7 @@ exports.setState = function (state, value, callback) {
     if (state == null || value == null) {
       return callback(new Error("Invalid input"));
     }
-
     value = JSON.stringify(value);
-
     db.run("INSERT OR REPLACE INTO State VALUES (?, ?)", state, value, function (err) {
       callback(err, this.changes > 0);
     });

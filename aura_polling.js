@@ -2,6 +2,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 var jq = require('jquery');
 var fs = require('fs');
+var db = require('./database');
 
 setInterval(poll_database, 10000);
 
@@ -76,8 +77,21 @@ function processPage(data) {
     gas_name = jq(element).find('td').first().text();
     gas_value = jq(element).find('td').first().next().text();
     if (gas_name in aura_data) {
+      switch (gas_name) {
+        case 'CO':
+          break;
+        case 'CO2':
+          gas_value /= 10000;
+          gas_value = gas_value.toFixed(2);
+          break;
+        case 'O2':
+          gas_value = parseFloat(gas_value).toFixed(1);
+          break;
+        default:
+          break;
+      }
       aura_data[gas_name].value = gas_value;
-      timestamp[gas_name] = Date.now();
+      timestamps[gas_name] = Date.now();
     }
   });
 }

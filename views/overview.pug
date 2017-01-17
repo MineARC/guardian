@@ -10,16 +10,18 @@ block append content
       div.spacer
       table(id='overview_table' class='table')
         tr
-          th.col-xs-2 System
+          th.col-xs-2 Chamber
+          th.col-xs-2 MA Number
           th.col-xs-2 Type
           th.col-xs-2 Alarms
-          //- th.col-xs-2 Mode
           th.col-xs-2 Status
         if(hosts)
           each host in hosts
             tr.overview-row
               td
-                a(href='//' + host.ip + '/chamber')= host.alias
+                a(href='//' + host.ip + '/chamber')= host.alias ? host.alias : 'blank'
+              td
+                = host.hostname.split('-')[1]
               td
                  case host.type
                   when 0 
@@ -44,7 +46,6 @@ block append content
                   else
                     ul.alert.alert-info.col-xs-12.dropdown-menu
                       | Everything is fine
-              //- td= host.mode
               if(host.alarms_total > 0)
                 td
                   img(src='/images/Error.png')

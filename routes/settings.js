@@ -1,17 +1,17 @@
 var express = require('express');
 var jumpers = require('../jumpers');
-var state = require('../state');
+var alias = require('../alias');
 var router = express.Router();
 
 router.post('/setAlias', function (req, res, next) {
-  var alias = req.body.alias;
+  var value = req.body.alias.trim();
 
-  if (alias == null) {
+  if (value == null) {
     console.log('Invalid information supplied');
     return res.send('Invalid information supplied');
   }
 
-  state.setState('alias', alias);
+  alias.setAlias(value);
 
   return res.send('Alias Updated');
 

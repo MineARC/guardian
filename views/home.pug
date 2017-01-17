@@ -5,34 +5,53 @@ block vars
            
 block append content
   div(class='jumbotron')
-    div(class='container-fluid')
-      div.col-xs-12#alarms
-        //- if(alarms_total > 0)
-        //-   each alarm in alarms_active
-        //-     p.alert.alert-danger= alarm
+    div#container(class='container-fluid')
+      div.row
+        div.col-xs-12#alarms
+          each alarm, key in alarms
+            if (alarm.state)
+              p.alert.alert-danger= key
 
-      include home/camera_internal.pug
-        
-      if(extn)
-        include home/camera_external.pug
+      div.row
 
-      if(elv)
-        include home/elv.pug
+        include home/camera_internal.pug
+          
+        if(extn)
+          include home/camera_external.pug
 
-      if(elvp)
-        include home/elvp.pug
+        if(elv)
+          include home/elv.pug
 
-      if(series3)
-        include home/series3.pug
+        if(elvp)
+          include home/elvp.pug
 
-      if(series4)
-        include home/series4.pug
+        if(series3)
+          include home/series3.pug
 
-      if(cams)
-        include home/cams.pug
-        
-      if(aura)
-        include home/aura.pug
+        if(series4)
+          include home/series4.pug
+
+      div.row
+
+        if(elv)
+          include home/elv_graphs.pug
+
+        if(elvp)
+          include home/elvp_graphs.pug
+
+        if(series3)
+          include home/series3_graphs.pug
+
+        if(series4)
+          include home/series4_graphs.pug
+
+      div.row
+
+        if(cams)
+          include home/cams.pug
+          
+        if(aura)
+          include home/aura.pug
                               
 block prepend styles
   script(src='/javascripts/canvasjs.min.js')

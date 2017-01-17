@@ -1,6 +1,6 @@
 var express = require('express');
 var jumpers = require('../jumpers');
-var state = require('../state');
+var alias = require('../alias');
 if (jumpers.cams) var cams_polling = require('../cams_polling');
 if (jumpers.aura) var aura_polling = require('../aura_polling');
 if (jumpers.mode == 0) var elv_polling = require('../elv_polling');
@@ -11,7 +11,7 @@ var router = express.Router();
 
 router.get('/', function (req, res, next) {
   var data = { alarms: {} };
-  data['alias'] = state.alias;
+  data['alias'] = alias.alias;
   if (jumpers.cams) {
     data['cams'] = cams_polling.data;
     for (var key in cams_polling.alarms) {

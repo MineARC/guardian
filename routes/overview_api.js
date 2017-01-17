@@ -1,7 +1,7 @@
 var express = require('express');
 var os = require('os');
 var jumpers = require('../jumpers');
-var state = require('../state');
+var alias = require('../alias');
 if (jumpers.cams) var cams_polling = require('../cams_polling');
 if (jumpers.aura) var aura_polling = require('../aura_polling');
 if (jumpers.mode == 0) var elv_polling = require('../elv_polling');
@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
   var data = {};
   data['guardian'] = true;
   data['hostname'] = os.hostname();
-  data['alias'] = state.alias;
+  data['alias'] = alias.alias;
   data['type'] = jumpers.mode;
   var alarms = {};
   if (jumpers.cams) alarms['cams'] = cams_polling.alarms;

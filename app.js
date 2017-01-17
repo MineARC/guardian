@@ -22,6 +22,7 @@ var settings = require('./routes/settings');
 var overview_api = require('./routes/overview_api');
 var camera_api = require('./routes/camera_api');
 var monitor_api = require('./routes/monitor_api');
+var contact = require('./routes/contact');
 
 if (jumpers.mode == 0) var elv_polling = require('./elv_polling');
 if (jumpers.mode == 1) var elvp_polling = require('./elvp_polling');
@@ -72,6 +73,7 @@ app.use('/settings', settings);
 app.use('/api/overview', overview_api)
 app.use('/api/monitor', monitor_api);
 app.use('/api/camera', camera_api);
+app.use('/contact', contact);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
