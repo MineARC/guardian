@@ -9,18 +9,9 @@ var db = require('./database');
 // Define object for access from where they are needed
 exports.hosts_data = [];
 
-var database_is_polling = true;
-poll_database(function () {
-  database_is_polling = false;
-});
-
 setInterval(function () {
-  if (!database_is_polling) {
-    database_is_polling = true;
-    poll_database(function () {
-      database_is_polling = false;
-    });
-  }
+  poll_database(function () {
+  });
 }, 60000);
 
 function poll_database(next) {
@@ -33,19 +24,9 @@ function poll_database(next) {
   });
 }
 
-// Spin up polling of backend services
-var nmap_is_polling = true;
-poll_nmap(function () {
-  nmap_is_polling = false;
-});
-
 setInterval(function () {
-  if (!nmap_is_polling) {
-    nmap_is_polling = true;
-    poll_nmap(function () {
-      nmap_is_polling = false;
-    });
-  }
+  poll_nmap(function () {
+  });
 }, 60000);
 
 function adapters() {

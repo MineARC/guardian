@@ -1,4 +1,5 @@
 var rpio = require('rpio');
+var fs = require('fs');
 
 rpio.open(36, rpio.INPUT, rpio.PULL_DOWN);
 rpio.open(32, rpio.INPUT, rpio.PULL_DOWN);
@@ -20,6 +21,11 @@ console.log('cams: ' + cams_jumper);
 console.log('aura: ' + aura_jumper);
 console.log('extn: ' + extn_jumper);
 console.log('mode: ' + mode_jumper);
+
+fs.readFile('/boot/localize', 'utf8', function (err, contents) {
+    console.log(contents.trim());
+    exports.localize = contents.trim();
+});
 
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;

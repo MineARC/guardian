@@ -21,7 +21,8 @@ var aura_alarms = {
   'CO2 High': { state: false, type: 'aura' },
   'CO High': { state: false, type: 'aura' },
   'Temp Low': { state: false, type: 'aura' },
-  'Temp High': { state: false, type: 'aura' }
+  'Temp High': { state: false, type: 'aura' },
+  'H2S High': { state: false, type: 'aura' }
 }
 
 var timestamps = {
@@ -31,6 +32,7 @@ var timestamps = {
   O2: 0,
   CO2: 0,
   CO: 0,
+  H2S: 0,
 }
 
 var aura_data = {
@@ -40,6 +42,7 @@ var aura_data = {
   O2: { value: 0, unit: '%', isRecent: false },
   CO2: { value: 0, unit: '%', isRecent: false },
   CO: { value: 0, unit: 'ppm', isRecent: false },
+  H2S: { value: 0, unit: 'ppm', isRecent: false },
 };
 
 exports.data = aura_data;
@@ -73,36 +76,53 @@ function processPage(data) {
   var gas_name = '';
   var gas_value = '';
 
-  jq('tr').each(function (index, element) {
-    gas_name = jq(element).find('td').first().text();
-    gas_value = jq(element).find('td').first().next().text();
-    if (gas_name in aura_data) {
-      switch (gas_name) {
-        case 'CO':
-          break;
-        case 'CO2':
-          gas_value /= 10000;
-          gas_value = gas_value.toFixed(2);
-          break;
-        case 'O2':
-          gas_value = parseFloat(gas_value).toFixed(1);
-          break;
-        default:
-          break;
+  if (jq('p').first().text() == 'version = 1.0' || jq('p').first().text() == 'version = 1.1') {
+    jq('tr').each(function (index, element) {
+      gas_name = jq(element).find('td').first().text();
+      gas_value = jq(element).find('td').first().next().text();
+      if (gas_name in aura_data) {
+        switch (gas_name) {
+          case 'CO':
+            break;
+          case 'CO2':
+            gas_value /= 10000;
+            gas_value = gas_value.toFixed(2);
+            break;
+          case 'O2':
+            gas_value = parseFloat(gas_value).toFixed(1);
+            break;
+          default:
+            break;
+        }
+        aura_data[gas_name].value = gas_value;
+        timestamps[gas_name] = Date.now();
       }
-      aura_data[gas_name].value = gas_value;
-      timestamps[gas_name] = Date.now();
-    }
-  });
+    });
+  }
+  else if (jq('p').first().text() == 'version = 2.0') {
+    jq('tr').each(function (index, element) {
+      gas_name = jq(element).find('td').first().text().split(' ')[0];
+      gas_value = jq(element).find('td').first().next().text();
+      if (gas_name in aura_data) {
+        aura_data[gas_name].value = gas_value;
+        timestamps[gas_name] = Date.now();
+      }
+    });
+  }
+  else {
+
+  }
 }
 
 function updateAlarms() {
   aura_alarms['O2 Low'].state = aura_data.O2.isRecent && aura_data.O2.value <= 18.5;
   aura_alarms['O2 High'].state = aura_data.O2.isRecent && aura_data.O2.value >= 23;
-  aura_alarms['CO2 High'].state = aura_data.O2.isRecent && aura_data.O2.value >= 5000;
-  aura_alarms['CO High'].state = aura_data.O2.isRecent && aura_data.O2.value >= 35;
-  aura_alarms['Temp Low'].state = aura_data.O2.isRecent && aura_data.O2.value <= 0;
-  aura_alarms['Temp High'].state = aura_data.O2.isRecent && aura_data.O2.value >= 50;
+  aura_alarms['CO2 High'].state = aura_data.CO2.isRecent && aura_data.CO2.value >= 1;
+  aura_alarms['CO High'].state = aura_data.CO.isRecent && aura_data.CO.value >= 35;
+  aura_alarms['Temp Low'].state = aura_data.Temp.isRecent && aura_data.Temp.value <= 0;
+  aura_alarms['Temp High'].state = aura_data.Temp.isRecent && aura_data.Temp.value >= 40;
+  aura_alarms['H2S High'].state = aura_data.H2S.isRecent && aura_data.H2S.value >= 15;
+
 }
 
 function updateHistory() {
@@ -112,7 +132,8 @@ function updateHistory() {
     Press: aura_data.Press,
     O2: aura_data.O2,
     CO2: aura_data.CO2,
-    CO: aura_data.CO
+    CO: aura_data.CO,
+    H2S: aura_data.H2S
   }
 
   db.addMonitorData(5, history_data, function (err, success) {
