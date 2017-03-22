@@ -2,6 +2,18 @@ var request = require('request');
 var cheerio = require('cheerio');
 var jq = require('jquery');
 var fs = require('fs');
+var db = require('./database');
+
+setInterval(poll_database, 10000);
+
+function poll_database() {
+  db.getMonitorData(2, function (err, data) {
+    if (err) {
+      return console.log(err.message);
+    }
+    exports.history = data;
+  });
+}
 
 // Define object for access from where they are needed
 var series3_alarms = {
