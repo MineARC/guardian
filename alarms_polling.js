@@ -188,7 +188,17 @@ function format_alarms(alarms) {
   strVar += "					<td>";
   strVar += "            <br>";
   strVar += "						<div>";
-  strVar += "							<span>The chamber: <b>" + name + "<\/b> with MA number: <b>" + ma + "<\/b> has experienced the following fault(s)<\/span>";
+  var chamber_suffix = '';
+  switch (jumpers.localize) {
+    case 'us':
+      chamber_suffix = 'MAA';
+    case 'za':
+      chamber_suffix = 'MAF';
+    default:
+    case 'au':
+      chamber_suffix = 'MA';
+  }
+  strVar += "							<span>The chamber: <b>" + name + "<\/b> with " + chamber_suffix + " number: <b>" + ma + "<\/b> has experienced the following fault(s)<\/span>";
   strVar += "						<\/div>";
   strVar += "            <br>";
   strVar += "						<div>";

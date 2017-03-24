@@ -11,7 +11,13 @@ block append content
       table(id='overview_table' class='table')
         tr
           th.col-xs-2 Chamber
-          th.col-xs-2 MA Number
+          case localize
+            when 'us'
+              th.col-xs-2 MAA Number
+            when 'za'
+              th.col-xs-2 MAF Number
+            default
+              th.col-xs-2 MA Number
           th.col-xs-2 Type
           th.col-xs-2 Alarms
           th.col-xs-2 Status
