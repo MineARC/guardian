@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var auth = require('basic-auth');
+var compression = require('compression')
 var jumpers = require('./jumpers');
 
 var dashboard = require('./routes/overview');
@@ -34,6 +35,7 @@ var alarms_polling = require('./alarms_polling');
 var hostdiscovery = require('./hostdiscovery');
 
 var app = express();
+app.use(compression())
 
 var admins = { 'username': { password: 'password' } };
 

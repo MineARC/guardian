@@ -124,7 +124,14 @@ function processPage(data) {
     }
   });
 
-  db.addMonitorData(2, series3_data, function (err, success) {
+  var graph_data = {
+    Battery: parseFloat(series3_data.raw[10].row_info),
+    Inverter: parseFloat(series3_data.raw[6].row_info),
+    Chamber: parseFloat(series3_data.raw[0].row_info),
+    Outside: parseFloat(series3_data.raw[2].row_info)
+  }
+
+  db.addMonitorData(2, graph_data, function (err, success) {
     if (err)
       return console.log(err.message);
   });
