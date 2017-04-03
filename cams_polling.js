@@ -10,7 +10,7 @@ db.getState('cams', function (err, data) {
   }
 
   if (data) {
-    cams_data.buffer = data;
+    cams_data.buffer = data.buffer;
     pollPins(solenoid_pin);
   }
 });
@@ -74,7 +74,7 @@ function update() {
   cams_alarms['Air Leak'].state = (!cams_data.occupied && cams_data.rate >= 0.15);
   cams_alarms['Air Quality'].state = (cams_data.occupied && cams_data.solenoid);
 
-  db.setState('cams', cams_data.buffer, function (err, result) {
+  db.setState('cams', cams_data, function (err, result) {
     if (err) {
       console.log(err.message);
     }

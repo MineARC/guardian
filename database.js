@@ -1,12 +1,20 @@
 var sqlite3 = require("sqlite3").verbose();
 var fs = require("fs");
 var os = require('os');
-var crypto = require("crypto");
+var winston = require('winston');
+var crypto = require('crypto');
 var exports = module.exports;
 
 var file = "guardian.db";
 var exists = fs.existsSync(file);
 var db = new sqlite3.Database(file);
+
+var logger = new (winston.Logger)({
+  transports: [
+    new (winston.transports.Console)({ 'timestamp': true }),
+    new (winston.transports.File)({ filename: 'database.log', 'timestamp': true })
+  ]
+});
 
 // Setup the database if it is not already
 db.serialize(function () {
@@ -103,6 +111,7 @@ exports.addEmail = function (email, subscription, callback) {
     sent = JSON.stringify(sent);
 
     db.run("INSERT INTO Alarms VALUES (?, ?, ?)", email, subscription, sent, function (err) {
+      logger.info("Email added: email: " + email + " subscription: " + subscription);
       return callback(err, this.lastID > 0);
     });
   });
@@ -116,6 +125,7 @@ exports.removeEmail = function (email, callback) {
     }
 
     db.run("DELETE FROM Alarms WHERE email LIKE ?", email, function (err) {
+      logger.info("Email removed: email: " + email);
       return callback(err, this.changes > 0);
     });
   });
@@ -129,6 +139,7 @@ exports.setEmail = function (email, update, callback) {
     }
 
     db.run("UPDATE Alarms SET email = ? WHERE email LIKE ?", email, function (err) {
+      logger.info("Email changed: email: " + email + " update: " + update);
       callback(err, this.changes > 0);
     });
   });
@@ -157,6 +168,7 @@ exports.setSubscription = function (email, subscription, callback) {
     subscription = JSON.stringify(subscription);
 
     db.run("UPDATE Alarms SET subscription = ? WHERE email LIKE ?", subscription, email, function (err) {
+      logger.info("Email subscription updated: email: " + email + " subscription: " + subscription);
       callback(err, this.changes > 0);
     });
   });
@@ -185,6 +197,7 @@ exports.setSent = function (email, sent, callback) {
     sent = JSON.stringify(sent);
 
     db.run("UPDATE Alarms SET sent = ? WHERE email LIKE ?", sent, email, function (err) {
+      logger.info("Email sent change: email: " + email + " sent: " + sent);
       callback(err, this.changes > 0);
     });
   });
@@ -255,6 +268,7 @@ exports.addMonitorData = function (type, data, callback) {
     data = JSON.stringify(data);
 
     db.run("INSERT INTO " + monitor + " VALUES (?, datetime())", data, function (err) {
+      logger.info("Monitor data added: type: " + type + " data: " + data);
       return callback(err, this.lastID > 0);
     });
   });
@@ -320,6 +334,7 @@ exports.setState = function (state, value, callback) {
     }
     value = JSON.stringify(value);
     db.run("INSERT OR REPLACE INTO State VALUES (?, ?)", state, value, function (err) {
+      logger.info("State change: state: " + state + " value: " + value);
       callback(err, this.changes > 0);
     });
   });
