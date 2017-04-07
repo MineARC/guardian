@@ -57,8 +57,8 @@ $.get('/api/monitor/history').then(function (data) {
       last += 10;
     }
     for (var i = 0; i < data.elv.length; i++) {
-      elv_voltage_data.push({ x: data.elv[i].Time, y: data.elv[i].V });
-      elv_current_data.push({ x: data.elv[i].Time, y: data.elv[i].I });
+      elv_voltage_data.push({ x: data.elv[i].Time, y: +((data.elv[i].serial.V / 1000).toFixed(2)) });
+      elv_current_data.push({ x: data.elv[i].Time, y: +((data.elv[i].serial.I / 1000).toFixed(2)) });
     }
   }
   else {
@@ -74,7 +74,7 @@ $.get('/api/monitor/history').then(function (data) {
 });
 
 function updateELV(data) {
-  var html = '<h3>ELV</h3><table class="table"><tr><th>Name</th><th class="table-right">Value</th></tr>' +
+  var html = '<h3>ELV</h3><table class="table">' +
     '<tr><td>Mains Present</td><td class="table-right">' + (data.mains ? 'Yes' : 'No') + '</td>' +
     '<tr><td>Inverter Output</td><td class="table-right">' + (data.inverter ? 'Yes' : 'No') + '</td>' +
     '<tr><td>Emergency Bank Voltage</td><td class="table-right">' + (data.serial.V / 1000).toFixed(2) + ' V' + '</td>' +

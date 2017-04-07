@@ -110,10 +110,10 @@ $.get('/api/monitor/history').then(function (data) {
             last += 10;
         }
         for (var i = 0; i < data.series3.length; i++) {
-            series3_battery_data.push({ x: data.series3[i].Time, y: data.series3[i].Battery });
-            series3_inverter_data.push({ x: data.series3[i].Time, y: data.series3[i].Inverter });
-            series3_chamber_data.push({ x: data.series3[i].Time, y: data.series3[i].Chamber });
-            series3_outside_data.push({ x: data.series3[i].Time, y: data.series3[i].Outside });
+            series3_battery_data.push({ x: data.series3[i].Time, y: +(data.series3[i].raw[10].row_info) });
+            series3_inverter_data.push({ x: data.series3[i].Time, y: +(data.series3[i].raw[6].row_info) });
+            series3_chamber_data.push({ x: data.series3[i].Time, y: +(data.series3[i].raw[0].row_info) });
+            series3_outside_data.push({ x: data.series3[i].Time, y: +(data.series3[i].raw[2].row_info) });
         }
     }
     else {
@@ -142,10 +142,10 @@ function updateSeries3(data) {
 
     // Get data from api relevent for the charts,
     // updates the chart data, and renders the new data
-    series3_battery_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.raw[10].row_info) });
-    series3_inverter_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.raw[6].row_info) });
-    series3_chamber_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.raw[0].row_info) });
-    series3_outside_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.raw[2].row_info) });
+    series3_battery_data.push({ x: Date.now() / 1000 | 0, y: +(data.raw[10].row_info) });
+    series3_inverter_data.push({ x: Date.now() / 1000 | 0, y: +(data.raw[6].row_info) });
+    series3_chamber_data.push({ x: Date.now() / 1000 | 0, y: +(data.raw[0].row_info) });
+    series3_outside_data.push({ x: Date.now() / 1000 | 0, y: +(data.raw[2].row_info) });
 
     if (series3_battery_data.length > dataLength) { series3_battery_data.shift(); }
     if (series3_inverter_data.length > dataLength) { series3_inverter_data.shift(); }

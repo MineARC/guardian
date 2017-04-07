@@ -4,9 +4,6 @@ if(series4.system_information)
       a.right#monitor-link(href='/monitor') Info
     div.spacer
     table.table
-      //- tr
-      //-   th Name
-      //-   th.table-right Value
       tr
         td.row-name Scrubber Name
         td.table-right.row-name= series4.name
@@ -23,9 +20,6 @@ if(series4.fan_board_1)
     h3 Fan Board
     div.spacer
     table.table
-      //- tr
-      //-   th Name
-      //-   th.table-right Value
       each row in series4.fan_board_1
         tr
           td.row-name= row.row_name
@@ -36,9 +30,6 @@ if(series4.fan_board_2)
     h3 Fan Board 2
     div.spacer
     table.table
-      //- tr
-      //-   th Name
-      //-   th.table-right Value
       each row in series4.fan_board_2
         tr
           td.row-name= row.row_name
@@ -49,9 +40,6 @@ if(series4.current_loops)
     h3 Current Loops
     div.spacer
     table.table
-      //- tr
-      //-   th Name
-      //-   th.table-right Value
       each row in series4.current_loops
         tr
           td.row-name= row.row_name

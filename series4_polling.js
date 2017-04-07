@@ -198,15 +198,7 @@ function processPage(data) {
     }
   });
 
-  var graph_data = {
-    Mains: parseFloat(series4_data.system_information[0].row_info),
-    Battery: parseFloat(series4_data.system_information[1].row_info),
-    Inverter: parseFloat(series4_data.system_information[2].row_info),
-    Chamber: parseFloat(series4_data.system_information[5].row_info),
-    Outside: parseFloat(series4_data.system_information[6].row_info)
-  }
-
-  db.addMonitorData(3, graph_data, function (err, success) {
+  db.addMonitorData(3, series4_data, function (err, success) {
     if (err)
       return console.log(err.message);
   });

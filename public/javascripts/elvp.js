@@ -73,9 +73,9 @@ $.get('/api/monitor/history').then(function (data) {
       last += 10;
     }
     for (var i = 0; i < data.elvp.length; i++) {
-      elvp_voltage_data.push({ x: data.elvp[i].Time, y: data.elvp[i].V });
-      elvp_voltage_standby_data.push({ x: data.elvp[i].Time, y: data.elvp[i].VS });
-      elvp_current_data.push({ x: data.elvp[i].Time, y: data.elvp[i].I });
+      elvp_voltage_data.push({ x: data.elvp[i].Time, y: +((data.elvp[i].serial.V / 1000).toFixed(2)) });
+      elvp_voltage_standby_data.push({ x: data.elvp[i].Time, y: +((data.elvp[i].serial.VS / 1000).toFixed(2)) });
+      elvp_current_data.push({ x: data.elvp[i].Time, y: +((data.elvp[i].serial.I / 1000).toFixed(2)) });
     }
   }
   else {
@@ -92,7 +92,7 @@ $.get('/api/monitor/history').then(function (data) {
 });
 
 function updateELVP(data) {
-  var html = '<h3>ELVP</h3><table class="table"><tr><th>Name</th><th class="table-right">Value</th></tr>' +
+  var html = '<h3>ELVP</h3><table class="table">' +
     '<tr><td>Mains Present</td><td class="table-right">' + (data.mains ? 'Yes' : 'No') + '</td>' +
     '<tr><td>Inverter Output</td><td class="table-right">' + (data.inverter ? 'Yes' : 'No') + '</td>' +
     '<tr><td>Emergency Bank Voltage</td><td class="table-right">' + (data.serial.V / 1000).toFixed(2) + ' V' + '</td>' +

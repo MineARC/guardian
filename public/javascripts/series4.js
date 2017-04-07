@@ -139,11 +139,11 @@ $.get('/api/monitor/history').then(function (data) {
       last += 10;
     }
     for (var i = 0; i < data.series4.length; i++) {
-      series4_mains_data.push({ x: data.series4[i].Time, y: data.series4[i].Mains });
-      series4_battery_data.push({ x: data.series4[i].Time, y: data.series4[i].Battery });
-      series4_inverter_data.push({ x: data.series4[i].Time, y: data.series4[i].Inverter });
-      series4_chamber_data.push({ x: data.series4[i].Time, y: data.series4[i].Chamber });
-      series4_outside_data.push({ x: data.series4[i].Time, y: data.series4[i].Outside });
+      series4_mains_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[0].row_info) });
+      series4_battery_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[1].row_info) });
+      series4_inverter_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[2].row_info) });
+      series4_chamber_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[5].row_info) });
+      series4_outside_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[6].row_info) });
     }
   }
   else {
@@ -186,11 +186,11 @@ function updateSeries4(data) {
 
   // Get data from api relevent for the charts,
   // updates the chart data, and renders the new data
-  series4_mains_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[0].row_info) });
-  series4_battery_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[1].row_info) });
-  series4_inverter_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[2].row_info) });
-  series4_chamber_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[5].row_info) });
-  series4_outside_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[6].row_info) });
+  series4_mains_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[0].row_info) });
+  series4_battery_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[1].row_info) });
+  series4_inverter_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[2].row_info) });
+  series4_chamber_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[5].row_info) });
+  series4_outside_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[6].row_info) });
 
   if (series4_mains_data.length > dataLength) { series4_mains_data.shift(); }
   if (series4_battery_data.length > dataLength) { series4_battery_data.shift(); }
