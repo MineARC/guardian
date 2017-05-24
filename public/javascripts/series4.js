@@ -15,8 +15,10 @@ var series4_chart_mains = new CanvasJS.Chart("graph-mains", {
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " ",
-    interval: 3600,
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
   },
   axisY: {
     title: 'Voltage',
@@ -42,8 +44,10 @@ var series4_chart_battery = new CanvasJS.Chart("graph-battery", {
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " ",
-    interval: 3600,
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
   },
   axisY: {
     title: 'Voltage',
@@ -69,8 +73,10 @@ var series4_chart_inverter = new CanvasJS.Chart("graph-inverter", {
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " ",
-    interval: 3600,
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
   },
   axisY: {
     title: 'Voltage',
@@ -110,8 +116,10 @@ var series4_chart_temp = new CanvasJS.Chart("graph-temp", {
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " ",
-    interval: 3600,
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
   },
   axisY: {
     title: 'Temperature °C',
@@ -139,11 +147,11 @@ $.get('/api/monitor/history').then(function (data) {
       last += 10;
     }
     for (var i = 0; i < data.series4.length; i++) {
-      series4_mains_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[0].row_info) });
-      series4_battery_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[1].row_info) });
-      series4_inverter_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[2].row_info) });
-      series4_chamber_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[5].row_info) });
-      series4_outside_data.push({ x: data.series4[i].Time, y: +(data.series4[i].system_information[6].row_info) });
+      series4_mains_data.push({ x: data.series4[i].Time, y: +(data.series4[i].voltage_mains) });
+      series4_battery_data.push({ x: data.series4[i].Time, y: +(data.series4[i].voltage_battery) });
+      series4_inverter_data.push({ x: data.series4[i].Time, y: +(data.series4[i].voltage_inverter) });
+      series4_chamber_data.push({ x: data.series4[i].Time, y: +(data.series4[i].temp_internal) });
+      series4_outside_data.push({ x: data.series4[i].Time, y: +(data.series4[i].temp_external) });
     }
   }
   else {

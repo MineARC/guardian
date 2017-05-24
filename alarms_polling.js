@@ -58,13 +58,13 @@ function poll_alerts(next) {
 
 function send_mail(fromName, fromAddress, to, subject, text, callback) {
   var smtpConfig = {
-    host: 'remote.nessco.com.au',
-    port: 25,
+    host: 'smtp.office365.com',
+    port: 587,
     // requireTLS: true,
-    tls: { rejectUnauthorized: false },
-    authMethod: 'LOGIN',
+    // tls: { rejectUnauthorized: false },
+    // authMethod: 'LOGIN',
     auth: {
-      user: 'LHgroup.local\\Guardian',
+      user: 'Guardian@minearc.com.au',
       pass: 'Guardian'
     },
     logger: true,

@@ -12,8 +12,10 @@ var elv_chart_voltage = new CanvasJS.Chart("elv-graph-voltage", {
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " ",
-    interval: 3600,
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
   },
   axisY: {
     title: 'Voltage',
@@ -38,7 +40,10 @@ var elv_chart_current = new CanvasJS.Chart("elv-graph-current", {
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " "
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
   },
   axisY: {
     title: 'Current',
@@ -57,8 +62,8 @@ $.get('/api/monitor/history').then(function (data) {
       last += 10;
     }
     for (var i = 0; i < data.elv.length; i++) {
-      elv_voltage_data.push({ x: data.elv[i].Time, y: +((data.elv[i].serial.V / 1000).toFixed(2)) });
-      elv_current_data.push({ x: data.elv[i].Time, y: +((data.elv[i].serial.I / 1000).toFixed(2)) });
+      elv_voltage_data.push({ x: data.elv[i].Time, y: +(data.elv[i].voltage_battery) });
+      elv_current_data.push({ x: data.elv[i].Time, y: +(data.elv[i].current_battery) });
     }
   }
   else {

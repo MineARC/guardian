@@ -127,13 +127,13 @@ function updateAlarms() {
 
 function updateHistory() {
   var history_data = {
-    Temp: aura_data.Temp,
-    Humid: aura_data.Humid,
-    Press: aura_data.Press,
-    O2: aura_data.O2,
-    CO2: aura_data.CO2,
-    CO: aura_data.CO,
-    H2S: aura_data.H2S
+    Temp: aura_data.Temp.value,
+    Humid: aura_data.Humid.value,
+    Press: aura_data.Press.value,
+    O2: aura_data.O2.value,
+    CO2: aura_data.CO2.value,
+    CO: aura_data.CO.value,
+    H2S: aura_data.H2S.value
   }
 
   db.addMonitorData(5, history_data, function (err, success) {

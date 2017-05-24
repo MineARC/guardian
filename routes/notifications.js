@@ -6,7 +6,7 @@ if (jumpers.mode == 0) var elv_polling = require('../elv_polling');
 if (jumpers.mode == 1) var elvp_polling = require('../elvp_polling');
 if (jumpers.mode == 2) var series3_polling = require('../series3_polling');
 if (jumpers.mode == 3) var series4_polling = require('../series4_polling');
-var db = require('../database')
+var db = require('../database');
 var alias = require('../alias');
 var router = express.Router();
 

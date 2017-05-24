@@ -61,6 +61,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', dashboard);
+app.use('/dashboard', chamber);
 app.use('/chamber', chamber);
 
 if (jumpers.mode == 0) app.use('/monitor', elv);

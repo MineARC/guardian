@@ -27,8 +27,10 @@ var elvp_chart_voltage = new CanvasJS.Chart("elvp-graph-voltage", {
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " ",
-    interval: 3600,
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
   },
   axisY: {
     title: 'Voltage',
@@ -53,7 +55,10 @@ var elvp_chart_current = new CanvasJS.Chart("elvp-graph-current", {
   }],
   axisX: {
     title: 'Time',
-    valueFormatString: " "
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
   },
   axisY: {
     title: 'Current',
@@ -73,9 +78,9 @@ $.get('/api/monitor/history').then(function (data) {
       last += 10;
     }
     for (var i = 0; i < data.elvp.length; i++) {
-      elvp_voltage_data.push({ x: data.elvp[i].Time, y: +((data.elvp[i].serial.V / 1000).toFixed(2)) });
-      elvp_voltage_standby_data.push({ x: data.elvp[i].Time, y: +((data.elvp[i].serial.VS / 1000).toFixed(2)) });
-      elvp_current_data.push({ x: data.elvp[i].Time, y: +((data.elvp[i].serial.I / 1000).toFixed(2)) });
+      elvp_voltage_data.push({ x: data.elvp[i].Time, y: +(data.elvp[i].voltage_battery) });
+      elvp_voltage_standby_data.push({ x: data.elvp[i].Time, y: +(data.elvp[i].voltage_standby) });
+      elvp_current_data.push({ x: data.elvp[i].Time, y: +(data.elvp[i].current_battery) });
     }
   }
   else {

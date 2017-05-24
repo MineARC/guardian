@@ -91,8 +91,13 @@ function sendSerialData(data) {
   if (v[0] == 'H18' && next <= Date.now() && elv_data.PID != '') {
     updateAlarms();
     next += delay;
-    //var graph_data = { V: +((elv_data.serial.V / 1000).toFixed(2)), VS: +((elv_data.serial.VS / 1000).toFixed(2)), I: +((elv_data.serial.I / 1000).toFixed(2)) }
-    db.addMonitorData(0, elv_data, function (err, success) {
+    var graph_data = {
+      voltage_battery: +((elv_data.serial.V / 1000).toFixed(2)),
+      current_battery: +((elv_data.serial.I / 1000).toFixed(2)),
+      voltage_mains: elv_data.mains,
+      voltage_inverter: elv_data.inverter
+    }
+    db.addMonitorData(0, graph_data, function (err, success) {
       if (err)
         return console.log(err.message);
     });

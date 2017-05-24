@@ -124,7 +124,17 @@ function processPage(data) {
     }
   });
 
-  db.addMonitorData(2, series3_data, function (err, success) {
+  var graph_data = {
+    voltage_inverter: parseFloat(series3_data.raw[6].row_info),
+    voltage_battery: parseFloat(series3_data.raw[10].row_info),
+    voltage_bridge: parseFloat(series3_data.raw[12].row_info),
+    temp_internal: parseFloat(series3_data.raw[0].row_info),
+    temp_external: parseFloat(series3_data.raw[2].row_info),
+    temp_battery: parseFloat(series3_data.raw[4].row_info),
+    current_battery: parseFloat(series3_data.raw[8].row_info),
+  }
+
+  db.addMonitorData(2, graph_data, function (err, success) {
     if (err)
       return console.log(err.message);
   });
