@@ -1,65 +1,415 @@
-extends layout
+doctype html
+html(lang='en')
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    title Guardian
+    meta(name='description', content='app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    link(rel='stylesheet', href='css/animate.css', type='text/css')
+    link(rel='stylesheet', href='css/font-awesome.min.css', type='text/css')
+    link(rel='stylesheet', href='css/simple-line-icons.css', type='text/css')
+    link(rel='stylesheet', href='css/bootstrap.css', type='text/css')
+    link(rel='stylesheet', href='css/font.css', type='text/css')
+    link(rel='stylesheet', href='css/app.css', type='text/css')
+    link(rel='stylesheet', type='text/css', href='css/footable.bootstrap.min.css')
+  body
+    .app.app-header-fixed
+      header#header.app-header.navbar(role='menu')
+        .navbar-header.bg-dark
+          button.pull-right.visible-xs.dk(ui-toggle-class='show', target='.navbar-collapse')
+            i.glyphicon.glyphicon-cog
+          button.pull-right.visible-xs(ui-toggle-class='off-screen', target='.app-aside', ui-scroll='app')
+            i.glyphicon.glyphicon-align-justify
+          a.navbar-brand.text-lt(href='#')
+            span.hidden-folded.m-l-xs Guardian
+        .collapse.pos-rlt.navbar-collapse.box-shadow.bg-white-only
+          .nav.navbar-nav.hidden-xs
+            a.btn.no-shadow.navbar-btn(href='#', ui-toggle-class='app-aside-folded', target='.app')
+              i.fa.fa-dedent.fa-fw.text
+              i.fa.fa-indent.fa-fw.text-active
+            span.m-n.font-thin.h3.text-black MA 001
+      aside#aside.app-aside.hidden-xs.bg-dark
+        .aside-wrap
+          .navi-wrap
+            nav.navi.clearfix(ui-nav='')
+              ul.nav
+                li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
+                  span NAVIGATION
+                li
+                  a.auto(href='#')
+                    i.icon-bar-chart
+                    span.font-bold HOME
+                li
+                  a(href='#')
+                    i.icon-settings
+                    span.font-bold SETTINGS
+                li
+                  a(href='#')
+                    i.icon-info
+                    span.font-bold HELP
+                li.line.dk
+                li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
+                  span FLEET
+                li.active
+                  a(href='#')
+                    i.icon-tag
+                    span MA 001
+                li
+                  a(href='#')
+                    b.badge.bg-info.pull-right 3
+                    i.icon-tag
+                    span MA 002
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 003
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 004
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 005
+      #content.app-content(role='main')
+        .app-content-body
+          .hbox.hbox-auto-xs.hbox-auto-sm(ng-init='app.settings.asideFolded = false; app.settings.asideDock = false;')
+            .col
+              .wrapper-md(ng-controller='FlotChartDemoCtrl')
+                .tab-container
+                  ul.nav.nav-tabs
+                    li.active
+                      a(href='#', data-toggle='tab', data-target='#tab_1') CAMERA
+                    li
+                      a(href='#', data-toggle='tab', data-target='#tab_2') SERIES IV
+                    li
+                      a(href='#', data-toggle='tab', data-target='#tab_3') CAMS
+                    li
+                      a(href='#', data-toggle='tab', data-target='#tab_4') FAN
+                  .tab-content
+                    #tab_1.tab-pane.active
+                      .row
+                        .col-xs-offset-1.col-xs-4
+                          a(href='#')
+                            img.img.img-responsive(src='img/cam.jpg')
+                        .col-xs-offset-2.col-xs-4
+                          a(href='#')
+                            img.img.img-responsive(src='img/cam.jpg')
+                    #tab_2.tab-pane
+                    #tab_3.tab-pane
+                    #tab_4.tab-pane
+                .row
+                  .col-xs-12
+                    .panel.panel-default
+                      .panel-heading
+                        | AURA-FX GAS MONITORS
+                      .panel-body
+                        .row.text-center
+                          .col-sm-4
+                            .inline
+                              div
+                                | O
+                                sub 2
+                              .easyPieChart#chart1(ui-jq='easyPieChart', ui-options="{\
+                              animate: true,\
+                              delay: 100,\
+                              percent: 50,\
+                              lineWidth: 4,\
+                              trackColor: '#e8eff0',\
+                              barColor: '#fad733',\
+                              scaleColor: '#e8eff0',\
+                              size: 115,\
+                              lineCap: 'butt'\
+                              }", style='width: 115px; height: 115px; line-height: 115px;')
+                                div
+                                  span.h2.m-l-sm.step
+                                    | 21
+                                    span(style='font-size: 0.5em') %
+                                  .text.text-sm
+                                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                                    | 0.5
+                            //- div
+                            //-   | O
+                            //-   sub 2
+                            //- .h2.m-b-sm
+                            //-   | 21.6
+                            //-   span(style='font-size: 0.5em') %
+                            //- div
+                            //-   i.fa.fa-fw.fa-caret-up.text-success.text-sm
+                            //-   | 0.2
+                          .col-sm-4
+                            .inline
+                              div
+                                | CO
+                                sub 2
+                              .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                              animate: true,\
+                              delay: 100,\
+                              percent: 1,\
+                              lineWidth: 4,\
+                              trackColor: '#e8eff0',\
+                              barColor: '#fad733',\
+                              scaleColor: '#e8eff0',\
+                              size: 115,\
+                              lineCap: 'butt'\
+                              }", style='width: 115px; height: 115px; line-height: 115px;')
+                                div
+                                  span.h2.m-l-sm.step
+                                    | 0.04
+                                    span(style='font-size: 0.5em') %
+                                  .text.text-sm
+                                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                                    | 0.01
+                            //- div
+                            //-   | CO
+                            //-   sub 2
+                            //- .h2.m-b-sm
+                            //-   | 0.06
+                            //-   span(style='font-size: 0.5em') %
+                            //- div
+                            //-   i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                            //-   | 0.5
+                          .col-sm-4
+                            .inline
+                              div
+                                | CO
+                              .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                              animate: true,\
+                              delay: 100,\
+                              percent: 10,\
+                              lineWidth: 4,\
+                              trackColor: '#e8eff0',\
+                              barColor: '#fad733',\
+                              scaleColor: '#e8eff0',\
+                              size: 115,\
+                              lineCap: 'butt'\
+                              }", style='width: 115px; height: 115px; line-height: 115px;')
+                                div
+                                  span.h2.m-l-sm.step
+                                    | 3
+                                    span(style='font-size: 0.5em') ppm
+                                  .text.text-sm
+                                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                                    | 0.5
+                            //- div
+                            //-   | CO
+                            //- .h2.m-b-sm
+                            //-   | 4.3
+                            //-   span(style='font-size: 0.5em') ppm
+                            //- div
+                            //-   i.fa.fa-fw.fa-caret-up.text-success.text-sm
+                            //-   | 3.2
+                          //- .col-sm-3
+                          //-   .inline
+                          //-     div
+                          //-       | H
+                          //-       sub 2
+                          //-       | S
+                          //-     .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                          //-     animate: true,\
+                          //-     delay: 100,\
+                          //-     percent: 75,\
+                          //-     lineWidth: 4,\
+                          //-     trackColor: '#e8eff0',\
+                          //-     barColor: '#fad733',\
+                          //-     scaleColor: '#e8eff0',\
+                          //-     size: 115,\
+                          //-     lineCap: 'butt'\
+                          //-     }", style='width: 115px; height: 115px; line-height: 115px;')
+                          //-       div
+                          //-         span.h2.m-l-sm.step
+                          //-           | 75
+                          //-           span(style='font-size: 0.5em') ℃
+                          //-         .text.text-sm
+                          //-           i.fa.fa
+                            //- div
+                            //-   | H
+                            //-   sub 2
+                            //-   | S
+                            //- .h2.m-b-sm
+                            //-   | 10.2
+                            //-   span(style='font-size: 0.5em') ppm
+                            //- div
+                            //-   i.fa.fa-fw.fa-caret-up.text-success.text-sm
+                            //-   | 9.8
+                .row
+                  .col-xs-12
+                    .panel.panel-default
+                      .panel-heading
+                        | TEMPERATURE
+                      .panel-body
+                        .row.text-center
+                          .col-sm-3
+                            .inline
+                              div Internal Apparent
+                              .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                              animate: true,\
+                              delay: 100,\
+                              percent: 23,\
+                              lineWidth: 4,\
+                              trackColor: '#e8eff0',\
+                              barColor: '#fad733',\
+                              scaleColor: '#e8eff0',\
+                              size: 115,\
+                              lineCap: 'butt'\
+                              }", style='width: 115px; height: 115px; line-height: 115px;')
+                                div
+                                  span.h2.m-l-sm.step
+                                    | 23
+                                    span(style='font-size: 0.5em') ℃
+                                  .text.text-sm
+                                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                                    | 0.5
+                          .col-sm-3
+                            .inline
+                              div Internal Actual
+                              .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                              percent: 24,\
+                              lineWidth: 4,\
+                              trackColor: '#e8eff0',\
+                              barColor: '#fad733',\
+                              scaleColor: '#e8eff0',\
+                              size: 115,\
+                              lineCap: 'butt'\
+                              }", style='width: 115px; height: 115px; line-height: 115px;')
+                                div
+                                  span.h2.m-l-sm.step
+                                    | 24
+                                    span(style='font-size: 0.5em') ℃
+                                  .text.text-sm
+                                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                                    | 0.5
 
-block vars
-  = alias
+                          .col-sm-3
+                            .inline
+                              div External
+                              .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                              percent: 26,\
+                              lineWidth: 4,\
+                              trackColor: '#e8eff0',\
+                              barColor: '#fad733',\
+                              scaleColor: '#e8eff0',\
+                              size: 115,\
+                              lineCap: 'butt'\
+                              }", style='width: 115px; height: 115px; line-height: 115px;')
+                                div
+                                  span.h2.m-l-sm.step
+                                    | 26
+                                    span(style='font-size: 0.5em') ℃
+                                  .text.text-sm
+                                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                                    | 0.5
 
-block append content
-  div(class='jumbotron')
-    div#table-overview
-      h3 Information
-      div.spacer
-      table(id='overview_table' class='table')
-        tr
-          th.col-xs-2 Chamber
-          case localize
-            when 'us'
-              th.col-xs-2 MAA Number
-            when 'za'
-              th.col-xs-2 MAF Number
-            default
-              th.col-xs-2 MA Number
-          th.col-xs-2 Type
-          th.col-xs-2 Alarms
-          th.col-xs-2 Status
-        if(hosts)
-          each host in hosts
-            tr.overview-row
-              td
-                a(href='//' + host.ip + '/chamber')= host.alias ? host.alias : 'blank'
-              td
-                = host.hostname.split('-')[1]
-              td
-                 case host.type
-                  when 0 
-                    | ELV
-                  when 1 
-                    | ELVP
-                  when 2 
-                    | Series 3
-                  when 3 
-                    | Series 4
-                  default
-                    | Unknown
-              td
-                div.dropdown
-                  button.btn.btn-info.btn-sm.dropdown-toggle(type='button' data-toggle='dropdown')
-                    span.num_subs= host.alarms_total
-                  if(host.alarms_total > 0)
-                    ul.alert.alert-danger.col-xs-12.dropdown-menu
-                      each t in host.alarms_active
-                        each val in t
-                          li= val
-                  else
-                    ul.alert.alert-info.col-xs-12.dropdown-menu
-                      | Everything is fine
-              if(host.alarms_total > 0)
-                td
-                  img(src='/images/Error.png')
-              else
-                td
-                  img(src='/images/Good.png')
-            
-block append styles
+                          .col-sm-3
+                            .inline
+                              div Battery
+                              .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                              percent: 30,\
+                              lineWidth: 4,\
+                              trackColor: '#e8eff0',\
+                              barColor: '#fad733',\
+                              scaleColor: '#e8eff0',\
+                              size: 115,\
+                              lineCap: 'butt'\
+                              }", style='width: 115px; height: 115px; line-height: 115px;')
+                                div
+                                  span.h2.m-l-sm.step
+                                    | 30
+                                    span(style='font-size: 0.5em') ℃
+                                  .text.text-sm
+                                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                                    | 0.5
 
-block append scripts
-  script(src='/javascripts/overview.js')
+                .row
+                  .col-xs-9
+                    .panel.panel-default
+                      .panel-heading
+                        | VOLTAGE
+                      .panel-body
+                        .row.text-center
+                          .col-sm-4
+                            div Mains
+                            .h2.m-b-sm
+                              | 227.6
+                              span(style='font-size: 0.5em') V
+                            div
+                              i.fa.fa-fw.fa-caret-up.text-success.text-sm
+                              | 0.2
+                          .col-sm-4
+                            div Inverter
+                            .h2.m-b-sm
+                              | 241.6
+                              span(style='font-size: 0.5em') V
+                            div
+                              i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                              | 0.5
+                          .col-sm-4
+                            div Battery
+                            .h2.m-b-sm
+                              | 45.3
+                              span(style='font-size: 0.5em') V
+                            div
+                              i.fa.fa-fw.fa-caret-up.text-success.text-sm
+                              | 3.2
+                  .col-xs-3
+                    .panel.panel-default
+                      .panel-heading
+                        | CURRENT
+                      .panel-body
+                        .row.text-center
+                          .col-sm-12
+                            div Battery
+                            .h2.m-b-sm
+                              | 10.6
+                              span(style='font-size: 0.5em') A
+                            div
+                              i.fa.fa-fw.fa-caret-up.text-success.text-sm
+                              | 0.2
+            .col.w-md.bg-white-only.b-l.bg-auto.no-border-xs
+              .nav-tabs-alt
+              .tab-content
+                #tab-1.tab-pane.active(role='tabpanel')
+                  .wrapper-md
+                    .m-b-sm.text-md ALERT FEED
+                    ul.list-group.no-bg.no-borders.pull-in
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') SDCard failed on Display board
+                          small.text-muted MA 006
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') CO2 fan 1 has failed on Fan board 1
+                          small.text-muted MA 012
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') Lighting has failed on Fan board 1
+                          small.text-muted MA 056
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') Battery Rail has failed on Fan board 2
+                          small.text-muted MA 002
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') CO fan has failed on Fan board 1
+                          small.text-muted MA 046
+      footer#footer.app-footer(role='footer')
+        .wrapper.b-t.bg-light
+          span.pull-right
+            | 2.2.0 
+            a.m-l-sm.text-muted(href='#', ui-scroll='app')
+              em.fa.fa-long-arrow-up
+          |         © MineARC Systems Copyright.
+    script(src='js/jquery.js')
+    script(src='js/bootstrap.js')
+    script(src='js/ui-load.js')
+    script(src='js/ui-jp.config.js')
+    script(src='js/ui-jp.js')
+    script(src='js/ui-nav.js')
+    script(src='js/ui-toggle.js')
+    script(src='js/ui-client.js')
+    script(src='js/footable.min.js')
