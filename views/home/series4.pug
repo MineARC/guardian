@@ -1,46 +1,39 @@
-if(series4.system_information)
-  div.col-xs-12.col-md-6#table-system-info.items
-    h3 System Information
-      a.right#monitor-link(href='/monitor') Info
-    div.spacer
-    table.table
-      tr
-        td.row-name Scrubber Name
-        td.table-right.row-name= series4.name
-      tr
-        td.row-name Mode
-        td.table-right.row-mode= series4.mode
-      each row in series4.system_information
+.row
+  if(series4.system_information)
+    div.col-xs-12#table-system-info.items
+      //- a.right#monitor-link(href='/monitor') Info
+      table.table
         tr
-          td.row-name= row.row_name
-          td.table-right.row-info #{row.row_info} #{row.row_unit}
+          td.row-name Scrubber Name
+          td.table-right.row-alias= series4.name
+        tr
+          td.row-name Mode
+          td.table-right.row-mode= series4.mode
+        each row in series4.system_information
+          tr
+            td.row-name= row.row_name
+            td.table-right.row-info #{row.row_info} #{row.row_unit}
 
-if(series4.fan_board_1)
-  div.col-xs-12.col-md-6#table-fan-board-1.items
-    h3 Fan Board
-    div.spacer
-    table.table
-      each row in series4.fan_board_1
-        tr
-          td.row-name= row.row_name
-          td.table-right.row-info #{row.row_info} #{row.row_unit}
+  if(series4.fan_board_1)
+    div.col-xs-12#table-fan-board-1.items
+      table.table
+        each row in series4.fan_board_1
+          tr
+            td.row-name= row.row_name
+            td.table-right.row-info #{row.row_info} #{row.row_unit}
 
-if(series4.fan_board_2)
-  div.col-xs-12.col-md-6#table-fan-board-2.items
-    h3 Fan Board 2
-    div.spacer
-    table.table
-      each row in series4.fan_board_2
-        tr
-          td.row-name= row.row_name
-          td.table-right.row-info #{row.row_info} #{row.row_unit}
+  if(series4.fan_board_2)
+    div.col-xs-12#table-fan-board-2.items
+      table.table
+        each row in series4.fan_board_2
+          tr
+            td.row-name= row.row_name
+            td.table-right.row-info #{row.row_info} #{row.row_unit}
 
-if(series4.current_loops)
-  div.col-xs-12.col-md-6#table-current-loops.items
-    h3 Current Loops
-    div.spacer
-    table.table
-      each row in series4.current_loops
-        tr
-          td.row-name= row.row_name
-          td.table-right.row-info #{row.row_info} #{row.row_unit}
+  if(series4.current_loops)
+    div.col-xs-12#table-current-loops.items
+      table.table
+        each row in series4.current_loops
+          tr
+            td.row-name= row.row_name
+            td.table-right.row-info #{row.row_info} #{row.row_unit}

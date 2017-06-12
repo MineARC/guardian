@@ -1,6 +1,193 @@
-div.col-xs-12.col-md-6
-  .graph#graph-battery
-div.col-xs-12.col-md-6
-  .graph#graph-inverter
-div.col-xs-12.col-md-6
-  .graph#graph-temp
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        | TEMPERATURE
+      .panel-body
+        .row.text-center
+          if(aura)
+            .col-sm-3
+              .inline#readout-temp-aura
+                div Internal Apparent
+                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                animate: true,\
+                delay: 100,\
+                percent: 23,\
+                lineWidth: 8,\
+                trackColor: '#e8eff0',\
+                barColor: '#fad733',\
+                scaleColor: '#e8eff0',\
+                size: 115,\
+                lineCap: 'butt'\
+                }", style='width: 115px; height: 115px; line-height: 115px;')
+                  div
+                    span.h2.m-l-sm.step
+                      | 0.0
+                      span(style='font-size: 0.5em') ℃
+                    .text.text-sm
+                      i.fa.fa-fw.fa-circle.text-muted.text-sm
+                      | 0.0
+            .col-sm-3
+              .inline#readout-temp-internal
+                div Internal Actual
+                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                percent: 24,\
+                lineWidth: 8,\
+                trackColor: '#e8eff0',\
+                barColor: '#fad733',\
+                scaleColor: '#e8eff0',\
+                size: 115,\
+                lineCap: 'butt'\
+                }", style='width: 115px; height: 115px; line-height: 115px;')
+                  div
+                    span.h2.m-l-sm.step
+                      | 0.0
+                      span(style='font-size: 0.5em') ℃
+                    .text.text-sm
+                      i.fa.fa-fw.fa-circle.text-muted.text-sm
+                      | 0.0
+            .col-sm-3
+              .inline#readout-temp-external
+                div External
+                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                percent: 26,\
+                lineWidth: 8,\
+                trackColor: '#e8eff0',\
+                barColor: '#fad733',\
+                scaleColor: '#e8eff0',\
+                size: 115,\
+                lineCap: 'butt'\
+                }", style='width: 115px; height: 115px; line-height: 115px;')
+                  div
+                    span.h2.m-l-sm.step
+                      | 0.0
+                      span(style='font-size: 0.5em') ℃
+                    .text.text-sm
+                      i.fa.fa-fw.fa-circle.text-muted.text-sm
+                      | 0.0
+            .col-sm-3
+              .inline#readout-temp-battery
+                div Battery
+                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                percent: 30,\
+                lineWidth: 8,\
+                trackColor: '#e8eff0',\
+                barColor: '#fad733',\
+                scaleColor: '#e8eff0',\
+                size: 115,\
+                lineCap: 'butt'\
+                }", style='width: 115px; height: 115px; line-height: 115px;')
+                  div
+                    span.h2.m-l-sm.step
+                      | 0
+                      span(style='font-size: 0.5em') ℃
+                    .text.text-sm
+                      i.fa.fa-fw.fa-circle.text-muted.text-sm
+                      | 0
+          else
+            .col-sm-4
+              .inline#readout-temp-internal
+                div Internal
+                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                percent: 24,\
+                lineWidth: 8,\
+                trackColor: '#e8eff0',\
+                barColor: '#fad733',\
+                scaleColor: '#e8eff0',\
+                size: 115,\
+                lineCap: 'butt'\
+                }", style='width: 115px; height: 115px; line-height: 115px;')
+                  div
+                    span.h2.m-l-sm.step
+                      | 0
+                      span(style='font-size: 0.5em') ℃
+                    .text.text-sm
+                      i.fa.fa-fw.fa-circle.text-muted.text-sm
+                      | 0
+            .col-sm-4
+              .inline#readout-temp-external
+                div External
+                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                percent: 26,\
+                lineWidth: 8,\
+                trackColor: '#e8eff0',\
+                barColor: '#fad733',\
+                scaleColor: '#e8eff0',\
+                size: 115,\
+                lineCap: 'butt'\
+                }", style='width: 115px; height: 115px; line-height: 115px;')
+                  div
+                    span.h2.m-l-sm.step
+                      | 0
+                      span(style='font-size: 0.5em') ℃
+                    .text.text-sm
+                      i.fa.fa-fw.fa-circle.text-muted.text-sm
+                      | 0
+            .col-sm-4
+              .inline#readout-temp-battery
+                div Battery
+                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                percent: 30,\
+                lineWidth: 8,\
+                trackColor: '#e8eff0',\
+                barColor: '#fad733',\
+                scaleColor: '#e8eff0',\
+                size: 115,\
+                lineCap: 'butt'\
+                }", style='width: 115px; height: 115px; line-height: 115px;')
+                  div
+                    span.h2.m-l-sm.step
+                      | 0
+                      span(style='font-size: 0.5em') ℃
+                    .text.text-sm
+                      i.fa.fa-fw.fa-circle.text-muted.text-sm
+                      | 0
+.row
+  .col-xs-9
+    .panel.panel-default
+      .panel-heading
+        | VOLTAGE
+      .panel-body
+        .row.text-center
+          .col-sm-4
+            .inline#readout-voltage-mains
+              div Mains
+              .h2.m-b-sm
+                | 0
+                span(style='font-size: 0.5em') V
+              div
+                i.fa.fa-fw.fa-circle.text-muted.text-sm
+                | 0
+          .col-sm-4#readout-voltage-bridge
+            .inline
+              div Bridge
+              .h2.m-b-sm
+                | 0
+                span(style='font-size: 0.5em') V
+              div
+                i.fa.fa-fw.fa-circle.text-muted.text-sm
+                | 0
+          .col-sm-4
+            .inline#readout-voltage-battery
+              div Battery
+              .h2.m-b-sm
+                | 0
+                span(style='font-size: 0.5em') V
+              div
+                i.fa.fa-fw.fa-circle.text-muted.text-sm
+                | 0
+  .col-xs-3
+    .panel.panel-default
+      .panel-heading
+        | CURRENT
+      .panel-body
+        .row.text-center
+          .col-sm-12
+            .inline#readout-current-battery
+              div Battery
+              .h2.m-b-sm
+                | 0
+                span(style='font-size: 0.5em') A
+              div
+                i.fa.fa-fw.fa-circle.text-muted.text-sm
+                | 0

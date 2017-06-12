@@ -1,4 +1,78 @@
-div.col-xs-12.col-md-6
-  .graph#elv-graph-voltage
-div.col-xs-12.col-md-6
-  .graph#elv-graph-current
+if(aura)
+  .row
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading
+          | TEMPERATURE
+        .panel-body
+          .row.text-center
+            .col-sm-12
+              .inline#readout-temp-aura
+                div Internal Apparent
+                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                animate: true,\
+                delay: 100,\
+                percent: 23,\
+                lineWidth: 8,\
+                trackColor: '#e8eff0',\
+                barColor: '#fad733',\
+                scaleColor: '#e8eff0',\
+                size: 115,\
+                lineCap: 'butt'\
+                }", style='width: 115px; height: 115px; line-height: 115px;')
+                  div
+                    span.h2.m-l-sm.step
+                      | 0.0
+                      span(style='font-size: 0.5em') ℃
+                    .text.text-sm
+                      i.fa.fa-fw.fa-circle.text-muted.text-sm
+                      | 0.0
+.row
+  .col-xs-9
+    .panel.panel-default
+      .panel-heading
+        | VOLTAGE
+      .panel-body
+        .row.text-center
+          .col-sm-4
+            .inline#readout-voltage-mains
+              div Mains
+              .h2.m-b-sm
+                | 0
+                span(style='font-size: 0.5em') V
+              div
+                i.fa.fa-fw.fa-circle.text-muted.text-sm
+                | 0
+          .col-sm-4
+            .inline#readout-voltage-inverter
+              div Inverter
+              .h2.m-b-sm
+                | 0
+                span(style='font-size: 0.5em') V
+              div
+                i.fa.fa-fw.fa-circle.text-muted.text-sm
+                | 0
+          .col-sm-4
+            .inline#readout-voltage-emergency
+              div Emergency Battery
+              .h2.m-b-sm
+                | 0
+                span(style='font-size: 0.5em') V
+              div
+                i.fa.fa-fw.fa-circle.text-muted.text-sm
+                | 0
+  .col-xs-3
+    .panel.panel-default
+      .panel-heading
+        | CURRENT
+      .panel-body
+        .row.text-center
+          .col-sm-12
+            .inline#readout-current-battery
+              div Battery
+              .h2.m-b-sm
+                | 0
+                span(style='font-size: 0.5em') A
+              div
+                i.fa.fa-fw.fa-circle.text-muted.text-sm
+                | 0

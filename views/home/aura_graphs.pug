@@ -1,0 +1,75 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        | AURA-FX GAS MONITORS
+      .panel-body
+        .row.text-center
+          .col-sm-4
+            .inline
+              div
+                | O
+                sub 2
+              .easyPieChart#chart1(ui-jq='easyPieChart', ui-options="{\
+              animate: true,\
+              delay: 100,\
+              percent: 50,\
+              lineWidth: 8,\
+              trackColor: '#e8eff0',\
+              barColor: '#fad733',\
+              scaleColor: '#e8eff0',\
+              size: 115,\
+              lineCap: 'butt'\
+              }", style='width: 115px; height: 115px; line-height: 115px;')
+                div
+                  span.h2.m-l-sm.step
+                    | 21
+                    span(style='font-size: 0.5em') %
+                  .text.text-sm
+                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                    | 0.5
+          .col-sm-4
+            .inline
+              div
+                | CO
+                sub 2
+              .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+              animate: true,\
+              delay: 100,\
+              percent: 1,\
+              lineWidth: 8,\
+              trackColor: '#e8eff0',\
+              barColor: '#fad733',\
+              scaleColor: '#e8eff0',\
+              size: 115,\
+              lineCap: 'butt'\
+              }", style='width: 115px; height: 115px; line-height: 115px;')
+                div
+                  span.h2.m-l-sm.step
+                    | 0.04
+                    span(style='font-size: 0.5em') %
+                  .text.text-sm
+                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                    | 0.01
+          .col-sm-4
+            .inline
+              div
+                | CO
+              .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+              animate: true,\
+              delay: 100,\
+              percent: 10,\
+              lineWidth: 8,\
+              trackColor: '#e8eff0',\
+              barColor: '#fad733',\
+              scaleColor: '#e8eff0',\
+              size: 115,\
+              lineCap: 'butt'\
+              }", style='width: 115px; height: 115px; line-height: 115px;')
+                div
+                  span.h2.m-l-sm.step
+                    | 3
+                    span(style='font-size: 0.5em') ppm
+                  .text.text-sm
+                    i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                    | 0.5

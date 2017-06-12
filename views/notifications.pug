@@ -1,111 +1,297 @@
-extends layout
+doctype html
+html(lang='en')
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    title Guardian
+    meta(name='description', content='app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    link(rel='stylesheet', href='css/animate.css', type='text/css')
+    link(rel='stylesheet', href='css/font-awesome.min.css', type='text/css')
+    link(rel='stylesheet', href='css/simple-line-icons.css', type='text/css')
+    link(rel='stylesheet', href='css/bootstrap.css', type='text/css')
+    link(rel='stylesheet', href='css/font.css', type='text/css')
+    link(rel='stylesheet', href='css/app.css', type='text/css')
+    link(rel='stylesheet', type='text/css', href='css/footable.bootstrap.min.css')
+  body
+    .app.app-header-fixed
+      header#header.app-header.navbar(role='menu')
+        .navbar-header.bg-dark
+          button.pull-right.visible-xs.dk(ui-toggle-class='show', target='.navbar-collapse')
+            i.glyphicon.glyphicon-cog
+          button.pull-right.visible-xs(ui-toggle-class='off-screen', target='.app-aside', ui-scroll='app')
+            i.glyphicon.glyphicon-align-justify
+          a.navbar-brand.text-lt(href='#')
+            span.hidden-folded.m-l-xs Guardian
+        .collapse.pos-rlt.navbar-collapse.box-shadow.bg-white-only
+          .nav.navbar-nav.hidden-xs
+            a.btn.no-shadow.navbar-btn(href='#', ui-toggle-class='app-aside-folded', target='.app')
+              i.fa.fa-dedent.fa-fw.text
+              i.fa.fa-indent.fa-fw.text-active
+            span.m-n.font-thin.h3.text-black SETTINGS
+      aside#aside.app-aside.hidden-xs.bg-dark
+        .aside-wrap
+          .navi-wrap
+            nav.navi.clearfix(ui-nav='')
+              ul.nav
+                li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
+                  span NAVIGATION
+                li
+                  a.auto(href='/')
+                    i.icon-home
+                    span.font-bold HOME
+                li.active
+                  a(href='notifications')
+                    i.icon-settings
+                    span.font-bold SETTINGS
+                li
+                  a(href='contact')
+                    i.icon-info
+                    span.font-bold HELP
+                li.line.dk
+                li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
+                  span FLEET
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 001
+                li
+                  a(href='#')
+                    b.badge.bg-info.pull-right 3
+                    i.icon-tag
+                    span MA 002
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 003
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 004
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 005
+      #content.app-content(role='main')
+        .app-content-body
+          .hbox.hbox-auto-xs.hbox-auto-sm(ng-init='app.settings.asideFolded = false; app.settings.asideDock = false;')
+            .col
+              .wrapper-md(ng-controller='FlotChartDemoCtrl')
+                // stats
+                .wrapper-md
+                  h4.m-t-none.m-b
+                    | Drag to sort list 
+                    small (no touch)
+                  ul.list-group.gutter.list-group-lg.list-group-sp(ui-jq='sortable')
+                    li.list-group-item(draggable='true')
+                      span.pull-right
+                        .btn-group.dropdown
+                          button.btn.btn-default2.btn-xs(data-toggle='dropdown')
+                            i.fa.fa-fw.m-r-xs.fa-plus
+                          ul.alert.alert-default.dropdown-menu
+                            li
+                              label
+                                button.btn.check_all(type='button') Check all
+                              label
+                                button.btn.uncheck_all(type='button') Uncheck all
+                            li
+                              label
+                                b Series3
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='series3', data-index='Mains power has been disconnected')
+                                  | Mains power has been disconnected
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='series3', data-index='Inverter has failed')
+                                  | Inverter has failed
+                            li
+                              label
+                                b CAMS
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='cams', data-index='Air Leak')
+                                  | Air Leak
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='cams', data-index='Air Quality')
+                                  | Air Quality
+                            li
+                              label
+                                b Aura-FX
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='aura', data-index='O2 Low')
+                                  | O2 Low
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='aura', data-index='O2 High')
+                                  | O2 High
+                      span.pull-left
+                        i.fa.fa-sort.text-muted.fa.m-r-sm
+                      .clear
+                        | USER NAME01
+                    li.list-group-item(draggable='true')
+                      span.pull-right
+                        .btn-group.dropdown
+                          button.btn.btn-default2.btn-xs(data-toggle='dropdown')
+                            i.fa.fa-fw.m-r-xs.fa-plus
+                          ul.alert.alert-default.dropdown-menu
+                            li
+                              label
+                                button.btn.check_all(type='button') Check all
+                              label
+                                button.btn.uncheck_all(type='button') Uncheck all
+                            li
+                              label
+                                b Series3
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='series3', data-index='Mains power has been disconnected')
+                                  | Mains power has been disconnected
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='series3', data-index='Inverter has failed')
+                                  | Inverter has failed
+                            li
+                              label
+                                b CAMS
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='cams', data-index='Air Leak')
+                                  | Air Leak
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='cams', data-index='Air Quality')
+                                  | Air Quality
+                            li
+                              label
+                                b Aura-FX
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='aura', data-index='O2 Low')
+                                  | O2 Low
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='aura', data-index='O2 High')
+                                  | O2 High
+                      span.pull-left
+                        i.fa.fa-sort.text-muted.fa.m-r-sm
+                      .clear
+                        | USER NAME02
+                    li.list-group-item(draggable='true')
+                      span.pull-right
+                        .btn-group.dropdown
+                          button.btn.btn-default2.btn-xs(data-toggle='dropdown')
+                            i.fa.fa-fw.m-r-xs.fa-plus
+                          ul.alert.alert-default.dropdown-menu
+                            li
+                              label
+                                button.btn.check_all(type='button') Check all
+                              label
+                                button.btn.uncheck_all(type='button') Uncheck all
+                            li
+                              label
+                                b Series3
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='series3', data-index='Mains power has been disconnected')
+                                  | Mains power has been disconnected
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='series3', data-index='Inverter has failed')
+                                  | Inverter has failed
+                            li
+                              label
+                                b CAMS
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='cams', data-index='Air Leak')
+                                  | Air Leak
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='cams', data-index='Air Quality')
+                                  | Air Quality
+                            li
+                              label
+                                b Aura-FX
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='aura', data-index='O2 Low')
+                                  | O2 Low
+                            li
+                              .checkbox
+                                label
+                                  input(type='checkbox', data-type='aura', data-index='O2 High')
+                                  | O2 High
+                      span.pull-left
+                        i.fa.fa-sort.text-muted.fa.m-r-sm
+                      .clear
+                        | USER NAME03
+                // service
+                // / service
 
-block vars
-  = alias
-
-block append content
-  div(class='jumbotron')
-    h3 Email
-    div.spacer
-    form.input-group#form-add
-      input.form-control(type='text' placeholder='example@example.com')
-      span.input-group-btn
-        button.btn.btn-success#btn-add(type='button') Add
-    table(id='email_table' class='table')
-      if(emails)
-        each email in emails
-          tr
-            td.col-xs-4= email.email
-            td.col-xs-7
-              div.dropdown
-                button.btn.btn-info.dropdown-toggle(type='button' data-toggle='dropdown')
-                  span.num_subs
-                  |  Subscriptions
-                  span.caret
-                ul.alert.alert-default.dropdown-menu
-                  li
-                    label
-                      button.btn.check_all(type='button')
-                        | Check all
-                    label
-                      button.btn.uncheck_all(type='button')
-                        | Uncheck all
-                  if(elv)
-                    li
-                      label
-                        b ELV
-                    each value, key in elv
-                      li
-                        .checkbox
-                          label
-                            input(type='checkbox' checked=(email.subscription.elv && email.subscription.elv.indexOf(key) > -1) data-type='elv' data-index=key)
-                            = key
-                  if(elvp)
-                    li
-                      label
-                        b ELVP
-                    each value, key in elvp
-                      li
-                        .checkbox
-                          label
-                            input(type='checkbox' checked=(email.subscription.elvp && email.subscription.elvp.indexOf(key) > -1) data-type='elvp' data-index=key)
-                            = key
-                  if(series3)
-                    li
-                      label
-                        b Series3
-                    each value, key in series3
-                      li
-                        .checkbox
-                          label
-                            input(type='checkbox' checked=(email.subscription.series3 && email.subscription.series3.indexOf(key) > -1) data-type='series3' data-index=key)
-                            = key
-                  if(series4)
-                    li
-                      label
-                        b Series4
-                    each value, key in series4
-                      li
-                        .checkbox
-                          label
-                            input(type='checkbox' checked=(email.subscription.series4 && email.subscription.series4.indexOf(key) > -1) data-type='series4' data-index=key)
-                            = key
-                  if(cams)
-                    li
-                      label
-                        b CAMS
-                    each value, key in cams
-                      li
-                        .checkbox
-                          label
-                            input(type='checkbox' checked=(email.subscription.cams && email.subscription.cams.indexOf(key) > -1) data-type='cams' data-index=key)
-                            = key
-                  if(aura)
-                    li
-                      label
-                        b Aura-FX
-                    each value, key in aura
-                      li
-                        .checkbox
-                          label
-                            input(type='checkbox' checked=(email.subscription.aura && email.subscription.aura.indexOf(key) > -1) data-type='aura' data-index=key)
-                            = key
-                  
-            td.col-xs-1
-              .input-group
-                span
-                  button.btn.btn-danger.btn-delete(role='button' data-email=(email.email))
-                    | Delete
-                span.input-group-btn
-                  button.btn.btn-info.btn-save(role='button' data-email=(email.email) style='display:none;')
-                    | Save
-        
-    div.alert.alert-danger#error-alert(style='display:none;')
-      strong
-        | Error
-      |  unable to add email.
-      
-block append styles
-      
-block append scripts
-  script(src='/javascripts/notifications.js')
+            .col.w-md.bg-white-only.b-l.bg-auto.no-border-xs
+              .nav-tabs-alt
+              .tab-content
+                #tab-1.tab-pane.active(role='tabpanel')
+                  .wrapper-md
+                    .m-b-sm.text-md ALERT FEED
+                    ul.list-group.no-bg.no-borders.pull-in
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') SDCard failed on Display board
+                          small.text-muted MA 006
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') CO2 fan 1 has failed on Fan board 1
+                          small.text-muted MA 012
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') Lighting has failed on Fan board 1
+                          small.text-muted MA 056
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') Battery Rail has failed on Fan board 2
+                          small.text-muted MA 002
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') CO fan has failed on Fan board 1
+                          small.text-muted MA 046
+      footer#footer.app-footer(role='footer')
+        .wrapper.b-t.bg-light
+          span.pull-right
+            | 2.2.0 
+            a.m-l-sm.text-muted(href='#', ui-scroll='app')
+              em.fa.fa-long-arrow-up
+          |         © MineARC Systems Copyright.
+    script(src='js/jquery.js')
+    script(src='js/bootstrap.js')
+    script(src='js/ui-load.js')
+    script(src='js/ui-jp.config.js')
+    script(src='js/ui-jp.js')
+    script(src='js/ui-nav.js')
+    script(src='js/ui-toggle.js')
+    script(src='js/ui-client.js')
+    script(src='js/footable.min.js')

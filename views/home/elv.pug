@@ -1,25 +1,22 @@
-div.col-xs-12.col-md-6#elv.items
-  h3 ELV
-    a.right#monitor-link(href='/monitor') Info
-  table.table
-    tr
-      td.row-name Mains Present
-      td.table-right.row-info= elv.mains ? 'Yes' : 'No'
-    tr
-      td.row-name Inverter Output
-      td.table-right.row-info= elv.inverter ? 'Yes' : 'No'
-    tr
-      td.row-name Emergency Bank Voltage
-      td.table-right.row-info= (elv.serial.V / 1000).toFixed(2) + ' V'
-    tr
-      td.row-name Standby Bank Voltage
-      td.table-right.row-info= (elv.serial.VS / 1000).toFixed(2) + ' V'
-    tr
-      td.row-name Current
-      td.table-right.row-info= (elv.serial.I / 1000).toFixed(2) + ' A'
-    tr
-      td.row-name Power
-      td.table-right.row-info= elv.serial.P + ' W'
-    tr
-      td.row-name Consumed Energy
-      td.table-right.row-info= (elv.serial.CE / 1000).toFixed(2) + ' Ah'
+.row
+  div.col-xs-12#elv.items
+    //- a.right#monitor-link(href='/monitor') Info
+    table.table
+      tr
+        td.row-name Mains Present
+        td.table-right.row-info= elv.mains ? 'Yes' : 'No'
+      tr
+        td.row-name Inverter Output
+        td.table-right.row-info= elv.inverter ? 'Yes' : 'No'
+      tr
+        td.row-name Emergency Bank Voltage
+        td.table-right.row-info= (elv.serial.V / 1000).toFixed(2) + ' V'
+      tr
+        td.row-name Current
+        td.table-right.row-info= (elv.serial.I / 1000).toFixed(2) + ' A'
+      tr
+        td.row-name Power
+        td.table-right.row-info= elv.serial.P + ' W'
+      tr
+        td.row-name Consumed Energy
+        td.table-right.row-info= (elv.serial.CE / 1000).toFixed(2) + ' Ah'

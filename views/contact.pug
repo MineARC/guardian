@@ -1,57 +1,149 @@
-extends layout
-
-block vars
-  = alias
-        
-block append content
-  .col-xs-12.col-md-6
-    h1 Feedback
-    p Send feedback with regards to MineARC Systems Intelligence
-    a(href='mailto:systemintelligence@minearc.com') systemintelligence@minearc.com
-  .col-xs-12.col-md-6
-    case localize
-      when 'us'
-        .contact_left
-          iframe(src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3357.8340005524083!2d-96.9058259!3d32.690459499999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864e9016998fb857%3A0x2cd0d9a0bf766121!2s4850+W+Ledbetter+Dr%2C+Dallas%2C+TX+75236%2C+USA!5e0!3m2!1sen!2sau!4v1440058240597', width='100%', height='330', frameborder='0', style='border:0', allowfullscreen='')
-          .map_addr
-            h3 MineARC NORTH AMERICA
-            p 4850 W. Ledbetter Drive Dallas Texas 75236
-            p ph: +1 (214) 337 5100
-            p fax: +1 (214) 337 5103
-            p
-              | email: 
-              a(href='mailto:info@minearc.com') info@minearc.com
-      when 'za'
-        .contact_left
-          iframe(src='https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3584.988936908787!2d27.956514000000002!3d-26.033917999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s205+Flaming+Rock+Avenue%2C+Northlands+Business+Park!5e0!3m2!1sen!2sau!4v1440118043523', width='100%', height='330', frameborder='0', style='border:0', allowfullscreen='')
-          .map_addr
-            h3 MineARC AFRICA
-            p Stand 205, Flaming Rock Rd, Northlands Business Park, 29 Newmarket Street, North Riding, Johannesburg, South Africa
-            p ph: +27 (0) 11 796-5162
-            p fax: +27 (0) 86 504-1750
-            p
-              | email: 
-              a(href='mailto:info@minearc.com.au') info@minearc.com.au
-      default
-        .contact_left
-          iframe(src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.669230527381!2d115.95145400000001!3d-31.996981000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32bea199b0e2bd%3A0x43eae4933bb29b93!2sMinearc+Systems+PTY+Ltd.!5e0!3m2!1sen!2sau!4v1442193159083', width='100%', height='330', frameborder='0', style='border:0', allowfullscreen='')
-          .map_addr
-            h3 HEAD OFFICE MineARC AUSTRALIA
-            p 274 Welshpool Road, Perth, Australia 6106
-            p ph: +61 (8) 9333 4966
-            p fax: +61 (8) 9333 4900
-            p
-              | email: 
-              a(href='mailto:info@minearc.com.au') info@minearc.com.au
-    p.social_icons1
-      a(href='https://twitter.com/MineARC_Systems', target='_blank')
-        img.alignnone.wp-image-1304(src='http://www.minearc.com/wp-content/uploads/2014/11/Twitter_50pix.png', alt='', width='35', height='35')
-      a(href='http://www.linkedin.com/company/minearc-systems')
-        img.alignnone.wp-image-1306(src='http://www.minearc.com/wp-content/uploads/2014/11/LinkedIn_50pix.png', alt='', width='35', height='35')
-      a(href='http://www.minearc.com/wp-content/uploads/2014/11/GooglePlus_50pix.png')
-        img.alignnone.wp-image-1308(src='http://www.minearc.com/wp-content/uploads/2014/11/GooglePlus_50pix.png', alt='', width='35', height='35')
-      a(href='http://www.minearc.com/wp-content/uploads/2014/11/YouTube_50pix.png')
-        img.alignnone.wp-image-1305(src='http://www.minearc.com/wp-content/uploads/2014/11/YouTube_50pix.png', alt='', width='35', height='35')
-      a(href='https://www.flickr.com/photos/131386122@N03', target='_blank')
-        img.alignnone.wp-image-1307(src='http://www.minearc.com/wp-content/uploads/2014/11/Flickr_50pix.png', alt='', width='35', height='35')
-    p.social_icons1
+doctype html
+html(lang='en')
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    title Guardian
+    meta(name='description', content='app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    link(rel='stylesheet', href='css/animate.css', type='text/css')
+    link(rel='stylesheet', href='css/font-awesome.min.css', type='text/css')
+    link(rel='stylesheet', href='css/simple-line-icons.css', type='text/css')
+    link(rel='stylesheet', href='css/bootstrap.css', type='text/css')
+    link(rel='stylesheet', href='css/font.css', type='text/css')
+    link(rel='stylesheet', href='css/app.css', type='text/css')
+    link(rel='stylesheet', type='text/css', href='css/footable.bootstrap.min.css')
+  body
+    .app.app-header-fixed
+      header#header.app-header.navbar(role='menu')
+        .navbar-header.bg-dark
+          button.pull-right.visible-xs.dk(ui-toggle-class='show', target='.navbar-collapse')
+            i.glyphicon.glyphicon-cog
+          button.pull-right.visible-xs(ui-toggle-class='off-screen', target='.app-aside', ui-scroll='app')
+            i.glyphicon.glyphicon-align-justify
+          a.navbar-brand.text-lt(href='#')
+            span.hidden-folded.m-l-xs Guardian
+        .collapse.pos-rlt.navbar-collapse.box-shadow.bg-white-only
+          .nav.navbar-nav.hidden-xs
+            a.btn.no-shadow.navbar-btn(href='#', ui-toggle-class='app-aside-folded', target='.app')
+              i.fa.fa-dedent.fa-fw.text
+              i.fa.fa-indent.fa-fw.text-active
+            span.m-n.font-thin.h3.text-black HELP
+      aside#aside.app-aside.hidden-xs.bg-dark
+        .aside-wrap
+          .navi-wrap
+            nav.navi.clearfix(ui-nav='')
+              ul.nav
+                li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
+                  span NAVIGATION
+                li
+                  a.auto(href='/')
+                    i.icon-home
+                    span.font-bold HOME
+                li
+                  a(href='notifications')
+                    i.icon-settings
+                    span.font-bold SETTINGS
+                li.active
+                  a(href='contact')
+                    i.icon-info
+                    span.font-bold HELP
+                li.line.dk
+                li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
+                  span FLEET
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 001
+                li
+                  a(href='#')
+                    b.badge.bg-info.pull-right 3
+                    i.icon-tag
+                    span MA 002
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 003
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 004
+                li
+                  a(href='#')
+                    i.icon-tag
+                    span MA 005
+      #content.app-content(role='main')
+        .app-content-body
+          .hbox.hbox-auto-xs.hbox-auto-sm(ng-init='app.settings.asideFolded = false; app.settings.asideDock = false;')
+            .col
+              .wrapper-md(ng-controller='FormDemoCtrl')
+                .row
+                  .col-sm-6
+                    .panel.panel-default
+                      .panel-heading.font-bold Contact Us
+                      .panel-body
+                        form(role='form' action='mailto:info@minearc.com.au')
+                          .form-group
+                            label Email address
+                            input.form-control(type='email', placeholder='Enter email')
+                          .form-group
+                            label Name
+                            input.form-control(type='text', placeholder='Enter your name')
+                          .form-control(ui-jq='wysiwyg', style='overflow:scroll;height:200px;max-height:200px', contenteditable='true')
+                          button.btn.btn-sm.btn-primary(type='submit', style='margin-top: 10px;') Submit
+                  .col-sm-6
+                    .panel.panel-default
+                      .panel-heading.font-bold MineARC Systems
+                      .panel-body
+                        iframe(style='width: 100%; min-height: 333px', src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.669230527381!2d115.95145400000001!3d-31.996981000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32bea199b0e2bd%3A0x43eae4933bb29b93!2sMinearc+Systems+PTY+Ltd.!5e0!3m2!1sen!2sau!4v1442193159083')
+                        p
+                          | MineARC System Intellgence
+                          br
+                          a(href='mailto:systemintelligence@minearc.com') systemintelligence@minearc.com
+            .col.w-md.bg-white-only.b-l.bg-auto.no-border-xs
+              .nav-tabs-alt
+              .tab-content
+                #tab-1.tab-pane.active(role='tabpanel')
+                  .wrapper-md
+                    .m-b-sm.text-md ALERT FEED
+                    ul.list-group.no-bg.no-borders.pull-in
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') SDCard failed on Display board
+                          small.text-muted MA 006
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') CO2 fan 1 has failed on Fan board 1
+                          small.text-muted MA 012
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') Lighting has failed on Fan board 1
+                          small.text-muted MA 056
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') Battery Rail has failed on Fan board 2
+                          small.text-muted MA 002
+                      li.list-group-item
+                        .clear
+                          div
+                            a(href='#') CO fan has failed on Fan board 1
+                          small.text-muted MA 046
+      footer#footer.app-footer(role='footer')
+        .wrapper.b-t.bg-light
+          span.pull-right
+            | 2.2.0 
+            a.m-l-sm.text-muted(href='#', ui-scroll='app')
+              em.fa.fa-long-arrow-up
+          |         © MineARC Systems Copyright.
+    script(src='js/jquery.js')
+    script(src='js/bootstrap.js')
+    script(src='js/ui-load.js')
+    script(src='js/ui-jp.config.js')
+    script(src='js/ui-jp.js')
+    script(src='js/ui-nav.js')
+    script(src='js/ui-toggle.js')
+    script(src='js/ui-client.js')
+    script(src='js/footable.min.js')

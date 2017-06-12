@@ -1,12 +1,11 @@
-div.col-xs-12.col-md-6#table-system-info.items
-  h3 System Information
-    a.right#monitor-link(href='/monitor') Info
-  div.spacer
-  table.table
-    tr
-      td.row-name Mode
-      td.table-right.row-mode= series3.mode
-    each row in series3.raw
+.row
+  div.col-xs-12#table-system-info.items
+    //- a.right#monitor-link(href='/monitor') Info
+    table.table
       tr
-        td.row-name= row.row_name
-        td.table-right.row-info #{row.row_info} #{row.row_unit}
+        td.row-name Mode
+        td.table-right.row-mode= series3.mode
+      each row in series3.raw
+        tr
+          td.row-name= row.row_name
+          td.table-right.row-info #{row.row_info} #{row.row_unit}

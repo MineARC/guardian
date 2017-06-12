@@ -11,8 +11,68 @@ html(lang='en')
     link(rel='stylesheet', href='css/bootstrap.css', type='text/css')
     link(rel='stylesheet', href='css/font.css', type='text/css')
     link(rel='stylesheet', href='css/app.css', type='text/css')
-    link(rel='stylesheet', type='text/css', href='css/footable.bootstrap.min.css')
+    link(rel='stylesheet', href='css/footable.bootstrap.min.css', type='text/css')
   body
+    #aura_1_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-aura-1
+    #aura_2_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-aura-2
+    #aura_3_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-aura-3
+    #aura_4_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-aura-4
+    #graph_temp_1_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-temp-1
+    #graph_temp_2_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-temp-2
+    #graph_temp_3_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-temp-3
+    #graph_current_1_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-current-1
+    #graph_voltage_1_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-voltage-1
+    #graph_voltage_2_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-voltage-2
+    #graph_voltage_3_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-voltage-3
+    #graph_voltage_4_modal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph#graph-voltage-4
     .app.app-header-fixed
       header#header.app-header.navbar(role='menu')
         .navbar-header.bg-dark
@@ -36,15 +96,15 @@ html(lang='en')
                 li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
                   span NAVIGATION
                 li
-                  a.auto(href='#')
-                    i.icon-bar-chart
+                  a.auto(href='/')
+                    i.icon-home
                     span.font-bold HOME
                 li
-                  a(href='#')
+                  a(href='notifications')
                     i.icon-settings
                     span.font-bold SETTINGS
                 li
-                  a(href='#')
+                  a(href='contact')
                     i.icon-info
                     span.font-bold HELP
                 li.line.dk
@@ -110,6 +170,7 @@ html(lang='en')
                               div
                                 | O
                                 sub 2
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
                               .easyPieChart#chart1(ui-jq='easyPieChart', ui-options="{\
                               animate: true,\
                               delay: 100,\
@@ -142,6 +203,7 @@ html(lang='en')
                               div
                                 | CO
                                 sub 2
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
                               .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                               animate: true,\
                               delay: 100,\
@@ -173,6 +235,7 @@ html(lang='en')
                             .inline
                               div
                                 | CO
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
                               .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                               animate: true,\
                               delay: 100,\
@@ -241,7 +304,9 @@ html(lang='en')
                         .row.text-center
                           .col-sm-3
                             .inline
-                              div Internal Apparent
+                              div Internal
+                                sub Apparent
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
                               .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                               animate: true,\
                               delay: 100,\
@@ -262,7 +327,9 @@ html(lang='en')
                                     | 0.5
                           .col-sm-3
                             .inline
-                              div Internal Actual
+                              div Internal
+                                sub Actual
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
                               .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                               percent: 24,\
                               lineWidth: 4,\
@@ -283,6 +350,7 @@ html(lang='en')
                           .col-sm-3
                             .inline
                               div External
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
                               .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                               percent: 26,\
                               lineWidth: 4,\
@@ -303,6 +371,7 @@ html(lang='en')
                           .col-sm-3
                             .inline
                               div Battery
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
                               .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                               percent: 30,\
                               lineWidth: 4,\
@@ -328,29 +397,35 @@ html(lang='en')
                       .panel-body
                         .row.text-center
                           .col-sm-4
-                            div Mains
-                            .h2.m-b-sm
-                              | 227.6
-                              span(style='font-size: 0.5em') V
-                            div
-                              i.fa.fa-fw.fa-caret-up.text-success.text-sm
-                              | 0.2
+                            .inline
+                              div Mains
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
+                              .h2.m-b-sm
+                                | 227.6
+                                span(style='font-size: 0.5em') V
+                              div
+                                i.fa.fa-fw.fa-caret-up.text-success.text-sm
+                                | 0.2
                           .col-sm-4
-                            div Inverter
-                            .h2.m-b-sm
-                              | 241.6
-                              span(style='font-size: 0.5em') V
-                            div
-                              i.fa.fa-fw.fa-caret-down.text-danger.text-sm
-                              | 0.5
+                            .inline
+                              div Inverter
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
+                              .h2.m-b-sm
+                                | 241.6
+                                span(style='font-size: 0.5em') V
+                              div
+                                i.fa.fa-fw.fa-caret-down.text-danger.text-sm
+                                | 0.5
                           .col-sm-4
-                            div Battery
-                            .h2.m-b-sm
-                              | 45.3
-                              span(style='font-size: 0.5em') V
-                            div
-                              i.fa.fa-fw.fa-caret-up.text-success.text-sm
-                              | 3.2
+                            .inline
+                              div Battery
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
+                              .h2.m-b-sm
+                                | 45.3
+                                span(style='font-size: 0.5em') V
+                              div
+                                i.fa.fa-fw.fa-caret-up.text-success.text-sm
+                                | 3.2
                   .col-xs-3
                     .panel.panel-default
                       .panel-heading
@@ -358,13 +433,15 @@ html(lang='en')
                       .panel-body
                         .row.text-center
                           .col-sm-12
-                            div Battery
-                            .h2.m-b-sm
-                              | 10.6
-                              span(style='font-size: 0.5em') A
-                            div
-                              i.fa.fa-fw.fa-caret-up.text-success.text-sm
-                              | 0.2
+                            .inline
+                              div Battery
+                                a.icon-bar-chart(data-toggle='modal' data-target='#aura_1_modal' style='float:right;')
+                              .h2.m-b-sm
+                                | 10.6
+                                span(style='font-size: 0.5em') A
+                              div
+                                i.fa.fa-fw.fa-caret-up.text-success.text-sm
+                                | 0.2
             .col.w-md.bg-white-only.b-l.bg-auto.no-border-xs
               .nav-tabs-alt
               .tab-content
