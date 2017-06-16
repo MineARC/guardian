@@ -8,7 +8,11 @@ block append content
     ul#notification-list.list-group.gutter.list-group-lg.list-group-sp(ui-jq='sortable')&attributes(ips)
       each email in emails
         li.list-group-item(draggable='true', style='display: block;')
+          span.pull-left
+            i.fa.fa-sort.text-muted.fa.m-r-sm
           span.pull-right
+            button.btn.btn-default2.btn-xs.btn-delete(data-email=email)
+              i.fa.fa-fw.m-r.xs.fa-minus
             .btn-group.dropdown
               button.btn.btn-default2.btn-xs(data-toggle='dropdown')
                 i.fa.fa-fw.m-r-xs.fa-plus
@@ -16,22 +20,25 @@ block append content
                 li
                   .checkbox
                     label
-                      input.check-all(type='checkbox')
+                      input.check_all(type='checkbox')
                       | All
-                  //- label
-                  //-   button.btn.check_all(type='button') Check all
-                  //- label
-                  //-   button.btn.uncheck_all(type='button') Uncheck all
                 each host in hosts
                   li
                     .checkbox
                       label
-                        input(type='checkbox', data-type=host.ip, checked=((host.emails||[]).indexOf(email) != -1))
+                        input.subscription(type='checkbox', data-target=host.ip, data-email=email, checked=((host.emails||[]).indexOf(email) != -1))
                         =host.alias ? host.alias : host.hostname.split('-')[1]
-          span.pull-left
-            i.fa.fa-sort.text-muted.fa.m-r-sm
           .clear
             =email
+    div.pull-right
+      button#btn-save.btn.m-b-xs.w-xs.btn-success
+        | Save
+    div
+      form#form-add.input-group
+        input.form-control(type='text' placeholder='example@example.com')
+        span.input-group-btn
+          button#btn-add.btn.btn-info(type='button')
+            | Add
 
 block append fleet
   if(hosts)

@@ -1,16 +1,16 @@
-var elvp_voltage_battery_data = [];
+var elvp_voltage_emergency_data = [];
 var elvp_voltage_standby_data = [];
 var elvp_voltage_mains_data = [];
 var elvp_voltage_inverter_data = [];
 var elvp_current_battery_data = [];
 
-var elvp_voltage_battery_chart = new CanvasJS.Chart("graph-voltage-1", {
-  title: { text: "Battery Voltage" },
+var elvp_voltage_emergency_chart = new CanvasJS.Chart("graph-voltage-1", {
+  title: { text: "Emergency Voltage" },
   data: [{
     type: "line",
     markerType: 'none',
     toolTipContent: "{y} V",
-    dataPoints: elvp_voltage_battery_data
+    dataPoints: elvp_voltage_emergency_data
   }],
   axisX: {
     title: 'Time H',
@@ -147,7 +147,7 @@ var elvp_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
 function updateELVPHistory(data) {
   var last = (Date.now() / 1000 | 0) - 86400;
   while (data[0].Time > last) {
-    elvp_voltage_battery_data.push({ x: last, y: -1 });
+    elvp_voltage_emergency_data.push({ x: last, y: -1 });
     elvp_voltage_standby_data.push({ x: last, y: -1 });
     elvp_voltage_mains_data.push({ x: last, y: -1 });
     elvp_voltage_inverter_data.push({ x: last, y: -1 });
@@ -155,14 +155,14 @@ function updateELVPHistory(data) {
     last += 10;
   }
   for (var i = 0; i < data.length; i++) {
-    elvp_voltage_battery_data.push({ x: data[i].Time, y: data[i].voltage_battery });
+    elvp_voltage_emergency_data.push({ x: data[i].Time, y: data[i].voltage_emergency });
     elvp_voltage_standby_data.push({ x: data[i].Time, y: data[i].voltage_standby });
     elvp_voltage_mains_data.push({ x: data[i].Time, y: data[i].voltage_mains });
     elvp_voltage_inverter_data.push({ x: data[i].Time, y: data[i].voltage_inverter });
     elvp_current_battery_data.push({ x: data[i].Time, y: data[i].current_battery });
   }
 
-  elvp_voltage_battery_chart.render();
+  elvp_voltage_emergency_chart.render();
   elvp_voltage_standby_chart.render();
   elvp_voltage_mains_chart.render();
   elvp_voltage_inverter_chart.render();
@@ -178,10 +178,10 @@ function updateELVP(data) {
   $('#table-elv tr:contains("Power") .row-info').text(data.serial.P + ' W');
   $('#table-elv tr:contains("Consumed Energy") .row-info').text((data.serial.CE / 1000).toFixed(2) + ' Ah');
 
-  var n = ((data.serial.V / 1000).toFixed(1) - $('#readout-voltage-battery .value')[0].childNodes[0].nodeValue).toFixed(1);
-  $('#readout-voltage-battery .delta')[0].childNodes[1].nodeValue = n;
-  $('#readout-voltage-battery .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
-  $('#readout-voltage-battery .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
+  var n = ((data.serial.V / 1000).toFixed(1) - $('#readout-voltage-emergency .value')[0].childNodes[0].nodeValue).toFixed(1);
+  $('#readout-voltage-emergency .delta')[0].childNodes[1].nodeValue = n;
+  $('#readout-voltage-emergency .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
+  $('#readout-voltage-emergency .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
 
   var n = ((data.serial.VS / 1000).toFixed(1) - $('#readout-voltage-standby .value')[0].childNodes[0].nodeValue).toFixed(1);
   $('#readout-voltage-standby .delta')[0].childNodes[1].nodeValue = n;
@@ -193,25 +193,25 @@ function updateELVP(data) {
   $('#readout-current-battery .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
   $('#readout-current-battery .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
 
-  $('#readout-voltage-battery .value')[0].childNodes[0].nodeValue = (data.serial.V / 1000).toFixed(1);
+  $('#readout-voltage-emergency .value')[0].childNodes[0].nodeValue = (data.serial.V / 1000).toFixed(1);
   $('#readout-voltage-standby .value')[0].childNodes[0].nodeValue = (data.serial.VS / 1000).toFixed(1);
   $('#readout-voltage-mains .value')[0].childNodes[0].nodeValue = data.mains ? 'Yes' : 'No';
   $('#readout-voltage-inverter .value')[0].childNodes[0].nodeValue = data.inverter ? 'Yes' : 'No';
   $('#readout-current-battery .value')[0].childNodes[0].nodeValue = (data.serial.I / 1000).toFixed(2);
 
-  elvp_voltage_battery_data.push({ x: Date.now() / 1000 | 0, y: +((data.serial.V / 1000).toFixed(2)) });
+  elvp_voltage_emergency_data.push({ x: Date.now() / 1000 | 0, y: +((data.serial.V / 1000).toFixed(2)) });
   elvp_voltage_standby_data.push({ x: Date.now() / 1000 | 0, y: +((data.serial.VS / 1000).toFixed(2)) });
   elvp_voltage_mains_data.push({ x: Date.now() / 1000 | 0, y: data.mains });
   elvp_voltage_inverter_data.push({ x: Date.now() / 1000 | 0, y: data.inverter });
   elvp_current_battery_data.push({ x: Date.now() / 1000 | 0, y: +((data.serial.I / 1000).toFixed(2)) });
 
-  if (elvp_voltage_battery_data.length > dataLength) { elvp_voltage_battery_data.shift(); }
+  if (elvp_voltage_emergency_data.length > dataLength) { elvp_voltage_emergency_data.shift(); }
   if (elvp_voltage_standby_data.length > dataLength) { elvp_voltage_standby_data.shift(); }
   if (elvp_voltage_mains_data.length > dataLength) { elvp_voltage_mains_data.shift(); }
   if (elvp_voltage_inverter_data.length > dataLength) { elvp_voltage_inverter_data.shift(); }
   if (elvp_current_battery_data.length > dataLength) { elvp_current_battery_data.shift(); }
 
-  elvp_voltage_battery_chart.render();
+  elvp_voltage_emergency_chart.render();
   elvp_voltage_standby_chart.render();
   elvp_voltage_mains_chart.render();
   elvp_voltage_inverter_chart.render();

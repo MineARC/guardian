@@ -7,25 +7,31 @@ if(aura)
         .panel-body
           .row.text-center
             .col-sm-12
-              .inline#readout-temp-aura(data-toggle="modal" data-target="#aura_1_modal")
-                div Internal Apparent
-                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
-                animate: 1000,\
-                percent: 0,\
-                lineWidth: 5,\
-                trackColor: '#b7b7b7',\
-                barColor: '#1b82ce',\
-                scaleColor: '#ffffff',\
-                size: 115,\
-                lineCap: 'butt'\
-                }", style='width: 115px; height: 115px; line-height: 115px;')
-                  div
-                    span.h2.value
-                      | 0.0
-                      span(style='font-size: 0.5em') ℃
-                    .text.text-sm.delta
-                      i.fa.fa-fw.fa-circle.text-muted.text-sm
-                        | 0.0
+              .item
+                .pos-rlt
+                  .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                    .center.text-center.m-t-n.w-full
+                      a(data-toggle="modal" data-target="#aura_1_modal")
+                        i.fa.fa-3x.fa-line-chart.text-white
+                  .inline#readout-temp-aura
+                    div Internal Apparent
+                    .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                    animate: 1000,\
+                    percent: 0,\
+                    lineWidth: 5,\
+                    trackColor: '#b7b7b7',\
+                    barColor: '#1b82ce',\
+                    scaleColor: '#ffffff',\
+                    size: 115,\
+                    lineCap: 'butt'\
+                    }", style='width: 115px; height: 115px; line-height: 115px;')
+                      div
+                        span.h2.value
+                          | 0.0
+                          span(style='font-size: 0.5em') ℃
+                        .text.text-sm.delta
+                          i.fa.fa-fw.fa-circle.text-muted.text-sm
+                          | 0.0
 .row
   .col-sm-9
     .panel.panel-default
@@ -34,41 +40,57 @@ if(aura)
       .panel-body
         .row.text-center
           .col-sm-3
-            .inline#readout-voltage-mains(data-toggle="modal" data-target="#voltage_1_modal")
-              div Mains
-              span.h2.value
-                | 0
-                span(style='font-size: 0.5em') V
-              .text-sm.delta
-                i.fa.fa-fw.fa-circle.text-muted.text-sm
-                | 0
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inline#readout-voltage-mains
+                  div Mains
+                  span.h2.value
+                    | No
           .col-sm-3
-            .inlinee#readout-voltage-inverter(data-toggle="modal" data-target="#voltage_2_modal")
-              div Inverter
-              span.h2.value
-                | 0
-                span(style='font-size: 0.5em') V
-              .text-sm.delta
-                i.fa.fa-fw.fa-circle.text-muted.text-sm
-                | 0
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inlinee#readout-voltage-inverter
+                  div Inverter
+                  span.h2.value
+                    | No
           .col-sm-3
-            .inlinee#readout-voltage-standby(data-toggle="modal" data-target="#voltage_3_modal")
-              div Standby Battery
-              span.h2.value
-                | 0
-                span(style='font-size: 0.5em') V
-              .text-sm.delta
-                i.fa.fa-fw.fa-circle.text-muted.text-sm
-                | 0
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#voltage_1_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inlinee#readout-voltage-standby
+                  div Standby Battery
+                  span.h2.value
+                    | 0
+                    span(style='font-size: 0.5em') V
+                  .text-sm.delta
+                    i.fa.fa-fw.fa-circle.text-muted.text-sm
+                    | 0
           .col-sm-3
-            .inlinee#readout-voltage-emergency(data-toggle="modal" data-target="#voltage_4_modal")
-              div Emergency Battery
-              span.h2.value
-                | 0
-                span(style='font-size: 0.5em') V
-              .text-sm.delta
-                i.fa.fa-fw.fa-circle.text-muted.text-sm
-                | 0
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#voltage_2_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inlinee#readout-voltage-emergency
+                  div Emergency Battery
+                  span.h2.value
+                    | 0
+                    span(style='font-size: 0.5em') V
+                  .text-sm.delta
+                    i.fa.fa-fw.fa-circle.text-muted.text-sm
+                    | 0
   .col-sm-3
     .panel.panel-default
       .panel-heading
@@ -76,11 +98,17 @@ if(aura)
       .panel-body
         .row.text-center
           .col-sm-12
-            .inlinee#readout-current-battery(data-toggle="modal" data-target="#current_1_modal")
-              div Battery
-              span.h2.value
-                | 0
-                span(style='font-size: 0.5em') A
-              .text-sm.delta
-                i.fa.fa-fw.fa-circle.text-muted.text-sm
-                | 0
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#current_1_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inlinee#readout-current-battery
+                  div Battery
+                  span.h2.value
+                    | 0
+                    span(style='font-size: 0.5em') A
+                  .text-sm.delta
+                    i.fa.fa-fw.fa-circle.text-muted.text-sm
+                    | 0

@@ -9,7 +9,7 @@ var db = require('./database');
 // Define object for access from where they are needed
 exports.hosts_data = [];
 
-setInterval(poll_database, 60000);
+setInterval(poll_database, 30000);
 poll_database();
 
 function poll_database() {
@@ -32,7 +32,7 @@ function adapters() {
 
   for (var iface in adapters) {
 
-    if (iface == 'eth0' || iface == 'wlan0') {
+    if (iface == 'eth0' || iface == 'wlan1') {
 
       for (var dev in adapters[iface]) {
         adapter = adapters[iface][dev];

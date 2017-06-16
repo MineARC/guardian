@@ -7,146 +7,188 @@
         .row.text-center
           if(aura)
             .col-sm-3
-              .inline#readout-temp-aura(data-toggle="modal" data-target="#aura_1_modal")
-                div Internal Apparent
-                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
-                animate: 1000,\
-                percent: 0,\
-                lineWidth: 5,\
-                trackColor: '#b7b7b7',\
-                barColor: '#1b82ce',\
-                scaleColor: '#ffffff',\
-                size: 115,\
-                lineCap: 'butt'\
-                }", style='width: 115px; height: 115px; line-height: 115px;')
-                  div
-                    span.h2.value
-                      | 0.0
-                      span(style='font-size: 0.5em') ℃
-                    .text.text-sm.delta
-                      i.fa.fa-fw.fa-circle.text-muted.text-sm
-                      | 0.0
+              .item
+                .pos-rlt
+                  .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                    .center.text-center.m-t-n.w-full
+                      a(data-toggle="modal" data-target="#aura_1_modal")
+                        i.fa.fa-3x.fa-line-chart.text-white
+                  .inline#readout-temp-aura
+                    div Internal Apparent
+                    .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                    animate: 1000,\
+                    percent: 0,\
+                    lineWidth: 5,\
+                    trackColor: '#b7b7b7',\
+                    barColor: '#1b82ce',\
+                    scaleColor: '#ffffff',\
+                    size: 115,\
+                    lineCap: 'butt'\
+                    }", style='width: 115px; height: 115px; line-height: 115px;')
+                      div
+                        span.h2.value
+                          | 0.0
+                          span(style='font-size: 0.5em') ℃
+                        .text.text-sm.delta
+                          i.fa.fa-fw.fa-circle.text-muted.text-sm
+                          | 0.0
             .col-sm-3
-              .inline#readout-temp-internal(data-toggle="modal" data-target="#temp_1_modal")
-                div Internal Actual
-                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
-                animate: 1000,\
-                percent: 0,\
-                lineWidth: 5,\
-                trackColor: '#b7b7b7',\
-                barColor: '#e79c1f',\
-                scaleColor: '#ffffff',\
-                size: 115,\
-                lineCap: 'butt'\
-                }", style='width: 115px; height: 115px; line-height: 115px;')
-                  div
-                    span.h2.value
-                      | 0.0
-                      span(style='font-size: 0.5em') ℃
-                    .text.text-sm.delta
-                      i.fa.fa-fw.fa-circle.text-muted.text-sm
-                      | 0.0
+              .item
+                .pos-rlt
+                  .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                    .center.text-center.m-t-n.w-full
+                      a(data-toggle="modal" data-target="#temp_1_modal")
+                        i.fa.fa-3x.fa-line-chart.text-white
+                  .inline#readout-temp-internal
+                    div Internal Actual
+                    .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                    animate: 1000,\
+                    percent: 0,\
+                    lineWidth: 5,\
+                    trackColor: '#b7b7b7',\
+                    barColor: '#e79c1f',\
+                    scaleColor: '#ffffff',\
+                    size: 115,\
+                    lineCap: 'butt'\
+                    }", style='width: 115px; height: 115px; line-height: 115px;')
+                      div
+                        span.h2.value
+                          | 0.0
+                          span(style='font-size: 0.5em') ℃
+                        .text.text-sm.delta
+                          i.fa.fa-fw.fa-circle.text-muted.text-sm
+                          | 0.0
             .col-sm-3
-              .inline#readout-temp-external(data-toggle="modal" data-target="#temp_2_modal")
-                div External
-                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
-                animate: 1000,\
-                percent: 0,\
-                lineWidth: 5,\
-                trackColor: '#b7b7b7',\
-                barColor: '#2eb79d',\
-                scaleColor: '#ffffff',\
-                size: 115,\
-                lineCap: 'butt'\
-                }", style='width: 115px; height: 115px; line-height: 115px;')
-                  div
-                    span.h2.value
-                      | 0.0
-                      span(style='font-size: 0.5em') ℃
-                    .text.text-sm.delta
-                      i.fa.fa-fw.fa-circle.text-muted.text-sm
-                      | 0.0
+              .item
+                .pos-rlt
+                  .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                    .center.text-center.m-t-n.w-full
+                      a(data-toggle="modal" data-target="#temp_2_modal")
+                        i.fa.fa-3x.fa-line-chart.text-white
+                  .inline#readout-temp-external
+                    div External
+                    .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                    animate: 1000,\
+                    percent: 0,\
+                    lineWidth: 5,\
+                    trackColor: '#b7b7b7',\
+                    barColor: '#2eb79d',\
+                    scaleColor: '#ffffff',\
+                    size: 115,\
+                    lineCap: 'butt'\
+                    }", style='width: 115px; height: 115px; line-height: 115px;')
+                      div
+                        span.h2.value
+                          | 0.0
+                          span(style='font-size: 0.5em') ℃
+                        .text.text-sm.delta
+                          i.fa.fa-fw.fa-circle.text-muted.text-sm
+                          | 0.0
             .col-sm-3
-              .inline#readout-temp-battery(data-toggle="modal" data-target="#temp_3_modal")
-                div Battery
-                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
-                animate: 1000,\
-                percent: 0,\
-                lineWidth: 5,\
-                trackColor: '#b7b7b7',\
-                barColor: '#ec1b3a',\
-                scaleColor: '#ffffff',\
-                size: 115,\
-                lineCap: 'butt'\
-                }", style='width: 115px; height: 115px; line-height: 115px;')
-                  div
-                    span.h2.value
-                      | 0
-                      span(style='font-size: 0.5em') ℃
-                    .text.text-sm.delta
-                      i.fa.fa-fw.fa-circle.text-muted.text-sm
-                      | 0
+              .item
+                .pos-rlt
+                  .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                    .center.text-center.m-t-n.w-full
+                      a(data-toggle="modal" data-target="#temp_3_modal")
+                        i.fa.fa-3x.fa-line-chart.text-white
+                  .inline#readout-temp-battery
+                    div Battery
+                    .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                    animate: 1000,\
+                    percent: 0,\
+                    lineWidth: 5,\
+                    trackColor: '#b7b7b7',\
+                    barColor: '#ec1b3a',\
+                    scaleColor: '#ffffff',\
+                    size: 115,\
+                    lineCap: 'butt'\
+                    }", style='width: 115px; height: 115px; line-height: 115px;')
+                      div
+                        span.h2.value
+                          | 0
+                          span(style='font-size: 0.5em') ℃
+                        .text.text-sm.delta
+                          i.fa.fa-fw.fa-circle.text-muted.text-sm
+                          | 0
           else
             .col-sm-4
-              .inline#readout-temp-internal(data-toggle="modal" data-target="#temp_1_modal")
-                div Internal
-                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
-                animate: 1000,\
-                percent: 0,\
-                lineWidth: 5,\
-                trackColor: '#b7b7b7',\
-                barColor: '#e79c1f',\
-                scaleColor: '#ffffff',\
-                size: 115,\
-                lineCap: 'butt'\
-                }", style='width: 115px; height: 115px; line-height: 115px;')
-                  div
-                    span.h2.value
-                      | 0
-                      span(style='font-size: 0.5em') ℃
-                    .text.text-sm.delta
-                      i.fa.fa-fw.fa-circle.text-muted.text-sm
-                      | 0
+              .item
+                .pos-rlt
+                  .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                    .center.text-center.m-t-n.w-full
+                      a(data-toggle="modal" data-target="#temp_1_modal")
+                        i.fa.fa-3x.fa-line-chart.text-white
+                  .inline#readout-temp-internal
+                    div Internal
+                    .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                    animate: 1000,\
+                    percent: 0,\
+                    lineWidth: 5,\
+                    trackColor: '#b7b7b7',\
+                    barColor: '#e79c1f',\
+                    scaleColor: '#ffffff',\
+                    size: 115,\
+                    lineCap: 'butt'\
+                    }", style='width: 115px; height: 115px; line-height: 115px;')
+                      div
+                        span.h2.value
+                          | 0
+                          span(style='font-size: 0.5em') ℃
+                        .text.text-sm.delta
+                          i.fa.fa-fw.fa-circle.text-muted.text-sm
+                          | 0
             .col-sm-4
-              .inline#readout-temp-external(data-toggle="modal" data-target="#temp_2_modal")
-                div External
-                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
-                animate: 1000,\
-                percent: 0,\
-                lineWidth: 5,\
-                trackColor: '#b7b7b7',\
-                barColor: '#2eb79d',\
-                scaleColor: '#ffffff',\
-                size: 115,\
-                lineCap: 'butt'\
-                }", style='width: 115px; height: 115px; line-height: 115px;')
-                  div
-                    span.h2.value
-                      | 0
-                      span(style='font-size: 0.5em') ℃
-                    .text.text-sm.delta
-                      i.fa.fa-fw.fa-circle.text-muted.text-sm
-                      | 0
+              .item
+                .pos-rlt
+                  .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                    .center.text-center.m-t-n.w-full
+                      a(data-toggle="modal" data-target="#temp_2_modal")
+                        i.fa.fa-3x.fa-line-chart.text-white
+                  .inline#readout-temp-external
+                    div External
+                    .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                    animate: 1000,\
+                    percent: 0,\
+                    lineWidth: 5,\
+                    trackColor: '#b7b7b7',\
+                    barColor: '#2eb79d',\
+                    scaleColor: '#ffffff',\
+                    size: 115,\
+                    lineCap: 'butt'\
+                    }", style='width: 115px; height: 115px; line-height: 115px;')
+                      div
+                        span.h2.value
+                          | 0
+                          span(style='font-size: 0.5em') ℃
+                        .text.text-sm.delta
+                          i.fa.fa-fw.fa-circle.text-muted.text-sm
+                          | 0
             .col-sm-4
-              .inline#readout-temp-battery(data-toggle="modal" data-target="#temp_3_modal")
-                div Battery
-                .easyPieChart(ui-jq='easyPieChart', ui-options="{\
-                animate: 1000,\
-                percent: 0,\
-                lineWidth: 5,\
-                trackColor: '#b7b7b7',\
-                barColor: '#ec1b3a',\
-                scaleColor: '#ffffff',\
-                size: 115,\
-                lineCap: 'butt'\
-                }", style='width: 115px; height: 115px; line-height: 115px;')
-                  div
-                    span.h2.value
-                      | 0
-                      span(style='font-size: 0.5em') ℃
-                    .text.text-sm.delta
-                      i.fa.fa-fw.fa-circle.text-muted.text-sm
-                      | 0
+              .item
+                .pos-rlt
+                  .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                    .center.text-center.m-t-n.w-full
+                      a(data-toggle="modal" data-target="#temp_3_modal")
+                        i.fa.fa-3x.fa-line-chart.text-white
+                  .inline#readout-temp-battery
+                    div Battery
+                    .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                    animate: 1000,\
+                    percent: 0,\
+                    lineWidth: 5,\
+                    trackColor: '#b7b7b7',\
+                    barColor: '#ec1b3a',\
+                    scaleColor: '#ffffff',\
+                    size: 115,\
+                    lineCap: 'butt'\
+                    }", style='width: 115px; height: 115px; line-height: 115px;')
+                      div
+                        span.h2.value
+                          | 0
+                          span(style='font-size: 0.5em') ℃
+                        .text.text-sm.delta
+                          i.fa.fa-fw.fa-circle.text-muted.text-sm
+                          | 0
 .row
   .col-sm-9
     .panel.panel-default
@@ -155,32 +197,50 @@
       .panel-body
         .row.text-center
           .col-sm-4
-            .inline#readout-voltage-mains(data-toggle="modal" data-target="#voltage_1_modal")
-              div Mains
-              span.h2.value
-                | 0
-                span(style='font-size: 0.5em') V
-              .text-sm.delta
-                i.fa.fa-fw.fa-circle.text-muted.text-sm
-                | 0
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#voltage_1_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inline#readout-voltage-mains
+                  div Mains
+                  span.h2.value
+                    | 0
+                    span(style='font-size: 0.5em') V
+                  .text-sm.delta
+                    i.fa.fa-fw.fa-circle.text-muted.text-sm
+                    | 0
           .col-sm-4
-            .inline#readout-voltage-inverter(data-toggle="modal" data-target="#voltage_2_modal")
-              div Inverter
-              span.h2.value
-                | 0
-                span(style='font-size: 0.5em') V
-              .text-sm.delta
-                i.fa.fa-fw.fa-circle.text-muted.text-sm
-                | 0
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#voltage_2_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inline#readout-voltage-inverter
+                  div Inverter
+                  span.h2.value
+                    | 0
+                    span(style='font-size: 0.5em') V
+                  .text-sm.delta
+                    i.fa.fa-fw.fa-circle.text-muted.text-sm
+                    | 0
           .col-sm-4
-            .inline#readout-voltage-battery(data-toggle="modal" data-target="#voltage_3_modal")
-              div Battery
-              span.h2.value
-                | 0
-                span(style='font-size: 0.5em') V
-              .text-sm.delta
-                i.fa.fa-fw.fa-circle.text-muted.text-sm
-                | 0
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#voltage_3_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inline#readout-voltage-battery
+                  div Battery
+                  span.h2.value
+                    | 0
+                    span(style='font-size: 0.5em') V
+                  .text-sm.delta
+                    i.fa.fa-fw.fa-circle.text-muted.text-sm
+                    | 0
   .col-sm-3
     .panel.panel-default
       .panel-heading
@@ -188,11 +248,17 @@
       .panel-body
         .row.text-center
           .col-sm-12
-            .inline#readout-current-battery(data-toggle="modal" data-target="#current_1_modal")
-              div Battery
-              span.h2.value
-                | 0
-                span(style='font-size: 0.5em') A
-              .text-sm.delta
-                i.fa.fa-fw.fa-circle.text-muted.text-sm
-                | 0
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#current_1_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inline#readout-current-battery
+                  div Battery
+                  span.h2.value
+                    | 0
+                    span(style='font-size: 0.5em') A
+                  .text-sm.delta
+                    i.fa.fa-fw.fa-circle.text-muted.text-sm
+                    | 0

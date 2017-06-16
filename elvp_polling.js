@@ -92,7 +92,7 @@ function sendSerialData(data) {
     updateAlarms();
     next = Date.now() + delay;
     var graph_data = {
-      voltage_battery: +((elvp_data.serial.V / 1000).toFixed(2)),
+      voltage_emergency: +((elvp_data.serial.V / 1000).toFixed(2)),
       voltage_standby: +((elvp_data.serial.VS / 1000).toFixed(2)),
       current_battery: +((elvp_data.serial.I / 1000).toFixed(2)),
       voltage_mains: elvp_data.mains,

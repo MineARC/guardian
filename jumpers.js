@@ -35,5 +35,4 @@ fs.readFile('/boot/sitename', 'utf8', function (err, contents) {
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
 exports.extn = extn_jumper;
-//exports.mode = mode_jumper;
-exports.mode = 3;
+exports.mode = mode_jumper;
