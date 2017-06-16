@@ -1,6 +1,6 @@
 extends layout
 
-block vars
+block title
   = alias
 
 block append content
@@ -10,7 +10,26 @@ block append content
         iframe.col-xs-12#monitor-iframe(src='' frameborder="0")
         script.
           document.getElementById('monitor-iframe').src='//'+window.location.hostname+'/pt/monitor/';
-          
+
+block append fleet
+  if(hosts)
+    each host in hosts
+      li
+        a(href='//' + host.ip + '/chamber')
+          i.icon-tag
+          span= host.alias ? host.alias : host.hostname.split('-')[1]
+
+block append alerts
+  if(hosts)
+    each host in hosts
+      each alerts, types in host.alarms_active
+        each alert in alerts
+          li.list-group-item
+            .clear
+              i.fa.fa-exclamation-circle.m-r-xs
+              span.alef= alert
+            small.text-muted= host.alias ? host.alias : host.hostname.split('-')[1]
+
 block append styles
       
 block append scripts

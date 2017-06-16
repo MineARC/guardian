@@ -131,20 +131,6 @@ exports.removeEmail = function (email, callback) {
   });
 }
 
-// Changes the email of an entry
-exports.setEmail = function (email, update, callback) {
-  db.serialize(function () {
-    if (email == null || update == null) {
-      return callback(new Error("Invalid input"));
-    }
-
-    db.run("UPDATE Alarms SET email = ? WHERE email LIKE ?", email, function (err) {
-      logger.info("Email changed: email: " + email + " update: " + update);
-      callback(err, this.changes > 0);
-    });
-  });
-}
-
 // Gets the subscription of the given email
 exports.getSubscription = function (email, callback) {
   db.serialize(function () {

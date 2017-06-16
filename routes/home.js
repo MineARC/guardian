@@ -1,4 +1,5 @@
 var express = require('express');
+var hostdiscovery = require('../hostdiscovery');
 var jumpers = require('../jumpers');
 var alias = require('../alias');
 if (jumpers.cams) var cams_polling = require('../cams_polling');
@@ -12,6 +13,8 @@ var router = express.Router();
 router.get('/', function (req, res, next) {
   var data = { alarms: {} };
   data['alias'] = alias.alias;
+  data['localize'] = jumpers.localize;
+  data['hosts'] = hostdiscovery.hosts_data;
   if (jumpers.cams) {
     data['cams'] = cams_polling.data;
     for (var key in cams_polling.alarms) {

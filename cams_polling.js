@@ -88,3 +88,4 @@ rpio.poll(occupied_pin, pollPins);
 rpio.poll(solenoid_pin, pollPins);
 
 setInterval(update, 10000);
+update();

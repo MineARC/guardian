@@ -5,6 +5,7 @@ var fs = require('fs');
 var db = require('./database');
 
 setInterval(poll_database, 10000);
+poll_database();
 
 function poll_database() {
   db.getMonitorData(5, function (err, data) {
@@ -52,6 +53,7 @@ exports.alarms = aura_alarms;
 
 // Spin up polling of backend services
 setInterval(poll_aura, 10000);
+poll_aura();
 
 function poll_aura() {
   var request_options = {
@@ -123,12 +125,12 @@ function updateAlarms() {
   aura_alarms['Temp Low'].state |= aura_data.Temp_F.isRecent && aura_data.Temp_F.value <= 32;
   aura_alarms['Temp High'].state |= aura_data.Temp_F.isRecent && aura_data.Temp_F.value >= 104;
   aura_alarms['H2S High'].state = aura_data.H2S.isRecent && aura_data.H2S.value >= 15;
-
 }
 
 function updateHistory() {
   var history_data = {
     Temp: aura_data.Temp.value,
+    Temp_F: aura_data.Temp_F.value,
     Humid: aura_data.Humid.value,
     Press: aura_data.Press.value,
     O2: aura_data.O2.value,

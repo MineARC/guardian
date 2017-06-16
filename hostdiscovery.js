@@ -9,25 +9,20 @@ var db = require('./database');
 // Define object for access from where they are needed
 exports.hosts_data = [];
 
-setInterval(function () {
-  poll_database(function () {
-  });
-}, 60000);
+setInterval(poll_database, 60000);
+poll_database();
 
-function poll_database(next) {
+function poll_database() {
   db.getRecentGuardians(function (err, data) {
     if (err) {
       return console.log(err.message);
     }
     exports.hosts_data = data;
-    next();
   });
 }
 
-setInterval(function () {
-  poll_nmap(function () {
-  });
-}, 60000);
+setInterval(poll_nmap, 60000);
+poll_nmap();
 
 function adapters() {
   var ret = []
@@ -66,7 +61,7 @@ function adapters() {
   return ret;
 }
 
-function poll_nmap(next) {
+function poll_nmap() {
   var opts = {
     // timeout: 1,
     range: adapters(),
@@ -116,7 +111,6 @@ function poll_nmap(next) {
                 });
               }
             }
-            next();
           }
           catch (e) { }
         });

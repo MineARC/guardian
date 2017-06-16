@@ -1,10 +1,70 @@
 extends layout
 
 block title
-  = alias
+  span#alias= alias
            
 block append content
-  .wrapper-md(ng-controller='FlotChartDemoCtrl')
+  #aura_1_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-aura-1
+  #aura_2_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-aura-2
+  #aura_3_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-aura-3
+  #aura_4_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-aura-4
+  #temp_1_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-temp-1
+  #temp_2_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-temp-2
+  #temp_3_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-temp-3
+  #current_1_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-current-1
+  #voltage_1_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-voltage-1
+  #voltage_2_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-voltage-2
+  #voltage_3_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-voltage-3
+  #voltage_4_modal.modal.fade(role='dialog')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          .graph#graph-voltage-4
+  .wrapper-md
     .tab-container
       ul.nav.nav-tabs
         li.active
@@ -17,10 +77,19 @@ block append content
             a(href='#', data-toggle='tab', data-target='#tab_elvp') ELVP
         if(series3)
           li
-            a(href='#', data-toggle='tab', data-target='#tab_series3') SERIES3
+            a(href='#', data-toggle='tab', data-target='#tab_series3') SERIES III
         if(series4)
           li
-            a(href='#', data-toggle='tab', data-target='#tab_series4') SERIES4
+            a(href='#', data-toggle='tab', data-target='#tab_series4') SERIES IV
+        if(series4.fan_board_1)
+          li
+            a(href='#', data-toggle='tab', data-target='#tab_series4_fan_board_1') FAN BOARD
+        if(series4.fan_board_2)
+          li
+            a(href='#', data-toggle='tab', data-target='#tab_series4_fan_board_2') FAN BOARD 2
+        if(series4.current_loops)
+          li
+            a(href='#', data-toggle='tab', data-target='#tab_series4_current_loops') CURRENT LOOPS
         if(aura)
           li
             a(href='#', data-toggle='tab', data-target='#tab_aura') AURA
@@ -41,8 +110,7 @@ block append content
           #tab_series3.tab-pane
             include home/series3.pug
         if(series4)
-          #tab_series4.tab-pane
-            include home/series4.pug
+          include home/series4.pug
         if(aura)
           #tab_aura.tab-pane
             include home/aura.pug
@@ -61,23 +129,42 @@ block append content
     if(series4)
       include home/series4_graphs.pug
 
+block append fleet
+  if(hosts)
+    each host in hosts
+      li
+        a(href='//' + host.ip + '/chamber')
+          i.icon-tag
+          span= host.alias ? host.alias : host.hostname.split('-')[1]
+
+block append alerts
+  if(hosts)
+    each host in hosts
+      each alerts, types in host.alarms_active
+        each alert in alerts
+          li.list-group-item
+            .clear
+              i.fa.fa-exclamation-circle.m-r-xs
+              span.alef= alert
+            small.text-muted= host.alias ? host.alias : host.hostname.split('-')[1]
+
 block prepend styles
-  script(src='/javascripts/canvasjs.min.js')
+  script(src='/js/canvasjs.min.js')
 
 block prepend scripts
-  script(src='/javascripts/home.js')
-  script(src='/javascripts/camera_internal.js')
+  script(src='/js/home.js')
+  script(src='/js/camera_internal.js')
   if(extn)
-    script(src='/javascripts/camera_external.js')
+    script(src='/js/camera_external.js')
   if(elv)
-    script(src='/javascripts/elv.js')
+    script(src='/js/elv.js')
   if(elvp)
-    script(src='/javascripts/elvp.js')
+    script(src='/js/elvp.js')
   if(series3)
-    script(src='/javascripts/series3.js')
+    script(src='/js/series3.js')
   if(series4)
-    script(src='/javascripts/series4.js')
+    script(src='/js/series4.js')
   if(cams)
-    script(src='/javascripts/cams.js')
+    script(src='/js/cams.js')
   if(aura)
-    script(src='/javascripts/aura.js')
+    script(src='/js/aura.js')

@@ -13,25 +13,12 @@ if (jumpers.mode == 3) var series4_polling = require('./series4_polling');
 var underscore = require('underscore');
 var db = require('./database');
 
-
-// Set up polling of alarms
-var alert_is_polling = true;
-poll_alerts(function () {
-  alert_is_polling = false;
-});
-
 // Poll for updates to alarms every 30 seconds
-setInterval(function () {
-  if (!alert_is_polling) {
-    alert_is_polling = true;
-    poll_alerts(function () {
-      alert_is_polling = false;
-    });
-  }
-}, 10000);
+setInterval(poll_alerts, 10000);
+poll_alerts();
 
 // Check the active alerts against the database and send out emails
-function poll_alerts(next) {
+function poll_alerts() {
   var alarms = {};
   if (jumpers.cams) alarms['cams'] = cams_polling.alarms;
   if (jumpers.aura) alarms['aura'] = aura_polling.alarms;
@@ -53,7 +40,6 @@ function poll_alerts(next) {
 
   // If there are any active alarms retrive the database so we can continue with checks
   db.getAll(get_all_callback.bind(null, alarms_active));
-  next();
 }
 
 function send_mail(fromName, fromAddress, to, subject, text, callback) {
@@ -82,7 +68,7 @@ function send_mail(fromName, fromAddress, to, subject, text, callback) {
     html: text, // html body
     attachments: [{
       filename: 'header.jpg',
-      path: process.cwd() + '/public/images/header.jpg',
+      path: process.cwd() + '/public/img/header.jpg',
       cid: 'header'
     }]
   };
@@ -113,20 +99,20 @@ function get_all_callback(alarms_active, err, all) {
     // if they are subscribed and a message hasnt been sent recently
     // send them a new email for all active alarms.
     for (var type in alarms_active) {
-      if (email.subscription[type]) {
-        var alarm = underscore.intersection(alarms_active[type], email.subscription[type])
-        for (var i = 0; i < alarm.length; i++) {
-          // Check if alarm has never been sent or if its due to be sent
-          if (!email.sent[type])
-            email.sent[type] = {};
-          if (!email.sent[type][alarm[i]] || email.sent[type][alarm[i]] <= Date.now()) {
-            send = true;
-            if (!result[type])
-              result[type] = []
-            result[type].push(alarm[i]);
-          }
+      // if (email.subscription[type]) {
+      var alarm = alarms_active[type]; //underscore.intersection(alarms_active[type], email.subscription[type])
+      for (var i = 0; i < alarm.length; i++) {
+        // Check if alarm has never been sent or if its due to be sent
+        if (!email.sent[type])
+          email.sent[type] = {};
+        if (!email.sent[type][alarm[i]] || email.sent[type][alarm[i]] <= Date.now()) {
+          send = true;
+          if (!result[type])
+            result[type] = []
+          result[type].push(alarm[i]);
         }
       }
+      // }
     }
 
     // If any active alarms meet the test to be sent, send     

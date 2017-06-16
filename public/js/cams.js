@@ -1,4 +1,5 @@
 function updateCams(data) {
-  var html = '<h3>CAMS</h3><table class="table"><tr><td>Occupied</td><td class="table-right">' + (data.occupied ? 'Yes' : 'No') + '</tr><tr><td>Airflow</td><td class="table-right">' + (data.solenoid ? 'No' : 'Yes') + '</td></tr><tr><td>Airflow Uptime</td><td class="table-right">' + (data.rate * 100).toFixed(2) + ' %</td></tr></table>';
-  $('#cams').html(html);
+  $('#table-cams tr:contains("Occupied") .row-info').text(data.occupied ? 'Yes' : 'No');
+  $('#table-cams tr:contains("Airflow") .row-info').text(data.solenoid ? 'No' : 'Yes');
+  $('#table-cams tr:contains("Uptime") .row-info').text((data.rate * 100).toFixed(2) + ' %');
 }

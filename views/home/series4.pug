@@ -1,8 +1,7 @@
-.row
-  if(series4.system_information)
-    div.col-xs-12#table-system-info.items
-      //- a.right#monitor-link(href='/monitor') Info
-      table.table
+#tab_series4.tab-pane
+  .row
+    div.col-xs-12.items
+      table.table#table-series4
         tr
           td.row-name Scrubber Name
           td.table-right.row-alias= series4.name
@@ -12,28 +11,34 @@
         each row in series4.system_information
           tr
             td.row-name= row.row_name
-            td.table-right.row-info #{row.row_info} #{row.row_unit}
+              td.table-right.row-info #{row.row_info} #{row.row_unit}
 
-  if(series4.fan_board_1)
-    div.col-xs-12#table-fan-board-1.items
-      table.table
-        each row in series4.fan_board_1
-          tr
-            td.row-name= row.row_name
-            td.table-right.row-info #{row.row_info} #{row.row_unit}
+if(series4.fan_board_1)
+  #tab_series4_fan_board_1.tab-pane
+    .row
+      div.col-xs-12.items
+        table.table#table-fan-board-1
+          each row in series4.fan_board_1
+            tr
+              td.row-name= row.row_name
+              td.table-right.row-info #{row.row_info} #{row.row_unit}
 
-  if(series4.fan_board_2)
-    div.col-xs-12#table-fan-board-2.items
-      table.table
-        each row in series4.fan_board_2
-          tr
-            td.row-name= row.row_name
-            td.table-right.row-info #{row.row_info} #{row.row_unit}
+if(series4.fan_board_2)
+  #tab_series4_fan_board_2.tab-pane
+    .row
+      div.col-xs-12.items
+        table.table#table-fan-board-2
+          each row in series4.fan_board_2
+            tr
+              td.row-name= row.row_name
+              td.table-right.row-info #{row.row_info} #{row.row_unit}
 
-  if(series4.current_loops)
-    div.col-xs-12#table-current-loops.items
-      table.table
-        each row in series4.current_loops
-          tr
-            td.row-name= row.row_name
-            td.table-right.row-info #{row.row_info} #{row.row_unit}
+if(series4.current_loops)
+  #tab_series4_current_loops.tab-pane
+    .row
+      div.col-xs-12.items
+        table.table#table-current-loops
+          each row in series4.current_loops
+            tr
+              td.row-name= row.row_name
+              td.table-right.row-info #{row.row_info} #{row.row_unit}

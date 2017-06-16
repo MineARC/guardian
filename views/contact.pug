@@ -1,149 +1,54 @@
-doctype html
-html(lang='en')
-  head
-    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
-    title Guardian
-    meta(name='description', content='app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components')
-    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
-    link(rel='stylesheet', href='css/animate.css', type='text/css')
-    link(rel='stylesheet', href='css/font-awesome.min.css', type='text/css')
-    link(rel='stylesheet', href='css/simple-line-icons.css', type='text/css')
-    link(rel='stylesheet', href='css/bootstrap.css', type='text/css')
-    link(rel='stylesheet', href='css/font.css', type='text/css')
-    link(rel='stylesheet', href='css/app.css', type='text/css')
-    link(rel='stylesheet', type='text/css', href='css/footable.bootstrap.min.css')
-  body
-    .app.app-header-fixed
-      header#header.app-header.navbar(role='menu')
-        .navbar-header.bg-dark
-          button.pull-right.visible-xs.dk(ui-toggle-class='show', target='.navbar-collapse')
-            i.glyphicon.glyphicon-cog
-          button.pull-right.visible-xs(ui-toggle-class='off-screen', target='.app-aside', ui-scroll='app')
-            i.glyphicon.glyphicon-align-justify
-          a.navbar-brand.text-lt(href='#')
-            span.hidden-folded.m-l-xs Guardian
-        .collapse.pos-rlt.navbar-collapse.box-shadow.bg-white-only
-          .nav.navbar-nav.hidden-xs
-            a.btn.no-shadow.navbar-btn(href='#', ui-toggle-class='app-aside-folded', target='.app')
-              i.fa.fa-dedent.fa-fw.text
-              i.fa.fa-indent.fa-fw.text-active
-            span.m-n.font-thin.h3.text-black HELP
-      aside#aside.app-aside.hidden-xs.bg-dark
-        .aside-wrap
-          .navi-wrap
-            nav.navi.clearfix(ui-nav='')
-              ul.nav
-                li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
-                  span NAVIGATION
-                li
-                  a.auto(href='/')
-                    i.icon-home
-                    span.font-bold HOME
-                li
-                  a(href='notifications')
-                    i.icon-settings
-                    span.font-bold SETTINGS
-                li.active
-                  a(href='contact')
-                    i.icon-info
-                    span.font-bold HELP
-                li.line.dk
-                li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
-                  span FLEET
-                li
-                  a(href='#')
-                    i.icon-tag
-                    span MA 001
-                li
-                  a(href='#')
-                    b.badge.bg-info.pull-right 3
-                    i.icon-tag
-                    span MA 002
-                li
-                  a(href='#')
-                    i.icon-tag
-                    span MA 003
-                li
-                  a(href='#')
-                    i.icon-tag
-                    span MA 004
-                li
-                  a(href='#')
-                    i.icon-tag
-                    span MA 005
-      #content.app-content(role='main')
-        .app-content-body
-          .hbox.hbox-auto-xs.hbox-auto-sm(ng-init='app.settings.asideFolded = false; app.settings.asideDock = false;')
-            .col
-              .wrapper-md(ng-controller='FormDemoCtrl')
-                .row
-                  .col-sm-6
-                    .panel.panel-default
-                      .panel-heading.font-bold Contact Us
-                      .panel-body
-                        form(role='form' action='mailto:info@minearc.com.au')
-                          .form-group
-                            label Email address
-                            input.form-control(type='email', placeholder='Enter email')
-                          .form-group
-                            label Name
-                            input.form-control(type='text', placeholder='Enter your name')
-                          .form-control(ui-jq='wysiwyg', style='overflow:scroll;height:200px;max-height:200px', contenteditable='true')
-                          button.btn.btn-sm.btn-primary(type='submit', style='margin-top: 10px;') Submit
-                  .col-sm-6
-                    .panel.panel-default
-                      .panel-heading.font-bold MineARC Systems
-                      .panel-body
-                        iframe(style='width: 100%; min-height: 333px', src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.669230527381!2d115.95145400000001!3d-31.996981000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32bea199b0e2bd%3A0x43eae4933bb29b93!2sMinearc+Systems+PTY+Ltd.!5e0!3m2!1sen!2sau!4v1442193159083')
-                        p
-                          | MineARC System Intellgence
-                          br
-                          a(href='mailto:systemintelligence@minearc.com') systemintelligence@minearc.com
-            .col.w-md.bg-white-only.b-l.bg-auto.no-border-xs
-              .nav-tabs-alt
-              .tab-content
-                #tab-1.tab-pane.active(role='tabpanel')
-                  .wrapper-md
-                    .m-b-sm.text-md ALERT FEED
-                    ul.list-group.no-bg.no-borders.pull-in
-                      li.list-group-item
-                        .clear
-                          div
-                            a(href='#') SDCard failed on Display board
-                          small.text-muted MA 006
-                      li.list-group-item
-                        .clear
-                          div
-                            a(href='#') CO2 fan 1 has failed on Fan board 1
-                          small.text-muted MA 012
-                      li.list-group-item
-                        .clear
-                          div
-                            a(href='#') Lighting has failed on Fan board 1
-                          small.text-muted MA 056
-                      li.list-group-item
-                        .clear
-                          div
-                            a(href='#') Battery Rail has failed on Fan board 2
-                          small.text-muted MA 002
-                      li.list-group-item
-                        .clear
-                          div
-                            a(href='#') CO fan has failed on Fan board 1
-                          small.text-muted MA 046
-      footer#footer.app-footer(role='footer')
-        .wrapper.b-t.bg-light
-          span.pull-right
-            | 2.2.0 
-            a.m-l-sm.text-muted(href='#', ui-scroll='app')
-              em.fa.fa-long-arrow-up
-          |         © MineARC Systems Copyright.
-    script(src='js/jquery.js')
-    script(src='js/bootstrap.js')
-    script(src='js/ui-load.js')
-    script(src='js/ui-jp.config.js')
-    script(src='js/ui-jp.js')
-    script(src='js/ui-nav.js')
-    script(src='js/ui-toggle.js')
-    script(src='js/ui-client.js')
-    script(src='js/footable.min.js')
+extends layout
+
+block title
+  | CONTACT
+
+block append content
+  .wrapper-md
+    .row
+      .col-sm-6
+        .panel.panel-default
+          //- .panel-heading
+          //-   | VOLTAGE
+          .panel-body
+            form(role='form', action='mailto:info@minearc.com.au', method='post')
+              .form-group
+                label Subject
+                input.form-control(name='Subject', type='text', placeholder='Subject')
+              .form-control(ui-jq='wysiwyg', style='overflow:scroll;height:200px;max-height:200px', contenteditable='true')
+              button.btn.btn-sm.btn-primary(type='submit', value='Send', style='margin-top: 10px') Submit
+
+
+      .col-sm-6
+        .panel.panel-default
+          //- .panel-heading
+          //-   | CURRENT
+          .panel-body
+            iframe(style='width: 100%; min-height: 333px', src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.669230527381!2d115.95145400000001!3d-31.996981000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32bea199b0e2bd%3A0x43eae4933bb29b93!2sMinearc+Systems+PTY+Ltd.!5e0!3m2!1sen!2sau!4v1442193159083')
+            p
+              | MineARC System Intellgence
+              br
+              a(href='mailto:systemintelligence@minearc.com') systemintelligence@minearc.com
+
+block append fleet
+  if(hosts)
+    each host in hosts
+      li
+        a(href='//' + host.ip + '/chamber')
+          i.icon-tag
+          span= host.alias ? host.alias : host.hostname.split('-')[1]
+
+block append alerts
+  if(hosts)
+    each host in hosts
+      each alerts, types in host.alarms_active
+        each alert in alerts
+          li.list-group-item
+            .clear
+              i.fa.fa-exclamation-circle.m-r-xs
+              span.alef= alert
+            small.text-muted= host.alias ? host.alias : host.hostname.split('-')[1]
+
+block append styles
+
+block append scripts

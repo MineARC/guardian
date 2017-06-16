@@ -1,8 +1,8 @@
 .row
-  div.col-xs-12#aura.items
-    table.table
+  div.col-xs-12.items
+    table.table#table-aura
       each gas, key in aura
         if(gas.isRecent)
-          tr
+          tr(class=key)
             td.row-name= key
             td.table-right.row-info #{gas.value} #{gas.unit}

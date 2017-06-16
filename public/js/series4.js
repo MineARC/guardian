@@ -1,27 +1,28 @@
-var series4_mains_data = [];
-var series4_battery_data = [];
-var series4_inverter_data = [];
-var series4_chamber_data = [];
-var series4_outside_data = [];
+var series4_voltage_mains_data = [];
+var series4_voltage_battery_data = [];
+var series4_voltage_inverter_data = [];
+var series4_temp_internal_data = [];
+var series4_temp_external_data = [];
+var series4_temp_battery_data = [];
+var series4_current_battery_data = [];
 
-// Mains voltage chart options
-var series4_chart_mains = new CanvasJS.Chart("graph-mains", {
-  title: { text: "Mains voltage" },
+var series4_voltage_mains_chart = new CanvasJS.Chart("graph-voltage-1", {
+  title: { text: "Mains Voltage" },
   data: [{
     type: "line",
     markerType: 'none',
     toolTipContent: "{y} V",
-    dataPoints: series4_mains_data
+    dataPoints: series4_voltage_mains_data
   }],
   axisX: {
-    title: 'Time',
+    title: 'Time H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
     interval: 7200,
   },
   axisY: {
-    title: 'Voltage',
+    title: 'Voltage V',
     minimum: 0,
     maximum: 300,
     interval: 50,
@@ -33,24 +34,23 @@ var series4_chart_mains = new CanvasJS.Chart("graph-mains", {
   }
 });
 
-// Battery voltage chart options
-var series4_chart_battery = new CanvasJS.Chart("graph-battery", {
-  title: { text: "Battery voltage" },
+var series4_voltage_battery_chart = new CanvasJS.Chart("graph-voltage-2", {
+  title: { text: "Battery Voltage" },
   data: [{
     type: "line",
     markerType: 'none',
     toolTipContent: "{y} V",
-    dataPoints: series4_battery_data
+    dataPoints: series4_voltage_battery_data
   }],
   axisX: {
-    title: 'Time',
+    title: 'Time H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
     interval: 7200,
   },
   axisY: {
-    title: 'Voltage',
+    title: 'Voltage V',
     minimum: 0,
     maximum: 60,
     interval: 10,
@@ -62,24 +62,23 @@ var series4_chart_battery = new CanvasJS.Chart("graph-battery", {
   }
 });
 
-// Inverter voltage chart options
-var series4_chart_inverter = new CanvasJS.Chart("graph-inverter", {
-  title: { text: "Inverter voltage" },
+var series4_voltage_inverter_chart = new CanvasJS.Chart("graph-voltage-3", {
+  title: { text: "Inverter Voltage" },
   data: [{
     type: "line",
     markerType: 'none',
     toolTipContent: "{y} V",
-    dataPoints: series4_inverter_data
+    dataPoints: series4_voltage_inverter_data
   }],
   axisX: {
-    title: 'Time',
+    title: 'Time H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
     interval: 7200,
   },
   axisY: {
-    title: 'Voltage',
+    title: 'Voltage V',
     minimum: 0,
     maximum: 300,
     interval: 50,
@@ -91,31 +90,16 @@ var series4_chart_inverter = new CanvasJS.Chart("graph-inverter", {
   }
 });
 
-// Temperature chart options
-var series4_chart_temp = new CanvasJS.Chart("graph-temp", {
-  title: { text: "Temperature °C" },
-  legend: {
-    horizontalAlign: "right", // "center" , "right"
-    verticalAlign: "top",  // "top" , "bottom"
-    fontSize: 15
-  },
+var series4_temp_internal_chart = new CanvasJS.Chart("graph-temp-1", {
+  title: { text: "Internal Temperature" },
   data: [{
     type: "line",
     markerType: 'none',
     toolTipContent: "{y} °C",
-    dataPoints: series4_chamber_data,
-    showInLegend: true,
-    legendText: "Chamber",
-  }, {
-    type: "line",
-    markerType: 'none',
-    toolTipContent: "{y} °C",
-    dataPoints: series4_outside_data,
-    showInLegend: true,
-    legendText: "Outside",
+    dataPoints: series4_temp_internal_data,
   }],
   axisX: {
-    title: 'Time',
+    title: 'Time H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
@@ -134,43 +118,120 @@ var series4_chart_temp = new CanvasJS.Chart("graph-temp", {
   }
 });
 
-
-$.get('/api/monitor/history').then(function (data) {
-  var last = (Date.now() / 1000 | 0) - 86400;
-  if ('series4' in data) {
-    while (data.series4[0].Time > last) {
-      series4_mains_data.push({ x: last, y: 0 });
-      series4_battery_data.push({ x: last, y: 0 });
-      series4_inverter_data.push({ x: last, y: 0 });
-      series4_chamber_data.push({ x: last, y: 0 });
-      series4_outside_data.push({ x: last, y: 0 });
-      last += 10;
-    }
-    for (var i = 0; i < data.series4.length; i++) {
-      series4_mains_data.push({ x: data.series4[i].Time, y: +(data.series4[i].voltage_mains) });
-      series4_battery_data.push({ x: data.series4[i].Time, y: +(data.series4[i].voltage_battery) });
-      series4_inverter_data.push({ x: data.series4[i].Time, y: +(data.series4[i].voltage_inverter) });
-      series4_chamber_data.push({ x: data.series4[i].Time, y: +(data.series4[i].temp_internal) });
-      series4_outside_data.push({ x: data.series4[i].Time, y: +(data.series4[i].temp_external) });
-    }
+var series4_temp_external_chart = new CanvasJS.Chart("graph-temp-2", {
+  title: { text: "External Temperature" },
+  data: [{
+    type: "line",
+    markerType: 'none',
+    toolTipContent: "{y} °C",
+    dataPoints: series4_temp_external_data,
+  }],
+  axisX: {
+    title: 'Time H',
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
+  },
+  axisY: {
+    title: 'Temperature °C',
+    minimum: 0,
+    maximum: 60,
+    interval: 10,
+    stripLines: [{
+      startValue: 10,
+      endValue: 40,
+      color: "#C5E3BF"
+    }]
   }
-  else {
-    for (var i = 0; i < dataLength; i++) {
-      series4_mains_data.push({ x: last, y: 0 });
-      series4_battery_data.push({ x: last, y: 0 });
-      series4_inverter_data.push({ x: last, y: 0 });
-      series4_chamber_data.push({ x: last, y: 0 });
-      series4_outside_data.push({ x: last, y: 0 });
-      last += 10;
-    }
-  }
-
-  series4_chart_mains.render();
-  series4_chart_battery.render();
-  series4_chart_inverter.render();
-  series4_chart_temp.render();
 });
 
+var series4_temp_battery_chart = new CanvasJS.Chart("graph-temp-3", {
+  title: { text: "Battery Temperature" },
+  data: [{
+    type: "line",
+    markerType: 'none',
+    toolTipContent: "{y} °C",
+    dataPoints: series4_temp_battery_data,
+  }],
+  axisX: {
+    title: 'Time H',
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
+  },
+  axisY: {
+    title: 'Temperature °C',
+    minimum: 0,
+    maximum: 60,
+    interval: 10,
+    stripLines: [{
+      startValue: 10,
+      endValue: 40,
+      color: "#C5E3BF"
+    }]
+  }
+});
+
+var series4_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
+  title: { text: "Battery Current" },
+  data: [{
+    type: "line",
+    markerType: 'none',
+    toolTipContent: "{y} A",
+    dataPoints: series4_current_battery_data,
+  }],
+  axisX: {
+    title: 'Time H',
+    labelFormatter: function (e) {
+      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+    },
+    interval: 7200,
+  },
+  axisY: {
+    title: 'Current A',
+    minimum: -60,
+    maximum: 60,
+    interval: 20,
+    stripLines: [{
+      startValue: 10,
+      endValue: 40,
+      color: "#C5E3BF"
+    }]
+  }
+});
+
+function updateSeries4History(data) {
+  var last = (Date.now() / 1000 | 0) - 86400;
+  while (data[0].Time > last) {
+    series4_voltage_mains_data.push({ x: last, y: 0 });
+    series4_voltage_battery_data.push({ x: last, y: 0 });
+    series4_voltage_inverter_data.push({ x: last, y: 0 });
+    series4_temp_internal_data.push({ x: last, y: 0 });
+    series4_temp_external_data.push({ x: last, y: 0 });
+    series4_temp_battery_data.push({ x: last, y: 0 });
+    series4_current_battery_data.push({ x: last, y: 0 });
+    last += 10;
+  }
+  for (var i = 0; i < data.length; i++) {
+    series4_voltage_mains_data.push({ x: data[i].Time, y: data[i].voltage_mains });
+    series4_voltage_battery_data.push({ x: data[i].Time, y: data[i].voltage_battery });
+    series4_voltage_inverter_data.push({ x: data[i].Time, y: data[i].voltage_inverter });
+    series4_temp_internal_data.push({ x: data[i].Time, y: data[i].temp_internal });
+    series4_temp_external_data.push({ x: data[i].Time, y: data[i].temp_external });
+    series4_temp_battery_data.push({ x: data[i].Time, y: data[i].temp_battery });
+    series4_current_battery_data.push({ x: data[i].Time, y: data[i].current_battery });
+  }
+
+  series4_voltage_mains_chart.render();
+  series4_voltage_battery_chart.render();
+  series4_voltage_inverter_chart.render();
+  series4_temp_internal_chart.render();
+  series4_temp_external_chart.render();
+  series4_temp_battery_chart.render();
+  series4_current_battery_chart.render();
+}
 
 function updateSeries4(data) {
   // Updates each element in each table with data from the api
@@ -192,22 +253,74 @@ function updateSeries4(data) {
     $(element).text(data.current_loops[index].row_info + ' ' + data.current_loops[index].row_unit);
   });
 
-  // Get data from api relevent for the charts,
-  // updates the chart data, and renders the new data
-  series4_mains_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[0].row_info) });
-  series4_battery_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[1].row_info) });
-  series4_inverter_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[2].row_info) });
-  series4_chamber_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[5].row_info) });
-  series4_outside_data.push({ x: Date.now() / 1000 | 0, y: +(data.system_information[6].row_info) });
+  var n = (data.system_information[0].row_info - $('#readout-voltage-mains .value')[0].childNodes[0].nodeValue).toFixed(0)
+  $('#readout-voltage-mains .delta')[0].childNodes[1].nodeValue = n
+  $('#readout-voltage-mains .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
+  $('#readout-voltage-mains .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
 
-  if (series4_mains_data.length > dataLength) { series4_mains_data.shift(); }
-  if (series4_battery_data.length > dataLength) { series4_battery_data.shift(); }
-  if (series4_inverter_data.length > dataLength) { series4_inverter_data.shift(); }
-  if (series4_chamber_data.length > dataLength) { series4_chamber_data.shift(); }
-  if (series4_outside_data.length > dataLength) { series4_outside_data.shift(); }
+  var n = (data.system_information[1].row_info - $('#readout-voltage-battery .value')[0].childNodes[0].nodeValue).toFixed(1)
+  $('#readout-voltage-battery .delta')[0].childNodes[1].nodeValue = n
+  $('#readout-voltage-battery .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
+  $('#readout-voltage-battery .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
 
-  series4_chart_mains.render();
-  series4_chart_battery.render();
-  series4_chart_inverter.render();
-  series4_chart_temp.render();
+  var n = (data.system_information[2].row_info - $('#readout-voltage-inverter .value')[0].childNodes[0].nodeValue).toFixed(0)
+  $('#readout-voltage-inverter .delta')[0].childNodes[1].nodeValue = n
+  $('#readout-voltage-inverter .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
+  $('#readout-voltage-inverter .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
+
+  var n = (data.system_information[5].row_info - $('#readout-temp-internal .value')[0].childNodes[0].nodeValue).toFixed(1)
+  $('#readout-temp-internal .delta')[0].childNodes[1].nodeValue = n
+  $('#readout-temp-internal .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
+  $('#readout-temp-internal .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
+
+  var n = (data.system_information[6].row_info - $('#readout-temp-external .value')[0].childNodes[0].nodeValue).toFixed(1)
+  $('#readout-temp-external .delta')[0].childNodes[1].nodeValue = n
+  $('#readout-temp-external .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
+  $('#readout-temp-external .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
+
+  var n = (data.system_information[4].row_info - $('#readout-temp-battery .value')[0].childNodes[0].nodeValue).toFixed(1)
+  $('#readout-temp-battery .delta')[0].childNodes[1].nodeValue = n
+  $('#readout-temp-battery .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
+  $('#readout-temp-battery .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
+
+  var n = (data.system_information[3].row_info - $('#readout-current-battery .value')[0].childNodes[0].nodeValue).toFixed(0)
+  $('#readout-current-battery .delta')[0].childNodes[1].nodeValue = n
+  $('#readout-current-battery .delta > i').removeClass('fa-circle fa-caret-up fa-caret-down text-muted text-danger text-success');
+  $('#readout-current-battery .delta > i').addClass(n > 0 ? 'fa-caret-up text-success' : n < 0 ? 'fa-caret-down text-danger' : 'fa-circle text-muted');
+
+  $('#readout-voltage-mains .value')[0].childNodes[0].nodeValue = data.system_information[0].row_info
+  $('#readout-voltage-battery .value')[0].childNodes[0].nodeValue = data.system_information[1].row_info;
+  $('#readout-voltage-inverter .value')[0].childNodes[0].nodeValue = data.system_information[2].row_info;
+  $('#readout-temp-internal .value')[0].childNodes[0].nodeValue = data.system_information[5].row_info;
+  $('#readout-temp-external .value')[0].childNodes[0].nodeValue = data.system_information[6].row_info;
+  $('#readout-temp-battery .value')[0].childNodes[0].nodeValue = data.system_information[4].row_info;
+  $('#readout-current-battery .value')[0].childNodes[0].nodeValue = data.system_information[3].row_info;
+
+  $('#readout-temp-internal .easyPieChart').data('easyPieChart').update((data.system_information[5].row_info / 40) * 100);
+  $('#readout-temp-external .easyPieChart').data('easyPieChart').update((data.system_information[6].row_info / 40) * 100);
+  $('#readout-temp-battery .easyPieChart').data('easyPieChart').update((data.system_information[4].row_info / 40) * 100);
+
+  series4_voltage_mains_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[0].row_info) });
+  series4_voltage_battery_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[1].row_info) });
+  series4_voltage_inverter_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[2].row_info) });
+  series4_temp_internal_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[5].row_info) });
+  series4_temp_external_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[6].row_info) });
+  series4_temp_battery_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[4].row_info) });
+  series4_current_battery_data.push({ x: Date.now() / 1000 | 0, y: parseFloat(data.system_information[3].row_info) });
+
+  if (series4_voltage_mains_data.length > dataLength) { series4_voltage_mains_data.shift(); }
+  if (series4_voltage_battery_data.length > dataLength) { series4_voltage_battery_data.shift(); }
+  if (series4_voltage_inverter_data.length > dataLength) { series4_voltage_inverter_data.shift(); }
+  if (series4_temp_internal_data.length > dataLength) { series4_temp_internal_data.shift(); }
+  if (series4_temp_external_data.length > dataLength) { series4_temp_external_data.shift(); }
+  if (series4_temp_battery_data.length > dataLength) { series4_temp_battery_data.shift(); }
+  if (series4_current_battery_data.length > dataLength) { series4_current_battery_data.shift(); }
+
+  series4_voltage_mains_chart.render();
+  series4_voltage_battery_chart.render();
+  series4_voltage_inverter_chart.render();
+  series4_temp_internal_chart.render();
+  series4_temp_external_chart.render();
+  series4_temp_battery_chart.render();
+  series4_current_battery_chart.render();
 }

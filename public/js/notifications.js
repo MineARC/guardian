@@ -39,11 +39,13 @@ $(document).ready(function ($) {
   $('.btn-delete').click(function (event) {
     var element = this;
     var email = $(element).data('email');
-    bootbox.confirm('Are you sure you wish to delete ' + email, function (result) {
+    bootbox.confirm('Are you sure you wish to remove ' + email, function (result) {
       if (result) {
-        $.post('/notifications/delEmail', { email: email }).then(function () {
-          $(element).closest('tr').hide();
-        });
+        JSON.parse($('#notification-list').attr(ips)).forEach(function (ip) {
+          $.post(ip + '/notifications/delEmail', { email: email }).then(function () {
+            $(element).closest('tr').hide();
+          });
+        }, this);;
       }
     });
   });
