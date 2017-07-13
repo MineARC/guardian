@@ -2,7 +2,7 @@
   "name": "minearc-guardian",
   "version": "0.0.13",
   "auto-updater": {
-    "repo": "/mitchellpontague/minearc-guardian",
+    "repo": "mitchellpontague/minearc-guardian",
     "branch": "master"
   },
   "private": false,
