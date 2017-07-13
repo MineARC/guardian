@@ -27,6 +27,10 @@ autoupdater.on('update.extracted', function () {
   process.exit();
 });
 
+autoupdater.on('download.error', function (err) {
+  console.error("Error when downloading: " + err);
+});
+
 // Start checking 
 autoupdater.fire('check');
 
