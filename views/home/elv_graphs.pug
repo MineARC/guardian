@@ -25,13 +25,23 @@ if(aura)
                     size: 115,\
                     lineCap: 'butt'\
                     }", style='width: 115px; height: 115px; line-height: 115px;')
-                      div
-                        span.h2.value
-                          | 0.0
-                          span(style='font-size: 0.5em') ℃
-                        .text.text-sm.delta
-                          i.fa.fa-fw.fa-circle.text-muted.text-sm
-                          | 0.0
+                      case localize
+                        when 'us'
+                          div
+                            span.h2.value
+                              | 0.0
+                              span(style='font-size: 0.5em') °F
+                            .text.text-sm.delta
+                              i.fa.fa-fw.fa-circle.text-muted.text-sm
+                              | 0.0
+                        default
+                          div
+                            span.h2.value
+                              | 0.0
+                              span(style='font-size: 0.5em') °C
+                            .text.text-sm.delta
+                              i.fa.fa-fw.fa-circle.text-muted.text-sm
+                              | 0.0
 .row
   .col-sm-9
     .panel.panel-default
@@ -42,10 +52,6 @@ if(aura)
           .col-sm-4
             .item
               .pos-rlt
-                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
-                  .center.text-center.m-t-n.w-full
-                    a
-                      i.fa.fa-3x.fa-line-chart.text-white
                 .inline#readout-voltage-mains
                   div Mains
                   span.h2.value
@@ -53,10 +59,6 @@ if(aura)
           .col-sm-4
             .item
               .pos-rlt
-                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
-                  .center.text-center.m-t-n.w-full
-                    a
-                      i.fa.fa-3x.fa-line-chart.text-white
                 .inline#readout-voltage-inverter
                   div Inverter
                   span.h2.value

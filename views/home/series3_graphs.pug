@@ -25,13 +25,23 @@
                     size: 115,\
                     lineCap: 'butt'\
                     }", style='width: 115px; height: 115px; line-height: 115px;')
-                      div
-                        span.h2.value
-                          | 0.0
-                          span(style='font-size: 0.5em') ℃
-                        .text.text-sm.delta
-                          i.fa.fa-fw.fa-circle.text-muted.text-sm
-                          | 0.0
+                      case localize
+                        when 'us'
+                          div
+                            span.h2.value
+                              | 0.0
+                              span(style='font-size: 0.5em') °F
+                            .text.text-sm.delta
+                              i.fa.fa-fw.fa-circle.text-muted.text-sm
+                              | 0.0
+                        default
+                          div
+                            span.h2.value
+                              | 0.0
+                              span(style='font-size: 0.5em') °C
+                            .text.text-sm.delta
+                              i.fa.fa-fw.fa-circle.text-muted.text-sm
+                              | 0.0
             .col-sm-3
               .item
                 .pos-rlt
@@ -54,7 +64,7 @@
                       div
                         span.h2.value
                           | 0.0
-                          span(style='font-size: 0.5em') ℃
+                          span(style='font-size: 0.5em') °C
                         .text.text-sm.delta
                           i.fa.fa-fw.fa-circle.text-muted.text-sm
                           | 0.0
@@ -80,7 +90,7 @@
                       div
                         span.h2.value
                           | 0.0
-                          span(style='font-size: 0.5em') ℃
+                          span(style='font-size: 0.5em') °C
                         .text.text-sm.delta
                           i.fa.fa-fw.fa-circle.text-muted.text-sm
                           | 0.0
@@ -106,7 +116,7 @@
                       div
                         span.h2.value
                           | 0
-                          span(style='font-size: 0.5em') ℃
+                          span(style='font-size: 0.5em') °C
                         .text.text-sm.delta
                           i.fa.fa-fw.fa-circle.text-muted.text-sm
                           | 0
@@ -133,7 +143,7 @@
                       div
                         span.h2.value
                           | 0
-                          span(style='font-size: 0.5em') ℃
+                          span(style='font-size: 0.5em') °C
                         .text.text-sm.delta
                           i.fa.fa-fw.fa-circle.text-muted.text-sm
                           | 0
@@ -159,7 +169,7 @@
                       div
                         span.h2.value
                           | 0
-                          span(style='font-size: 0.5em') ℃
+                          span(style='font-size: 0.5em') °C
                         .text.text-sm.delta
                           i.fa.fa-fw.fa-circle.text-muted.text-sm
                           | 0
@@ -185,7 +195,7 @@
                       div
                         span.h2.value
                           | 0
-                          span(style='font-size: 0.5em') ℃
+                          span(style='font-size: 0.5em') °C
                         .text.text-sm.delta
                           i.fa.fa-fw.fa-circle.text-muted.text-sm
                           | 0

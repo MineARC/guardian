@@ -2,6 +2,13 @@
 
 */
 
+@media screen and (min-width: 768px) {
+    .modal-dialog {
+        width: 70%; /* either % (e.g. 60%) or px (400px) */
+        height: 500px
+    }
+}
+
 html {
   background-color: #f0f3f4;
 }

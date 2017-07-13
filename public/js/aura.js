@@ -3,33 +3,67 @@ var aura_o2_data = [];
 var aura_co2_data = [];
 var aura_co_data = [];
 
-var aura_temp_chart = new CanvasJS.Chart("graph-aura-1", {
-  title: { text: "Apparent Temperature" },
-  data: [{
-    type: "line",
-    markerType: 'none',
-    toolTipContent: "{y} C",
-    dataPoints: aura_temp_data
-  }],
-  axisX: {
-    title: 'Time H',
-    labelFormatter: function (e) {
-      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
-    },
-    interval: 7200,
-  },
-  axisY: {
-    title: 'Temperature C',
-    minimum: -10,
-    maximum: 50,
-    interval: 10,
-    stripLines: [{
-      startValue: 220,
-      endValue: 250,
-      color: "#C5E3BF"
-    }]
-  }
-});
+switch (localize) {
+  case 'us':
+    var aura_temp_chart = new CanvasJS.Chart("graph-aura-1", {
+      title: { text: "Apparent Temperature" },
+      data: [{
+        type: "line",
+        markerType: 'none',
+        toolTipContent: "{y} F",
+        dataPoints: aura_temp_data
+      }],
+      axisX: {
+        title: 'Time H',
+        labelFormatter: function (e) {
+          return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+        },
+        interval: 7200,
+      },
+      axisY: {
+        title: 'Temperature F',
+        minimum: 14,
+        maximum: 122,
+        interval: 18,
+        stripLines: [{
+          startValue: 50,
+          endValue: 86,
+          color: "#C5E3BF"
+        }]
+      }
+    });
+    break;
+
+  default:
+    var aura_temp_chart = new CanvasJS.Chart("graph-aura-1", {
+      title: { text: "Apparent Temperature" },
+      data: [{
+        type: "line",
+        markerType: 'none',
+        toolTipContent: "{y} C",
+        dataPoints: aura_temp_data
+      }],
+      axisX: {
+        title: 'Time H',
+        labelFormatter: function (e) {
+          return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+        },
+        interval: 7200,
+      },
+      axisY: {
+        title: 'Temperature C',
+        minimum: -10,
+        maximum: 50,
+        interval: 10,
+        stripLines: [{
+          startValue: 10,
+          endValue: 30,
+          color: "#C5E3BF"
+        }]
+      }
+    });
+    break;
+}
 
 var aura_o2_chart = new CanvasJS.Chart("graph-aura-2", {
   title: { text: "Oxygen" },
@@ -113,6 +147,22 @@ var aura_co_chart = new CanvasJS.Chart("graph-aura-4", {
       color: "#C5E3BF"
     }]
   }
+});
+
+$("#aura_1_modal").on('shown.bs.modal', function () {
+  aura_temp_chart.render();
+});
+
+$("#aura_2_modal").on('shown.bs.modal', function () {
+  aura_o2_chart.render();
+});
+
+$("#aura_3_modal").on('shown.bs.modal', function () {
+  aura_co2_chart.render();
+});
+
+$("#aura_4_modal").on('shown.bs.modal', function () {
+  aura_co_chart.render();
 });
 
 function updateAuraHistory(data) {

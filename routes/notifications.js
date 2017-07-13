@@ -60,73 +60,6 @@ router.post('/addEmail', function (req, res, next) {
   });
 });
 
-// router.post('/saveSubscriptions', function (req, res, next) {
-//   var email = req.body.email;
-//   var subscriptions = JSON.parse(req.body.subscriptions);
-
-//   if (!email || !subscriptions || !email.match('\\w+@\\w+')) {
-//     console.log('Invalid information supplied');
-//     return res.send('Invalid information supplied');
-//   }
-
-//   var subs = {};
-//   for (key in subscriptions) {
-//     switch (key) {
-//       case 'elv':
-//         if (subscriptions[key].length > 0)
-//           subs['elv'] = subscriptions[key].filter(function (element) {
-//             return element in elv_polling.alarms;
-//           });
-//         break;
-//       case 'elvp':
-//         if (subscriptions[key].length > 0)
-//           subs['elvp'] = subscriptions[key].filter(function (element) {
-//             return element in elvp_polling.alarms;
-//           });
-//         break;
-//       case 'series3':
-//         if (subscriptions[key].length > 0)
-//           subs['series3'] = subscriptions[key].filter(function (element) {
-//             return element in elv_polling.alarms;
-//           });
-//         break;
-//       case 'series4':
-//         if (subscriptions[key].length > 0)
-//           subs['series4'] = subscriptions[key].filter(function (element) {
-//             return element in series4_polling.alarms;
-//           });
-//         break;
-//       case 'cams':
-//         if (subscriptions[key].length > 0)
-//           subs['cams'] = subscriptions[key].filter(function (element) {
-//             return element in cams_polling.alarms;
-//           });
-//         break;
-//       case 'aura':
-//         if (subscriptions[key].length > 0)
-//           subs['aura'] = subscriptions[key].filter(function (element) {
-//             return element in aura_polling.alarms;
-//           });
-//         break;
-//       default:
-//         break;
-//     }
-//   }
-
-//   db.setSubscription(email, subs, function (err, success) {
-//     if (err) {
-//       console.log(err);
-//       return res.send(err.message);
-//     }
-//     else if (success) {
-//       res.send('Subscriptions saved');
-//     }
-//     else {
-//       res.send('Something went wrong');
-//     }
-//   });
-// });
-
 router.post('/delEmail', function (req, res, next) {
   var email = req.body.email;
 
@@ -148,19 +81,5 @@ router.post('/delEmail', function (req, res, next) {
     }
   });
 });
-
-// router.get('/getAlarms', function (req, res, next) {
-//   res.send(alarms);
-// });
-
-// function merge() {
-//   var args = Array.from(arguments);
-//   var result = {};
-//   for (var obj in args) {
-//     for (var key in obj)
-//       result[key] = obj[key];
-//   }
-//   return result;
-// }
 
 module.exports = router;

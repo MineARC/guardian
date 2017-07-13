@@ -54,7 +54,8 @@ html(lang='en')
                 li.line.dk
                 li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
                   span FLEET
-                block fleet
+                #fleet
+                  block fleet
       #content.app-content(role='main')
         .app-content-body
           .hbox.hbox-auto-xs.hbox-auto-sm(ng-init='app.settings.asideFolded = false; app.settings.asideDock = false;')
@@ -66,7 +67,7 @@ html(lang='en')
                 #tab-1.tab-pane.active(role='tabpanel')
                   .wrapper-md
                     .m-b-sm.text-md ALERT FEED
-                    ul.list-group.no-bg.no-borders.pull-in
+                    ul#alerts.list-group.no-bg.no-borders.pull-in
                       block alerts
       footer#footer.app-footer(role='footer')
         .wrapper.b-t.bg-light
@@ -75,6 +76,10 @@ html(lang='en')
             a.m-l-sm.text-muted(href='#', ui-scroll='app')
               em.fa.fa-long-arrow-up
           |         © MineARC Systems Copyright.
+    script
+      | var localize = '
+      =localize
+      |'
     script(src='/js/jquery.js')
     script(src='/js/bootstrap.js')
     script(src='/js/ui-load.js')

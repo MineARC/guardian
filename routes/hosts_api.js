@@ -1,12 +1,15 @@
 var express = require('express');
+var os = require('os');
 var hostdiscovery = require('../hostdiscovery');
+var db = require('../database');
+
 var router = express.Router();
 
-/* GET external camera */
+/* GET api for overview. */
 router.get('/', function (req, res, next) {
-  var data = {}
+  data = {};
   data['hosts'] = hostdiscovery.hosts_data;
-  res.render('camera_external', data);
+  res.json(data);
 });
 
 module.exports = router;

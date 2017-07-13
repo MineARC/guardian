@@ -4,62 +4,62 @@ block title
   span#alias= alias
            
 block append content
-  #aura_1_modal.modal.fade(role='dialog')
+  #aura_1_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-aura-1
-  #aura_2_modal.modal.fade(role='dialog')
+  #aura_2_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-aura-2
-  #aura_3_modal.modal.fade(role='dialog')
+  #aura_3_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-aura-3
-  #aura_4_modal.modal.fade(role='dialog')
+  #aura_4_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-aura-4
-  #temp_1_modal.modal.fade(role='dialog')
+  #temp_1_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-temp-1
-  #temp_2_modal.modal.fade(role='dialog')
+  #temp_2_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-temp-2
-  #temp_3_modal.modal.fade(role='dialog')
+  #temp_3_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-temp-3
-  #current_1_modal.modal.fade(role='dialog')
+  #current_1_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-current-1
-  #voltage_1_modal.modal.fade(role='dialog')
+  #voltage_1_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-voltage-1
-  #voltage_2_modal.modal.fade(role='dialog')
+  #voltage_2_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-voltage-2
-  #voltage_3_modal.modal.fade(role='dialog')
+  #voltage_3_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-voltage-3
-  #voltage_4_modal.modal.fade(role='dialog')
+  #voltage_4_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
@@ -149,9 +149,9 @@ block append alerts
             small.text-muted= host.alias ? host.alias : host.hostname.split('-')[1]
 
 block prepend styles
-  script(src='/js/canvasjs.min.js')
 
 block prepend scripts
+  script(src='/js/canvasjs.min.js')
   script(src='/js/home.js')
   script(src='/js/camera_internal.js')
   if(extn)

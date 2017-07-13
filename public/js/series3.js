@@ -90,89 +90,180 @@ var series3_voltage_battery_chart = new CanvasJS.Chart("graph-voltage-3", {
   }
 });
 
-var series3_temp_internal_chart = new CanvasJS.Chart("graph-temp-1", {
-  title: { text: "Internal Temperature" },
-  data: [{
-    type: "line",
-    markerType: 'none',
-    toolTipContent: "{y} °C",
-    dataPoints: series3_temp_internal_data,
-  }],
-  axisX: {
-    title: 'Time H',
-    labelFormatter: function (e) {
-      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
-    },
-    interval: 7200,
-  },
-  axisY: {
-    title: 'Temperature °C',
-    minimum: 0,
-    maximum: 60,
-    interval: 10,
-    stripLines: [{
-      startValue: 10,
-      endValue: 40,
-      color: "#C5E3BF"
-    }]
-  }
-});
+switch (localize) {
+  case 'us':
+    var series3_temp_internal_chart = new CanvasJS.Chart("graph-temp-1", {
+      title: { text: "Internal Temperature" },
+      data: [{
+        type: "line",
+        markerType: 'none',
+        toolTipContent: "{y} °F",
+        dataPoints: series3_temp_internal_data,
+      }],
+      axisX: {
+        title: 'Time H',
+        labelFormatter: function (e) {
+          return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+        },
+        interval: 7200,
+      },
+      axisY: {
+        title: 'Temperature °F',
+        minimum: 32,
+        maximum: 140,
+        interval: 18,
+        stripLines: [{
+          startValue: 50,
+          endValue: 104,
+          color: "#C5E3BF"
+        }]
+      }
+    });
 
-var series3_temp_external_chart = new CanvasJS.Chart("graph-temp-2", {
-  title: { text: "External Temperature" },
-  data: [{
-    type: "line",
-    markerType: 'none',
-    toolTipContent: "{y} °C",
-    dataPoints: series3_temp_external_data,
-  }],
-  axisX: {
-    title: 'Time H',
-    labelFormatter: function (e) {
-      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
-    },
-    interval: 7200,
-  },
-  axisY: {
-    title: 'Temperature °C',
-    minimum: 0,
-    maximum: 60,
-    interval: 10,
-    stripLines: [{
-      startValue: 10,
-      endValue: 40,
-      color: "#C5E3BF"
-    }]
-  }
-});
+    var series3_temp_external_chart = new CanvasJS.Chart("graph-temp-2", {
+      title: { text: "External Temperature" },
+      data: [{
+        type: "line",
+        markerType: 'none',
+        toolTipContent: "{y} °F",
+        dataPoints: series3_temp_external_data,
+      }],
+      axisX: {
+        title: 'Time H',
+        labelFormatter: function (e) {
+          return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+        },
+        interval: 7200,
+      },
+      axisY: {
+        title: 'Temperature °F',
+        minimum: 32,
+        maximum: 140,
+        interval: 18,
+        stripLines: [{
+          startValue: 50,
+          endValue: 104,
+          color: "#C5E3BF"
+        }]
+      }
+    });
 
-var series3_temp_battery_chart = new CanvasJS.Chart("graph-temp-3", {
-  title: { text: "Battery Temperature" },
-  data: [{
-    type: "line",
-    markerType: 'none',
-    toolTipContent: "{y} °C",
-    dataPoints: series3_temp_battery_data,
-  }],
-  axisX: {
-    title: 'Time H',
-    labelFormatter: function (e) {
-      return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
-    },
-    interval: 7200,
-  },
-  axisY: {
-    title: 'Temperature °C',
-    minimum: 0,
-    maximum: 60,
-    interval: 10,
-    stripLines: [{
-      startValue: 10,
-      endValue: 40,
-      color: "#C5E3BF"
-    }]
-  }
-});
+    var series3_temp_battery_chart = new CanvasJS.Chart("graph-temp-3", {
+      title: { text: "Battery Temperature" },
+      data: [{
+        type: "line",
+        markerType: 'none',
+        toolTipContent: "{y} °F",
+        dataPoints: series3_temp_battery_data,
+      }],
+      axisX: {
+        title: 'Time H',
+        labelFormatter: function (e) {
+          return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+        },
+        interval: 7200,
+      },
+      axisY: {
+        title: 'Temperature °F',
+        minimum: 32,
+        maximum: 140,
+        interval: 18,
+        stripLines: [{
+          startValue: 50,
+          endValue: 104,
+          color: "#C5E3BF"
+        }]
+      }
+    });
+    break;
+
+  default:
+    var series3_temp_internal_chart = new CanvasJS.Chart("graph-temp-1", {
+      title: { text: "Internal Temperature" },
+      data: [{
+        type: "line",
+        markerType: 'none',
+        toolTipContent: "{y} °C",
+        dataPoints: series3_temp_internal_data,
+      }],
+      axisX: {
+        title: 'Time H',
+        labelFormatter: function (e) {
+          return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+        },
+        interval: 7200,
+      },
+      axisY: {
+        title: 'Temperature °C',
+        minimum: 0,
+        maximum: 60,
+        interval: 10,
+        stripLines: [{
+          startValue: 10,
+          endValue: 40,
+          color: "#C5E3BF"
+        }]
+      }
+    });
+
+    var series3_temp_external_chart = new CanvasJS.Chart("graph-temp-2", {
+      title: { text: "External Temperature" },
+      data: [{
+        type: "line",
+        markerType: 'none',
+        toolTipContent: "{y} °C",
+        dataPoints: series3_temp_external_data,
+      }],
+      axisX: {
+        title: 'Time H',
+        labelFormatter: function (e) {
+          return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+        },
+        interval: 7200,
+      },
+      axisY: {
+        title: 'Temperature °C',
+        minimum: 0,
+        maximum: 60,
+        interval: 10,
+        stripLines: [{
+          startValue: 10,
+          endValue: 40,
+          color: "#C5E3BF"
+        }]
+      }
+    });
+
+    var series3_temp_battery_chart = new CanvasJS.Chart("graph-temp-3", {
+      title: { text: "Battery Temperature" },
+      data: [{
+        type: "line",
+        markerType: 'none',
+        toolTipContent: "{y} °C",
+        dataPoints: series3_temp_battery_data,
+      }],
+      axisX: {
+        title: 'Time H',
+        labelFormatter: function (e) {
+          return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
+        },
+        interval: 7200,
+      },
+      axisY: {
+        title: 'Temperature °C',
+        minimum: 0,
+        maximum: 60,
+        interval: 10,
+        stripLines: [{
+          startValue: 10,
+          endValue: 40,
+          color: "#C5E3BF"
+        }]
+      }
+    });
+    break;
+}
+
 
 var series3_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
   title: { text: "Battery Current" },
@@ -201,6 +292,35 @@ var series3_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
     }]
   }
 });
+
+$("#voltage_1_modal").on('shown.bs.modal', function () {
+  series3_voltage_inverter_chart.render();
+});
+
+$("#voltage_2_modal").on('shown.bs.modal', function () {
+  series3_voltage_bridge_chart.render();
+});
+
+$("#voltage_3_modal").on('shown.bs.modal', function () {
+  series3_voltage_battery_chart.render();
+});
+
+$("#temp_1_modal").on('shown.bs.modal', function () {
+  series3_temp_internal_chart.render();
+});
+
+$("#temp_2_modal").on('shown.bs.modal', function () {
+  series3_temp_external_chart.render();
+});
+
+$("#temp_3_modal").on('shown.bs.modal', function () {
+  series3_temp_battery_chart.render();
+});
+
+$("#current_1_modal").on('shown.bs.modal', function () {
+  series3_current_battery_chart.render();
+});
+
 
 function updateSeries3History(data) {
   var last = (Date.now() / 1000 | 0) - 86400;

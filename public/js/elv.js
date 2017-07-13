@@ -115,6 +115,14 @@ var elv_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
   }
 });
 
+$("#voltage_1_modal").on('shown.bs.modal', function () {
+  elv_voltage_battery_chart.render();
+});
+
+$("#current_1_modal").on('shown.bs.modal', function () {
+  elv_current_battery_chart.render();
+});
+
 function updateELVHistory(data) {
   var last = (Date.now() / 1000 | 0) - 86400;
   while (data[0].Time > last) {

@@ -201,6 +201,7 @@ exports.addGuardian = function (name, status, callback) {
     status = JSON.stringify(status);
 
     db.run("INSERT OR REPLACE INTO Guardians VALUES (?, ?, datetime())", name, status, function (err) {
+      logger.info("Guardian added: " + name + " status: " + status);
       return callback(err, this.lastID > 0);
     });
   });
