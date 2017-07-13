@@ -5,6 +5,7 @@ var fs = require('fs');
 var db = require('./database');
 
 setInterval(poll_database, 10000);
+poll_database();
 
 function poll_database() {
   db.getMonitorData(2, function (err, data) {
@@ -48,6 +49,7 @@ exports.alarms = series3_alarms;
 
 // Spin up polling of backend services
 setInterval(poll_monitor, 10000);
+poll_monitor();
 
 function poll_monitor() {
   var request_options = {

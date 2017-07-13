@@ -5,6 +5,7 @@ var fs = require('fs');
 var db = require('./database');
 
 setInterval(poll_database, 10000);
+poll_database();
 
 function poll_database() {
   db.getMonitorData(5, function (err, data) {
@@ -27,6 +28,7 @@ var aura_alarms = {
 
 var timestamps = {
   Temp: 0,
+  Temp_F: 0,
   Humid: 0,
   Press: 0,
   O2: 0,
@@ -37,6 +39,7 @@ var timestamps = {
 
 var aura_data = {
   Temp: { value: 0, unit: 'C', isRecent: false },
+  Temp_F: { value: 0, unit: 'F', isRecent: false },
   Humid: { value: 0, unit: '%', isRecent: false },
   Press: { value: 0, unit: 'hPa', isRecent: false },
   O2: { value: 0, unit: '%', isRecent: false },
@@ -50,6 +53,7 @@ exports.alarms = aura_alarms;
 
 // Spin up polling of backend services
 setInterval(poll_aura, 10000);
+poll_aura();
 
 function poll_aura() {
   var request_options = {
@@ -99,7 +103,7 @@ function processPage(data) {
       }
     });
   }
-  else if (jq('p').first().text() == 'version = 2.0') {
+  else {
     jq('tr').each(function (index, element) {
       gas_name = jq(element).find('td').first().text().split(' ')[0];
       gas_value = jq(element).find('td').first().next().text();
@@ -108,9 +112,6 @@ function processPage(data) {
         timestamps[gas_name] = Date.now();
       }
     });
-  }
-  else {
-
   }
 }
 
@@ -121,13 +122,15 @@ function updateAlarms() {
   aura_alarms['CO High'].state = aura_data.CO.isRecent && aura_data.CO.value >= 35;
   aura_alarms['Temp Low'].state = aura_data.Temp.isRecent && aura_data.Temp.value <= 0;
   aura_alarms['Temp High'].state = aura_data.Temp.isRecent && aura_data.Temp.value >= 40;
+  aura_alarms['Temp Low'].state |= aura_data.Temp_F.isRecent && aura_data.Temp_F.value <= 32;
+  aura_alarms['Temp High'].state |= aura_data.Temp_F.isRecent && aura_data.Temp_F.value >= 104;
   aura_alarms['H2S High'].state = aura_data.H2S.isRecent && aura_data.H2S.value >= 15;
-
 }
 
 function updateHistory() {
   var history_data = {
     Temp: aura_data.Temp.value,
+    Temp_F: aura_data.Temp_F.value,
     Humid: aura_data.Humid.value,
     Press: aura_data.Press.value,
     O2: aura_data.O2.value,

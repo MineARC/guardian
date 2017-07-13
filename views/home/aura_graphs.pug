@@ -1,0 +1,90 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        | AURA-FX GAS MONITORS
+      .panel-body
+        .row.text-center
+          .col-sm-4
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#aura_2_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inline#readout-aura-o2
+                  div
+                    | O
+                    sub 2
+                  .easyPieChart#chart1(ui-jq='easyPieChart', ui-options="{\
+                  animate: 1000,\
+                  percent: 0,\
+                  lineWidth: 5,\
+                  trackColor: '#b7b7b7',\
+                  barColor: '#7266ba',\
+                  scaleColor: '#ffffff',\
+                  size: 115,\
+                  lineCap: 'butt'\
+                  }", style='width: 115px; height: 115px; line-height: 115px;')
+                    div
+                      span.h2.value
+                        | 0
+                        span(style='font-size: 0.5em') %
+                      .text.text-sm.delta
+                        i.fa.fa-fw.fa-circle.text-muted.text-sm
+                        | 0
+          .col-sm-4
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#aura_3_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inline#readout-aura-co2
+                  div
+                    | CO
+                    sub 2
+                  .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                  animate: 1000,\
+                  percent: 0,\
+                  lineWidth: 5,\
+                  trackColor: '#b7b7b7',\
+                  barColor: '#fad733',\
+                  scaleColor: '#ffffff',\
+                  size: 115,\
+                  lineCap: 'butt'\
+                  }", style='width: 115px; height: 115px; line-height: 115px;')
+                    div
+                      span.h2.value
+                        | 0
+                        span(style='font-size: 0.5em') %
+                      .text.text-sm.delta
+                        i.fa.fa-fw.fa-circle.text-muted.text-sm
+                        | 0
+          .col-sm-4
+            .item
+              .pos-rlt
+                .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
+                  .center.text-center.m-t-n.w-full
+                    a(data-toggle="modal" data-target="#aura_4_modal")
+                      i.fa.fa-3x.fa-line-chart.text-white
+                .inline#readout-aura-co
+                  div
+                    | CO
+                  .easyPieChart(ui-jq='easyPieChart', ui-options="{\
+                  animate: 1000,\
+                  percent: 0,\
+                  lineWidth: 5,\
+                  trackColor: '#b7b7b7',\
+                  barColor: '#23b7e5',\
+                  scaleColor: '#ffffff',\
+                  size: 115,\
+                  lineCap: 'butt'\
+                  }", style='width: 115px; height: 115px; line-height: 115px;')
+                    div
+                      span.h2.value
+                        | 0
+                        span(style='font-size: 0.5em') ppm
+                      .text.text-sm.delta
+                        i.fa.fa-fw.fa-circle.text-muted.text-sm
+                        | 0

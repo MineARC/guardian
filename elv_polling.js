@@ -9,6 +9,7 @@ var delay = 10000;
 var next = Date.now();
 
 setInterval(poll_database, 10000);
+poll_database();
 
 function poll_database() {
   db.getMonitorData(0, function (err, data) {

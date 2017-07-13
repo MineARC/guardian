@@ -1,57 +1,54 @@
 extends layout
 
-block vars
-  = alias
-        
+block title
+  | CONTACT
+
 block append content
-  .col-xs-12.col-md-6
-    h1 Feedback
-    p Send feedback with regards to MineARC Systems Intelligence
-    a(href='mailto:systemintelligence@minearc.com') systemintelligence@minearc.com
-  .col-xs-12.col-md-6
-    case localize
-      when 'us'
-        .contact_left
-          iframe(src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3357.8340005524083!2d-96.9058259!3d32.690459499999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864e9016998fb857%3A0x2cd0d9a0bf766121!2s4850+W+Ledbetter+Dr%2C+Dallas%2C+TX+75236%2C+USA!5e0!3m2!1sen!2sau!4v1440058240597', width='100%', height='330', frameborder='0', style='border:0', allowfullscreen='')
-          .map_addr
-            h3 MineARC NORTH AMERICA
-            p 4850 W. Ledbetter Drive Dallas Texas 75236
-            p ph: +1 (214) 337 5100
-            p fax: +1 (214) 337 5103
+  .wrapper-md
+    .row
+      .col-sm-6
+        .panel.panel-default
+          //- .panel-heading
+          //-   | VOLTAGE
+          .panel-body
+            form(role='form', action='mailto:info@minearc.com.au', method='post')
+              .form-group
+                label Subject
+                input.form-control(name='Subject', type='text', placeholder='Subject')
+              .form-control(ui-jq='wysiwyg', style='overflow:scroll;height:200px;max-height:200px', contenteditable='true')
+              button.btn.btn-sm.btn-primary(type='submit', value='Send', style='margin-top: 10px') Submit
+
+
+      .col-sm-6
+        .panel.panel-default
+          //- .panel-heading
+          //-   | CURRENT
+          .panel-body
+            iframe(style='width: 100%; min-height: 333px', src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.669230527381!2d115.95145400000001!3d-31.996981000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32bea199b0e2bd%3A0x43eae4933bb29b93!2sMinearc+Systems+PTY+Ltd.!5e0!3m2!1sen!2sau!4v1442193159083')
             p
-              | email: 
-              a(href='mailto:info@minearc.com') info@minearc.com
-      when 'za'
-        .contact_left
-          iframe(src='https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3584.988936908787!2d27.956514000000002!3d-26.033917999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s205+Flaming+Rock+Avenue%2C+Northlands+Business+Park!5e0!3m2!1sen!2sau!4v1440118043523', width='100%', height='330', frameborder='0', style='border:0', allowfullscreen='')
-          .map_addr
-            h3 MineARC AFRICA
-            p Stand 205, Flaming Rock Rd, Northlands Business Park, 29 Newmarket Street, North Riding, Johannesburg, South Africa
-            p ph: +27 (0) 11 796-5162
-            p fax: +27 (0) 86 504-1750
-            p
-              | email: 
-              a(href='mailto:info@minearc.com.au') info@minearc.com.au
-      default
-        .contact_left
-          iframe(src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.669230527381!2d115.95145400000001!3d-31.996981000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32bea199b0e2bd%3A0x43eae4933bb29b93!2sMinearc+Systems+PTY+Ltd.!5e0!3m2!1sen!2sau!4v1442193159083', width='100%', height='330', frameborder='0', style='border:0', allowfullscreen='')
-          .map_addr
-            h3 HEAD OFFICE MineARC AUSTRALIA
-            p 274 Welshpool Road, Perth, Australia 6106
-            p ph: +61 (8) 9333 4966
-            p fax: +61 (8) 9333 4900
-            p
-              | email: 
-              a(href='mailto:info@minearc.com.au') info@minearc.com.au
-    p.social_icons1
-      a(href='https://twitter.com/MineARC_Systems', target='_blank')
-        img.alignnone.wp-image-1304(src='http://www.minearc.com/wp-content/uploads/2014/11/Twitter_50pix.png', alt='', width='35', height='35')
-      a(href='http://www.linkedin.com/company/minearc-systems')
-        img.alignnone.wp-image-1306(src='http://www.minearc.com/wp-content/uploads/2014/11/LinkedIn_50pix.png', alt='', width='35', height='35')
-      a(href='http://www.minearc.com/wp-content/uploads/2014/11/GooglePlus_50pix.png')
-        img.alignnone.wp-image-1308(src='http://www.minearc.com/wp-content/uploads/2014/11/GooglePlus_50pix.png', alt='', width='35', height='35')
-      a(href='http://www.minearc.com/wp-content/uploads/2014/11/YouTube_50pix.png')
-        img.alignnone.wp-image-1305(src='http://www.minearc.com/wp-content/uploads/2014/11/YouTube_50pix.png', alt='', width='35', height='35')
-      a(href='https://www.flickr.com/photos/131386122@N03', target='_blank')
-        img.alignnone.wp-image-1307(src='http://www.minearc.com/wp-content/uploads/2014/11/Flickr_50pix.png', alt='', width='35', height='35')
-    p.social_icons1
+              | MineARC System Intellgence
+              br
+              a(href='mailto:systemintelligence@minearc.com') systemintelligence@minearc.com
+
+block append fleet
+  if(hosts)
+    each host in hosts
+      li
+        a(href='//' + host.ip + '/chamber')
+          i.icon-tag
+          span= host.alias ? host.alias : host.hostname.split('-')[1]
+
+block append alerts
+  if(hosts)
+    each host in hosts
+      each alerts, types in host.alarms_active
+        each alert in alerts
+          li.list-group-item
+            .clear
+              i.fa.fa-exclamation-circle.m-r-xs
+              span.alef= alert
+            small.text-muted= host.alias ? host.alias : host.hostname.split('-')[1]
+
+block append styles
+
+block append scripts

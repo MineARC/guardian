@@ -5,22 +5,41 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var auth = require('basic-auth');
-var compression = require('compression')
+var compression = require('compression');
+var cors = require('cors');
+var AutoUpdater = require('auto-updater');
 var jumpers = require('./jumpers');
+
+var autoupdater = new AutoUpdater({
+  pathToJson: '',
+  autoupdate: true,
+  checkgit: true,
+  jsonhost: 'raw.githubusercontent.com',
+  contenthost: 'codeload.github.com',
+  progressDebounce: 0,
+  devmode: false
+});
+
+autoupdater.on('update.extracted', function () {
+  console.log("Update extracted successfully!");
+  process.exit();
+});
+
+// Start checking 
+autoupdater.fire('check');
 
 var dashboard = require('./routes/overview');
 var chamber = require('./routes/home');
-
 if (jumpers.mode == 0) var elv = require('./routes/elv');
 if (jumpers.mode == 1) var elvp = require('./routes/elvp');
 if (jumpers.mode == 2) var series3 = require('./routes/series3');
 if (jumpers.mode == 3) var series4 = require('./routes/series4');
-
 var camera_internal = require('./routes/camera_internal');
 if (jumpers.extn) var camera_external = require('./routes/camera_external');
 var notifications = require('./routes/notifications');
 var settings = require('./routes/settings');
 var overview_api = require('./routes/overview_api');
+var hosts_api = require('./routes/hosts_api');
 var camera_api = require('./routes/camera_api');
 var monitor_api = require('./routes/monitor_api');
 var contact = require('./routes/contact');
@@ -35,6 +54,10 @@ var alarms_polling = require('./alarms_polling');
 var hostdiscovery = require('./hostdiscovery');
 
 var app = express();
+
+app.use(cors());
+app.options('*', cors());
+
 app.use(compression())
 
 var admins = { 'username': { password: 'password' } };
@@ -53,7 +76,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // uncomment after placing favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -73,7 +96,8 @@ app.use('/camera_internal', camera_internal);
 if (jumpers.extn) app.use('/camera_external', camera_external);
 app.use('/notifications', notifications);
 app.use('/settings', settings);
-app.use('/api/overview', overview_api)
+app.use('/api/overview', overview_api);
+app.use('/api/hosts', hosts_api);
 app.use('/api/monitor', monitor_api);
 app.use('/api/camera', camera_api);
 app.use('/contact', contact);

@@ -1,11 +1,8 @@
-div.col-xs-12.col-md-6#aura.items
-  h3 Aura-FX
-  table.table
-    tr
-      th Name
-      th.table-right Value
-    each gas, key in aura
-      if(gas.isRecent)
-        tr
-          td= key
-          td.table-right #{gas.value} #{gas.unit}
+.row
+  div.col-xs-12.items
+    table.table#table-aura
+      each gas, key in aura
+        if(gas.isRecent)
+          tr(class=key)
+            td.row-name= key
+            td.table-right.row-info #{gas.value} #{gas.unit}
