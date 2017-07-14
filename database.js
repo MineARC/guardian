@@ -209,7 +209,7 @@ exports.addGuardian = function (name, status, callback) {
 
 exports.getRecentGuardians = function (callback) {
   db.serialize(function () {
-    db.all("SELECT name, status FROM Guardians WHERE lastseen >= datetime('now', '-5 minutes') ORDER BY name", function (err, rows) {
+    db.all("SELECT name, status FROM Guardians WHERE lastseen >= datetime('now', '-30 minutes') ORDER BY name", function (err, rows) {
       var all = [];
       if (rows) {
         rows.reduce(function (prev, curr) {

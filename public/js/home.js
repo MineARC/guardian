@@ -35,7 +35,6 @@ $.get('/api/monitor/history').then(function (data) {
 
 // Update charts, tables, and alarms after specified time. 
 setInterval(updatefromapi, 10000);
-setTimeout(updatefromapi, 100);
 
 function updatefromapi() {
   $.get('/api/monitor/').then(function (data) {
