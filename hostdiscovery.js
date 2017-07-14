@@ -9,7 +9,7 @@ var db = require('./database');
 // Define object for access from where they are needed
 exports.hosts_data = [];
 
-setInterval(poll_database, 30000);
+setInterval(poll_database, 20000);
 poll_database();
 
 function poll_database() {
@@ -21,7 +21,7 @@ function poll_database() {
   });
 }
 
-setInterval(poll_nmap, 60000);
+setInterval(poll_nmap, 30000);
 poll_nmap();
 
 function adapters() {

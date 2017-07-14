@@ -1,6 +1,6 @@
 {
   "name": "minearc-guardian",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "auto-updater": {
     "repo": "mitchellpontague/minearc-guardian",
     "branch": "master"

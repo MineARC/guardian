@@ -31,6 +31,7 @@ $.get('/api/monitor/history').then(function (data) {
   if (data.series3) updateSeries3History(data.series3);
   if (data.series4) updateSeries4History(data.series4);
   if (data.aura) updateAuraHistory(data.aura);
+  updatefromapi();
 });
 
 // Update charts, tables, and alarms after specified time. 
