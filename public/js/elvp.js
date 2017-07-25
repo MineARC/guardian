@@ -22,11 +22,11 @@ var elvp_voltage_emergency_chart = new CanvasJS.Chart("graph-voltage-1", {
   axisY: {
     title: 'Voltage V',
     minimum: 0,
-    maximum: 300,
-    interval: 50,
+    maximum: 60,
+    interval: 10,
     stripLines: [{
-      startValue: 220,
-      endValue: 250,
+      startValue: 48,
+      endValue: 58,
       color: "#C5E3BF"
     }]
   }
@@ -50,11 +50,11 @@ var elvp_voltage_standby_chart = new CanvasJS.Chart("graph-voltage-2", {
   axisY: {
     title: 'Voltage V',
     minimum: 0,
-    maximum: 300,
-    interval: 50,
+    maximum: 30,
+    interval: 5,
     stripLines: [{
-      startValue: 220,
-      endValue: 250,
+      startValue: 24,
+      endValue: 29,
       color: "#C5E3BF"
     }]
   }
@@ -133,14 +133,9 @@ var elvp_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
   },
   axisY: {
     title: 'Current A',
-    minimum: 0,
-    maximum: 300,
-    interval: 50,
-    stripLines: [{
-      startValue: 220,
-      endValue: 250,
-      color: "#C5E3BF"
-    }]
+    minimum: -60,
+    maximum: 60,
+    interval: 20
   }
 });
 

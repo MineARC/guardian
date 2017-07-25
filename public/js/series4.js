@@ -283,12 +283,7 @@ var series4_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
     title: 'Current A',
     minimum: -60,
     maximum: 60,
-    interval: 20,
-    stripLines: [{
-      startValue: 10,
-      endValue: 40,
-      color: "#C5E3BF"
-    }]
+    interval: 20
   }
 });
 
