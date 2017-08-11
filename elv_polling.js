@@ -89,7 +89,7 @@ function sendSerialData(data) {
     elv_data.serial[v[0]] = v[1];
   }
 
-  if (v[0] == 'H18' && next <= Date.now() && elv_data.PID != '') {
+  if (v[0] == 'H18' && next <= Date.now() && elv_data.PID != '' && !isNaN((elv_data.serial.V / 1000)) && !isNaN((elv_data.serial.I / 1000))) {
     updateAlarms();
     next += delay;
     var graph_data = {

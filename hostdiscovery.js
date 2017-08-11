@@ -103,6 +103,17 @@ function poll_nmap() {
               // Check to see if the api response came from a guardian system
               if (api_res.guardian) {
                 // Everything but the ip address comes from the api
+                switch (api_res.hostname) {
+                  case 'guardian-1002':
+                    element.ip = 'aus-s4.minearcguardian.com';
+                    break;
+                  case 'guardian-1000':
+                    element.ip = 'aus.minearcguardian.com';
+                    break;
+                  case 'guardian-1003':
+                    element.ip = 'aus-elvp.minearcguardian.com';
+                    break;
+                }
                 api_res['ip'] = element.ip;
                 db.addGuardian(api_res.hostname, api_res, function (err, changes) {
                   if (err) {
