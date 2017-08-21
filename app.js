@@ -64,8 +64,11 @@ autoupdater.on('error', function (name, e) {
   console.error(name, e);
 });
 
-// Start checking 
-autoupdater.fire('check');
+// Start checking
+require('dns').resolve('github.com', function (err) {
+  if (!err)
+    autoupdater.fire('check');
+});
 
 var dashboard = require('./routes/overview');
 var chamber = require('./routes/home');

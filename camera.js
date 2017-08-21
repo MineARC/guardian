@@ -68,7 +68,7 @@ function getMostRecentFileName(next) {
 
   // Remove the latest image from the list and delete the rest
   del = del.filter(function (element) { return element != external_name; });
-  del.forEach(function (element) { fs.unlink(path.join(external_dir, element)); });
+  del.forEach(function (element) { try { fs.unlink(path.join(external_dir, element)); } catch (e) { } });
 
   setTimeout(function () {
     if (internal_name != -Infinity) {

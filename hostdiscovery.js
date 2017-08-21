@@ -37,7 +37,7 @@ function adapters() {
       for (var dev in adapters[iface]) {
         adapter = adapters[iface][dev];
 
-        if (!adapter.internal && adapter.address && !adapter.address.includes('169.254.')) {
+        if (!adapter.internal && adapter.address && !adapter.address.includes('169.254.')) { //TODO remove internal interface?
 
           if (!adapter.netmask)
             return false;
@@ -70,7 +70,7 @@ function poll_nmap() {
     ports: '80'
   };
 
-  if (opts.range) {
+  if (opts.range && opts.range != '') {
     // Scan all hosts to see which have port 8000 open
     nmap.scan(opts, function (err, report) {
       if (err) throw new Error(err);

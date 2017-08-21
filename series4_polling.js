@@ -3,6 +3,7 @@ var cheerio = require('cheerio');
 var jq = require('jquery');
 var fs = require('fs');
 var db = require('./database');
+var jumpers = require('./jumpers');
 
 setInterval(poll_database, 10000);
 poll_database();
@@ -141,6 +142,10 @@ function processPage(data) {
         row_unit = row_unit[0];
       // Only care about numbers, sign, and decimal point
       row_info = parseFloat(row_info.match(/[-+0-9.]+/g)[0]);
+      if (jumpers.localize == 'us' && row_unit == 'C') {
+        row_info = ((row_info * 9 / 5) + 32).toFixed(1);
+        row_unit = 'F';
+      }
     }
 
     if (row_name.toLowerCase() == 'system information') {
