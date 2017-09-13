@@ -68,6 +68,7 @@ exports.alarms = elvp_alarms;
 
 var battMon = new serialport('/dev/ttyS0', {
   baudRate: 19200,
+  autoOpen: false,
   // look for return and newline at the end of each data packet:
   parser: serialport.parsers.readline('\r\n')
 });
@@ -76,6 +77,8 @@ battMon.on('open', showPortOpen);
 battMon.on('data', sendSerialData);
 battMon.on('close', showPortClose);
 battMon.on('error', showError);
+
+battMon.open();
 
 function showPortOpen() {
   console.log('port open. Data rate: ' + battMon.options.baudRate);
@@ -107,10 +110,12 @@ function sendSerialData(data) {
 
 function showPortClose() {
   console.log('port closed.');
+  setTimeout(battMon.open, 1000);
 }
 
 function showError(error) {
   console.log('Serial port error: ' + error);
+  setTimeout(battMon.open, 1000);
 }
 
 serialport.list(function (err, ports) {
