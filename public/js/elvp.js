@@ -133,9 +133,9 @@ var elvp_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
   },
   axisY: {
     title: 'Current A',
-    minimum: -60,
-    maximum: 60,
-    interval: 20
+    minimum: -90,
+    maximum: 90,
+    interval: 30
   }
 });
 
