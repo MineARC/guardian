@@ -21,8 +21,8 @@ var elv_voltage_battery_chart = new CanvasJS.Chart("graph-voltage-1", {
   axisY: {
     title: 'Voltage V',
     minimum: 0,
-    maximum: 30,
-    interval: 5,
+    maximum: 60,
+    interval: 10,
     stripLines: [{
       startValue: 24,
       endValue: 29,

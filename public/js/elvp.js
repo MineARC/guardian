@@ -50,8 +50,8 @@ var elvp_voltage_standby_chart = new CanvasJS.Chart("graph-voltage-2", {
   axisY: {
     title: 'Voltage V',
     minimum: 0,
-    maximum: 30,
-    interval: 5,
+    maximum: 60,
+    interval: 10,
     stripLines: [{
       startValue: 24,
       endValue: 29,
