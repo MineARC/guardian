@@ -57,6 +57,7 @@ router.get('/', function (req, res, next) {
     data['battmon'] = battmon_polling.data;
     for (var key in battmon_polling.alarms) {
       data.alarms[key] = battmon_polling.alarms[key];
+    }
   }
 
   res.render('home', data);
