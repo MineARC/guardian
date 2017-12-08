@@ -24,11 +24,11 @@ var battmon_data = {
 exports.data = battmon_data;
 exports.alarms = battmon_alarms;
 
-var channel = can.createRawChannel("vcan0", true);
-channel.addListener("onMessage", battmon_data);
+var channel = can.createRawChannel("can1", true);
+channel.addListener("onMessage", battmon_message);
 channel.start();
 
-function battmon_data(msg) {
+function battmon_message(msg) {
   console.log(msg);
 }
 
