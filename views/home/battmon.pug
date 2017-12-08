@@ -1,0 +1,19 @@
+.row
+  div.col-xs-12.items
+    table.table#table-battmon
+      - var n = battmon;
+      while n > 0
+        tr
+          td.battery-1
+            p Voltage
+            p Temperature
+          td.battery-2
+            p Voltage
+            p Temperature
+          td.battery-3
+            p Voltage
+            p Temperature
+          td.battery-4
+            p Voltage
+            p Temperature
+        - n--;
