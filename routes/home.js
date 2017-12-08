@@ -8,6 +8,7 @@ if (jumpers.mode == 0) var elv_polling = require('../elv_polling');
 if (jumpers.mode == 1) var elvp_polling = require('../elvp_polling');
 if (jumpers.mode == 2) var series3_polling = require('../series3_polling');
 if (jumpers.mode == 3) var series4_polling = require('../series4_polling');
+if (jumpers.battmon != 0) var battmon_polling = require('../battmon_polling');
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
@@ -51,6 +52,11 @@ router.get('/', function (req, res, next) {
     for (var key in series4_polling.alarms) {
       data.alarms[key] = series4_polling.alarms[key];
     }
+  }
+  if (jumpers.battmon != 0) {
+    data['battmon'] = battmon_polling.data;
+    for (var key in battmon_polling.alarms) {
+      data.alarms[key] = battmon_polling.alarms[key];
   }
 
   res.render('home', data);
