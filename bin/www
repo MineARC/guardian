@@ -1,60 +1,65 @@
-#!/ usr / bin / env node
-
-/**
- * Module dependencies.
- */
+#!/usr/bin/env node
 
 var AutoUpdater = require('auto-updater');
 
 var autoupdater = new AutoUpdater({
-  pathToJson : '',
-  autoupdate : true,
-  checkgit : true,
-  jsonhost : 'raw.githubusercontent.com',
-  contenthost : 'codeload.github.com',
-  progressDebounce : 0,
-  devmode : false
+  pathToJson: '',
+  autoupdate: true,
+  checkgit: true,
+  jsonhost: 'raw.githubusercontent.com',
+  contenthost: 'codeload.github.com',
+  progressDebounce: 0,
+  devmode: false
 });
 
-// State the events
-autoupdater.on('git-clone', function() {
-  console.log(
-      "You have a clone of the repository. Use 'git pull' to be up-to-date");
+// State the events 
+autoupdater.on('git-clone', function () {
+  console.log("You have a clone of the repository. Use 'git pull' to be up-to-date");
 });
-autoupdater.on('check.up-to-date', function(v) {
+autoupdater.on('check.up-to-date', function (v) {
   console.info("You have the latest version: " + v);
 });
-autoupdater.on('download.start', function(name) {
-  console.log("Starting downloading: " + name);
-});
-autoupdater.on('download.progress', function(name, perc) {
-  process.stdout.write("Downloading " + perc + "% \033[0G");
-});
-autoupdater.on('download.end',
-               function(name) { console.log("Downloaded " + name); });
-autoupdater.on('download.error', function(err) {
-  console.error("Error when downloading: " + err);
-});
-autoupdater.on('error', function(name, e) { console.error(name, e); });
-autoupdater.on('update.extracted', function() {
+autoupdater.on('update.extracted', function () {
   console.log("Update extracted successfully!");
   console.warn("RESTART THE APP!");
   process.exit();
 });
-autoupdater.on('end', function() {
+autoupdater.on('download.start', function (name) {
+  console.log("Starting downloading: " + name);
+});
+autoupdater.on('download.progress', function (name, perc) {
+  process.stdout.write("Downloading " + perc + "% \033[0G");
+});
+autoupdater.on('download.end', function (name) {
+  console.log("Downloaded " + name);
+});
+autoupdater.on('download.error', function (err) {
+  console.error("Error when downloading: " + err);
+});
+autoupdater.on('end', function () {
   console.log("The app is ready to function");
   begin();
 });
-
-// Start checking
-require('dns').resolve('github.com', function(err) {
-  if (!err)
-    autoupdater.fire('check');
-  else
-    begin();
+autoupdater.on('error', function (name, e) {
+  console.error(name, e);
 });
 
-function begin() {
+// Start checking
+require('dns').resolve('github.com', function (err) {
+  if (!err) {
+    autoupdater.fire('check');
+  }
+  else {
+    begin();
+  }
+});
+
+function begin()
+{
+  /**
+   * Module dependencies.
+   */
+
   var app = require('../app');
   var debug = require('debug')('guardian:server');
   var http = require('http');
@@ -79,60 +84,64 @@ function begin() {
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
+}
 
-  /**
-   * Normalize a port into a number, string, or false.
-   */
+/**
+ * Normalize a port into a number, string, or false.
+ */
 
-  function normalizePort(val) {
-    var port = parseInt(val, 10);
+function normalizePort(val) {
+  var port = parseInt(val, 10);
 
-    if (isNaN(port)) {
-      // named pipe
-      return val;
-    }
-
-    if (port >= 0) {
-      // port number
-      return port;
-    }
-
-    return false;
+  if (isNaN(port)) {
+    // named pipe
+    return val;
   }
 
-  /**
-   * Event listener for HTTP server "error" event.
-   */
+  if (port >= 0) {
+    // port number
+    return port;
+  }
 
-  function onError(error) {
-    if (error.syscall != = 'listen') {
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
       throw error;
-    }
-
-    var bind = typeof port == = 'string' ? 'Pipe ' + port : 'Port ' + port;
-
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-      case 'EACCES':
-        console.error(bind + ' requires elevated privileges');
-        process.exit(1);
-        break;
-      case 'EADDRINUSE':
-        console.error(bind + ' is already in use');
-        process.exit(1);
-        break;
-      default:
-        throw error;
-    }
   }
+}
 
-  /**
-   * Event listener for HTTP server "listening" event.
-   */
+/**
+ * Event listener for HTTP server "listening" event.
+ */
 
-  function onListening() {
-    var addr = server.address();
-    var bind = typeof addr == = 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    debug('Listening on ' + bind);
-  }
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
 }
