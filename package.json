@@ -1,6 +1,6 @@
 {
   "name": "minearc-guardian",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "auto-updater": {
     "repo": "MineARC/guardian",
     "branch": "battmon"
@@ -24,12 +24,14 @@
     "jquery": "^2.2.3",
     "libnmap": "^0.2.29",
     "morgan": "~1.6.1",
+    "node-promise": "^0.5.12",
     "nodemailer": "^2.4.1",
     "pug": "^2.0.0-alpha8",
     "request": "^2.72.0",
     "rpio": "^0.9.12",
     "serialport": "^4.0.7",
     "serve-favicon": "~2.3.0",
+    "socketcan": "^2.2.2",    
     "sqlite3": "^3.1.4",
     "underscore": "^1.8.3",
     "winston": "^2.3.1"
