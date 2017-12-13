@@ -55,6 +55,7 @@ require('dns').resolve('github.com', function (err) {
 });
 
 var server;
+var debug;
 
 function begin()
 {
@@ -63,7 +64,7 @@ function begin()
    */
 
   var app = require('../app');
-  var debug = require('debug')('guardian:server');
+  debug = require('debug')('guardian:server');
   var http = require('http');
 
   /**
