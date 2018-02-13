@@ -135,18 +135,21 @@ app.use('/', dashboard);
 app.use('/dashboard', chamber);
 app.use('/chamber', chamber);
 
-if (jumpers.mode == 0)
-  app.use('/monitor', elv);
-if (jumpers.mode == 1)
-  app.use('/monitor', elvp);
-if (jumpers.mode == 2)
-  app.use('/monitor', series3);
-if (jumpers.mode == 3)
-  app.use('/monitor', series4);
+if (jumpers.battmon_style != 'standalone') {
+  if (jumpers.mode == 0)
+    app.use('/monitor', elv);
+  if (jumpers.mode == 1)
+    app.use('/monitor', elvp);
+  if (jumpers.mode == 2)
+    app.use('/monitor', series3);
+  if (jumpers.mode == 3)
+    app.use('/monitor', series4);
 
-app.use('/camera_internal', camera_internal);
-if (jumpers.extn)
-  app.use('/camera_external', camera_external);
+  app.use('/camera_internal', camera_internal);
+  if (jumpers.extn)
+    app.use('/camera_external', camera_external);
+}
+
 app.use('/notifications', notifications);
 app.use('/settings', settings);
 app.use('/api/overview', overview_api);
