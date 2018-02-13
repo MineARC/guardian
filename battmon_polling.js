@@ -1,6 +1,8 @@
 var can = require('socketcan');
 var db = require('./database');
 
+console.log("battmon_polling loaded");
+
 setInterval(poll_database, 10000);
 poll_database();
 

@@ -5,6 +5,8 @@ var battmon_polling = require('../battmon_polling');
 var alias = require('../alias');
 var router = express.Router();
 
+console.log("battmon route loaded");
+
 router.get('/', function (req, res, next) {
   var data = {};
   data['alias'] = alias.alias;
