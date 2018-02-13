@@ -48,7 +48,12 @@ require('dns').resolve('github.com', function(err) {
 });
 
 var dashboard = require('./routes/overview');
-var chamber = require('./routes/home');
+
+if (jumpers.battmon_style == 'standalone')
+  var chamber = require('./routes/battmon');
+else
+  var chamber = require('./routes/home');
+
 if (jumpers.battmon_style == 'standalone')
   var battmon = require('./routes/battmon');
 else {

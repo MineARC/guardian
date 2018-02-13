@@ -7,7 +7,7 @@ setInterval(poll_database, 10000);
 poll_database();
 
 function poll_database() {
-  db.getMonitorData(5, function(err, data) {
+  db.getMonitorData(6, function(err, data) {
     if (err) {
       return console.log(err.message);
     }
@@ -33,7 +33,7 @@ function updateAlarms() { battmon_alarms['Voltage Low'].state = false; }
 function updateHistory() {
   var history_data = {Voltage : battmon_data.Voltage.value};
 
-  db.addMonitorData(5, history_data, function(err, success) {
+  db.addMonitorData(6, history_data, function(err, success) {
     if (err)
       return console.log(err.message);
   });
