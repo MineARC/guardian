@@ -22,14 +22,24 @@ console.log('aura: ' + aura_jumper);
 console.log('extn: ' + extn_jumper);
 console.log('mode: ' + mode_jumper);
 
-fs.readFile('/boot/localize', 'utf8', function (err, contents) {
-    console.log(contents.trim());
-    exports.localize = contents.trim();
+fs.readFile('/boot/localize', 'utf8', function(err, contents) {
+  console.log(contents.trim());
+  exports.localize = contents.trim();
 });
 
-fs.readFile('/boot/sitename', 'utf8', function (err, contents) {
-    console.log(contents.trim());
-    exports.sitename = contents.trim();
+fs.readFile('/boot/sitename', 'utf8', function(err, contents) {
+  console.log(contents.trim());
+  exports.sitename = contents.trim();
+});
+
+fs.readFile('/boot/battmon_style', 'utf8', function(err, contents) {
+  console.log(contents.trim());
+  exports.battmon_style = contents.trim();
+});
+
+fs.readFile('/boot/battmon_strings', 'utf8', function(err, contents) {
+  console.log(contents.trim());
+  exports.battmon_strings = contents.trim();
 });
 
 exports.cams = cams_jumper;

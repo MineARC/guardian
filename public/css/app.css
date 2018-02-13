@@ -2,13 +2,6 @@
 
 */
 
-@media screen and (min-width: 768px) {
-    .modal-dialog {
-        width: 70%; /* either % (e.g. 60%) or px (400px) */
-        height: 500px
-    }
-}
-
 html {
   background-color: #f0f3f4;
 }
@@ -5279,4 +5272,20 @@ a.text-#000000:hover {
 	min-width: 100%;
 	height: 70%;
 	opacity: 40%;
+}
+
+.batt{
+	float: left;
+	width: 50%;
+	padding: 20px 10px;
+	background-color: #3e3e3e;
+    border-radius: 0.8em;
+    color: #fff;
+	text-align: center;
+}
+
+.batt2{
+	font-size: 2em;
+	color: #fff;
+	
 }

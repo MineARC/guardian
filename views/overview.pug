@@ -19,6 +19,7 @@ block append content
                   th.sorting.col-xs-3 MAF Number
                 default
                   th.sorting.col-xs-3 MA Number
+              th.sorting.col-xs-3 Address
               th.sorting.col-xs-3 Type
           tbody
             if(hosts)
@@ -43,6 +44,8 @@ block append content
                           | Everything is fine
                   td
                     = host.hostname.split('-')[1]
+                  td
+                    = host.ip
                   td
                     case host.type
                       when 0 
