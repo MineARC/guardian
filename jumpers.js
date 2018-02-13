@@ -42,6 +42,9 @@ fs.readFile('/boot/battmon_strings', 'utf8', function(err, contents) {
   exports.battmon_strings = contents.trim();
 });
 
+
+exports.battmon_style = 'standalone'
+exports.battmon_strings = 8;
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
 exports.extn = extn_jumper;
