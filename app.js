@@ -49,8 +49,8 @@ require('dns').resolve('github.com', function(err) {
 
 var dashboard = require('./routes/overview');
 
-console.log(battmon_style);
-console.log(battmon_style == 'standalone');
+console.log(jumpers.battmon_style);
+console.log(jumpers.battmon_style == 'standalone');
 
 if (jumpers.battmon_style == 'standalone')
   var chamber = require('./routes/battmon');

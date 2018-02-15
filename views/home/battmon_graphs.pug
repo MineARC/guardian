@@ -1,90 +1,42 @@
-.row
-  .col-sm-12
-    .panel.panel-default
-      .panel-heading
-        | Battery Bank 1
-      .panel-body
-        .row.text-center
-          .col-sm-4
-            .item
-              .pos-rlt
-                .inline#readout-voltage-mains
-                  span.h2.value
-                    | 0
-                    span(style='font-size: 0.5em') V
-                  .text-sm.delta
-                    i.fa.fa-fw.fa-circle.text-muted.text-sm
-                    | 0
-          .col-sm-4
-            .item
-              .pos-rlt
-                .inline#readout-voltage-inverter
-                  span.h2.value
-                    | 0
-                    span(style='font-size: 0.5em') V
-                  .text-sm.delta
-                    i.fa.fa-fw.fa-circle.text-muted.text-sm
-                    | 0
-          .col-sm-4
-            .item
-              .pos-rlt
-                .inline#readout-voltage-battery
-                  span.h2.value
-                    | 0
-                    span(style='font-size: 0.5em') V
-                  .text-sm.delta
-                    i.fa.fa-fw.fa-circle.text-muted.text-sm
-                    | 0
-          .col-sm-4
-            .item
-              .pos-rlt
-                .inline#readout-voltage-battery
-                  span.h2.value
-                    | 0
-                    span(style='font-size: 0.5em') V
-                  .text-sm.delta
-                    i.fa.fa-fw.fa-circle.text-muted.text-sm
-                    | 0
-
-.row
-  .col-xs-12
-    .panel.panel-default
-      .panel-heading BATTERIES
-      .panel-body
-        .row.text-center
-          .col-sm-3
-            .item
-              .pos-rlt
-                div(style='padding-top: 10px;')
-                  .batt
-                    span.h2.batt2 11.1
-                    .text.text-sm V
-                    span.h2.batt2 22.2
-                    .text.text-sm ℃
-          .col-sm-3
-            .item
-              .pos-rlt
-                div(style='padding-top: 10px;')
-                  .batt
-                    span.h2.batt2 11.1
-                    .text.text-sm V
-                    span.h2.batt2 22.2
-                    .text.text-sm ℃
-          .col-sm-3
-            .item
-              .pos-rlt
-                div(style='padding-top: 10px;')
-                  .batt
-                    span.h2.batt2 11.1
-                    .text.text-sm V
-                    span.h2.batt2 22.2
-                    .text.text-sm ℃
-          .col-sm-3
-            .item
-              .pos-rlt
-                div(style='padding-top: 10px;')
-                  .batt
-                    span.h2.batt2 11.1
-                    .text.text-sm V
-                    span.h2.batt2 22.2
-                    .text.text-sm ℃
+- var n = 1;
+while n < (isNaN(battmon_strings) ? 9 : parseInt(battmon_strings) + 1)
+  .row(class='string-#{n};')
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading 
+          = 'Battery Bank ' + n
+        .panel-body
+          .row.text-center
+            .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
+              .batt.battery-1
+                .batt-left
+                  span.h2.batt2.voltage 11.1
+                  .text.text-sm V
+                .batt-right
+                  span.h2.batt2.temperature 22.2
+                  .text.text-sm ℃
+            .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
+              .batt.battery-2
+                .batt-left
+                  span.h2.batt2.voltage 11.1
+                  .text.text-sm V
+                .batt-right
+                  span.h2.batt2.temperature 22.2
+                  .text.text-sm ℃
+            .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
+              .batt.battery-3
+                .batt-left
+                  span.h2.batt2.voltage 11.1
+                  .text.text-sm V
+                .batt-right
+                  span.h2.batt2.temperature 22.2
+                  .text.text-sm ℃
+            .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
+              .batt.battery-4
+                .batt-left
+                  span.h2.batt2.voltage 11.1
+                  .text.text-sm V
+                .batt-right
+                  span.h2.batt2.temperature 22.2
+                  .text.text-sm ℃
+  - n++;
