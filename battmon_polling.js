@@ -13,6 +13,15 @@ function poll_database() {
     }
     exports.history = data;
   });
+
+  for(var i = 0; i < 10; i++)
+  {
+    for(var j = 0; j < 4; j++)
+    {
+      battmon_data.Bank[i][j].Voltage.value = (Math.random() * 0.2) + 12.7;
+      battmon_data.Bank[i][j].Temperature.value = (Math.random() * 2.0) + 20.0;
+    }
+  }
 }
 
 var battmon_alarms = {

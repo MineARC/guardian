@@ -10,37 +10,37 @@ while n < (isNaN(battmon_strings) ? 10 : parseInt(battmon_strings))
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-1
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n][0].Voltage.toFixed(1)
+                  span.h2.batt2.voltage= battmon.Bank[n][0].Voltage.value.toFixed(1)
                   span.text.text-sm V
                 hr
                 .batt-right
-                  span.h2.batt2.temperature= battmon.Bank[n][0].Temperature.toFixed(1)
+                  span.h2.batt2.temperature= battmon.Bank[n][0].Temperature.value.toFixed(1)
                   span.text.text-sm ℃
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-2
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n][1].Voltage.toFixed(1)
+                  span.h2.batt2.voltage= battmon.Bank[n][1].Voltage.value.toFixed(1)
                   span.text.text-sm V
                 hr
                 .batt-right
-                  span.h2.batt2.temperature= battmon.Bank[n][1].Temperature.toFixed(1)
+                  span.h2.batt2.temperature= battmon.Bank[n][1].Temperature.value.toFixed(1)
                   span.text.text-sm ℃
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-3
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n][2].Voltage.toFixed(1)
+                  span.h2.batt2.voltage= battmon.Bank[n][2].Voltage.value.toFixed(1)
                   span.text.text-sm V
                 hr
                 .batt-right
-                  span.h2.batt2.temperature= battmon.Bank[n][2].Temperature.toFixed(1)
+                  span.h2.batt2.temperature= battmon.Bank[n][2].Temperature.value.toFixed(1)
                   span.text.text-sm ℃
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-4
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n][3].Voltage.toFixed(1)
+                  span.h2.batt2.voltage= battmon.Bank[n][3].Voltage.value.toFixed(1)
                   span.text.text-sm V
                 hr
                 .batt-right
-                  span.h2.batt2.temperature= battmon.Bank[n][3].Temperature.toFixed(1)
+                  span.h2.batt2.temperature= battmon.Bank[n][3].Temperature.value.toFixed(1)
                   span.text.text-sm ℃
   - n++;
