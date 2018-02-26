@@ -9,12 +9,12 @@ while n < (isNaN(battmon_strings) ? 9 : parseInt(battmon_strings) + 1)
           .row.text-center
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-1
-                .batt-left
+                .batt-left.col-xs-6
                   span.h2.batt2.voltage 11.1
-                  .text.text-sm V
-                .batt-right
+                  span.text.text-sm V
+                .batt-right.col-xs-6
                   span.h2.batt2.temperature 22.2
-                  .text.text-sm ℃
+                  span.text.text-sm ℃
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-2
                 .batt-left

@@ -16,6 +16,7 @@ var mode_jumper = rpio.read(40) + 2 * rpio.read(38);
 // 1 - elvp
 // 2 - S3
 // 3 - S4
+// 4 - battmon
 
 console.log('cams: ' + cams_jumper);
 console.log('aura: ' + aura_jumper);
@@ -35,13 +36,14 @@ fs.readFile('/boot/sitename', 'utf8', function(err, contents) {
 fs.readFile('/boot/battmon_style', 'utf8', function(err, contents) {
   console.log(contents.trim());
   exports.battmon_style = contents.trim();
+  if (exports.battmon_style = 'standalone')
+    exports.mode = 4;
 });
 
 fs.readFile('/boot/battmon_strings', 'utf8', function(err, contents) {
   console.log(contents.trim());
   exports.battmon_strings = contents.trim();
 });
-
 
 exports.battmon_style = 'standalone'
 exports.battmon_strings = 8;
