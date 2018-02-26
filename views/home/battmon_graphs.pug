@@ -1,46 +1,46 @@
-- var n = 1;
-while n < (isNaN(battmon_strings) ? 9 : parseInt(battmon_strings) + 1)
+- var n = 0;
+while n < (isNaN(battmon_strings) ? 10 : parseInt(battmon_strings))
   .row(class='string-#{n};')
     .col-xs-12
       .panel.panel-default
         .panel-heading 
-          = 'Battery Bank ' + n
+          = 'Battery String ' + (+n + 1)
         .panel-body
           .row.text-center
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-1
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n][0].Voltage.value
+                  span.h2.batt2.voltage= battmon.Bank[n][0].Voltage.valuetoFixed(1)
                   span.text.text-sm V
                 hr
                 .batt-right
-                  span.h2.batt2.temperature= battmon.Bank[n][0].Temperature.value
+                  span.h2.batt2.temperature= battmon.Bank[n][0].Temperature.valuetoFixed(1)
                   span.text.text-sm ℃
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-2
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n][1].Voltage.value
+                  span.h2.batt2.voltage= battmon.Bank[n][1].Voltage.valuetoFixed(1)
                   span.text.text-sm V
                 hr
                 .batt-right
-                  span.h2.batt2.temperature= battmon.Bank[n][1].Temperature.value
+                  span.h2.batt2.temperature= battmon.Bank[n][1].Temperature.valuetoFixed(1)
                   span.text.text-sm ℃
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-3
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n][2].Voltage.value
+                  span.h2.batt2.voltage= battmon.Bank[n][2].Voltage.valuetoFixed(1)
                   span.text.text-sm V
                 hr
                 .batt-right
-                  span.h2.batt2.temperature= battmon.Bank[n][2].Temperature.value
+                  span.h2.batt2.temperature= battmon.Bank[n][2].Temperature.valuetoFixed(1)
                   span.text.text-sm ℃
             .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-4
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n][3].Voltage.value
+                  span.h2.batt2.voltage= battmon.Bank[n][3].Voltage.valuetoFixed(1)
                   span.text.text-sm V
                 hr
                 .batt-right
-                  span.h2.batt2.temperature= battmon.Bank[n][3].Temperature.value
+                  span.h2.batt2.temperature= battmon.Bank[n][3].Temperature.valuetoFixed(1)
                   span.text.text-sm ℃
   - n++;

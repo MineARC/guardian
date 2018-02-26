@@ -24,44 +24,44 @@ var battmon_alarms = {
 
 var battmon_data = {Bank : []};
 battmon_data.Bank[0] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 battmon_data.Bank[1] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 battmon_data.Bank[2] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 battmon_data.Bank[3] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 battmon_data.Bank[4] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 battmon_data.Bank[5] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 battmon_data.Bank[6] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 battmon_data.Bank[7] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 battmon_data.Bank[8] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 battmon_data.Bank[9] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21, unit : 'C'}}
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
 ];
 
 exports.data = battmon_data;
