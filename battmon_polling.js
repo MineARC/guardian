@@ -1,6 +1,5 @@
 var request = require('request');
 var cheerio = require('cheerio');
-var median = reqire('median');
 var jq = require('jquery');
 var db = require('./database');
 var jumpers = require('./jumpers');
@@ -46,7 +45,7 @@ setInterval(poll_monitor, 10000);
 poll_monitor();
 
 function poll_monitor() {
-  for (var i = 0; i < battmon_strings; i++) {
+  for (var i = 0; i < jumpers.battmon_strings; i++) {
     var request_options = {url : 'http://172.17.0.' + (128 + i), proxy : ''};
 
     request.get(request_options, function(err, res, body) {

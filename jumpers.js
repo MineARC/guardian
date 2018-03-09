@@ -24,28 +24,36 @@ console.log('extn: ' + extn_jumper);
 console.log('mode: ' + mode_jumper);
 
 fs.readFile('/boot/localize', 'utf8', function(err, contents) {
-  console.log(contents.trim());
-  exports.localize = contents.trim();
+  if (!err) {
+    console.log(contents.trim());
+    exports.localize = contents.trim();
+  }
 });
 
 fs.readFile('/boot/sitename', 'utf8', function(err, contents) {
-  console.log(contents.trim());
-  exports.sitename = contents.trim();
+  if (!err) {
+    console.log(contents.trim());
+    exports.sitename = contents.trim();
+  }
 });
 
 fs.readFile('/boot/battmon_style', 'utf8', function(err, contents) {
-  console.log(contents.trim());
-  exports.battmon_style = contents.trim();
-  if (exports.battmon_style = 'standalone')
-    exports.mode = 4;
+  if (!err) {
+    console.log(contents.trim());
+    exports.battmon_style = contents.trim();
+    if (exports.battmon_style = 'standalone')
+      exports.mode = 4;
+  }
 });
 
 fs.readFile('/boot/battmon_strings', 'utf8', function(err, contents) {
-  console.log(contents.trim());
-  exports.battmon_strings = contents.trim();
+  if (!err) {
+    console.log(contents.trim());
+    exports.battmon_strings = contents.trim();
+  }
 });
 
-exports.battmon_style = 'standalone'
+exports.battmon_style = ''
 exports.battmon_strings = 10;
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
