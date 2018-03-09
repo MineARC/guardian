@@ -1,5 +1,9 @@
-var can = require('socketcan');
+var request = require('request');
+var cheerio = require('cheerio');
+var median = reqire('median');
+var jq = require('jquery');
 var db = require('./database');
+var jumpers = require('./jumpers');
 
 console.log("battmon_polling loaded");
 
@@ -13,15 +17,6 @@ function poll_database() {
     }
     exports.history = data;
   });
-
-  for(var i = 0; i < 10; i++)
-  {
-    for(var j = 0; j < 4; j++)
-    {
-      battmon_data.Bank[i][j].Voltage.value = (Math.random() * 0.2) + 12.7;
-      battmon_data.Bank[i][j].Temperature.value = (Math.random() * 2.0) + 20.0;
-    }
-  }
 }
 
 var battmon_alarms = {
@@ -31,64 +26,102 @@ var battmon_alarms = {
   'Temperature Low' : {state : false, type : 'battmon'}
 }
 
-var battmon_data = {Bank : []};
-battmon_data.Bank[0] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
-battmon_data.Bank[1] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
-battmon_data.Bank[2] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
-battmon_data.Bank[3] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
-battmon_data.Bank[4] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
-battmon_data.Bank[5] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
-battmon_data.Bank[6] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
-battmon_data.Bank[7] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
-battmon_data.Bank[8] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
-battmon_data.Bank[9] = [
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-  {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
-];
+var battmon_data = {
+  Bank : [],
+  Balance :
+      {MODE : false, EN1 : false, EN2 : false, TERM1 : false, TERM2 : false, BAL : false, DONE : false, BATX : false, BATY : false, UVFLT : false, OVFLT : false, PTCFLT : false}
+};
+
+for (var i = 0; i < jumpers.battmon_strings; i++) {
+  battmon_data.Bank[i] = [
+    {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
+    {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
+  ];
+}
 
 exports.data = battmon_data;
 exports.alarms = battmon_alarms;
 
-var channel = can.createRawChannel('can1', true);
-channel.addListener('onMessage', battmon_message);
-channel.start();
+setInterval(poll_monitor, 10000);
+poll_monitor();
 
-function battmon_message(msg) { console.log(msg); }
+function poll_monitor() {
+  for (var i = 0; i < battmon_strings; i++) {
+    var request_options = {url : 'http://172.17.0.' + (128 + i), proxy : ''};
 
-function updateAlarms() { battmon_alarms['Voltage Low'].state = false; }
-
-function updateHistory() {
-  var history_data = {Voltage : battmon_data.Voltage.value};
-
-  db.addMonitorData(6, history_data, function(err, success) {
-    if (err)
-      return console.log(err.message);
-  });
+    request.get(request_options, function(err, res, body) {
+      if (!err && (res.statusCode == 200 || res.statusCode == 304)) {
+        processPage(body, i);
+      }
+    });
+  }
 }
+
+function processPage(data, string) {
+  jq = cheerio.load(data);
+
+  if (jq('p').first().text() == 'version = 1.0') {
+    var ltc3305 = parseInt(jq('p').first().next().text().split(" = ")[1]);
+    battmon_data.Balance.MODE = ltc3305 & 0x0001;
+    battmon_data.Balance.EN1 = ltc3305 & 0x0002;
+    battmon_data.Balance.EN2 = ltc3305 & 0x0004;
+    battmon_data.Balance.TERM1 = ltc3305 & 0x0008;
+    battmon_data.Balance.TERM2 = ltc3305 & 0x0010;
+    battmon_data.Balance.BAL = ltc3305 & 0x0020;
+    battmon_data.Balance.DONE = ltc3305 & 0x0040;
+    battmon_data.Balance.BATX = ltc3305 & 0x0080;
+    battmon_data.Balance.BATY = ltc3305 & 0x0100;
+    battmon_data.Balance.UVFLT = ltc3305 & 0x0200;
+    battmon_data.Balance.OVFLT = ltc3305 & 0x0400;
+    battmon_data.Balance.PTCFLT = ltc3305 & 0x0800;
+
+    jq('tr').each(function(index, element) {
+      var td = jq(element).find('td').first();
+      string_no = td.text();
+      td = td.next();
+      battery_no = td.text();
+      td = td.next();
+      voltage = td.text();
+      td = td.next();
+      temperature = td.text();
+
+      battmon_data.Bank[string_no][battery_no].Voltage.value = 1.2164 * voltage - 1.5419;
+      battmon_data.Bank[string_no][battery_no].Temperature.value = 1.2164 * temperature - 1.5419;
+    });
+  }
+}
+
+function updateAlarms() {
+  var isVoltHigh = false;
+  var isVoltLow = false;
+  var isTempHigh = false;
+  var isTempLow = false;
+
+  for (var i = 0; i < jumpers.battmon_strings; i++) {
+    for (var j = 0; j < 3; j++) {
+      if (battmon_data.Bank[i][j].Voltage > 14.8)
+        isVoltHigh = true;
+      else if (battmon_data.Bank[i][j].Voltage < 12.5)
+        isVoltLow = true;
+
+      if (battmon_data.Bank[i][j].Temperature > 30)
+        isTempHigh = true;
+      else if (battmon_data.Bank[i][j].Temperature < 0)
+        isTempLow = true;
+    }
+  }
+
+  battmon_alarms['Voltage High'].state = isVoltHigh;
+  battmon_alarms['Voltage Low'].state = isVoltLow;
+  battmon_alarms['Temperature High'].state = isTempHigh;
+  battmon_alarms['Temperature Low'].state = isTempLow;
+}
+
+// function updateHistory() {
+//   var history_data = {Voltage : battmon_data.Voltage.value};
+
+//   db.addMonitorData(6, history_data, function(err, success) {
+//     if (err)
+//       return console.log(err.message);
+//   });
+// }

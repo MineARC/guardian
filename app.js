@@ -10,6 +10,10 @@ var cors = require('cors');
 var AutoUpdater = require('auto-updater');
 var jumpers = require('./jumpers');
 
+///// UPDATE /////
+
+var update_done = false;
+
 var autoupdater = new AutoUpdater(
     {pathToJson : '', autoupdate : false, checkgit : true, jsonhost : 'raw.githubusercontent.com', contenthost : 'codeload.github.com', progressDebounce : 0, devmode : false});
 
@@ -38,16 +42,33 @@ autoupdater.on('download.start', function(name) { console.log("Starting download
 autoupdater.on('download.progress', function(name, perc) { process.stdout.write("Downloading " + perc + "% \033[0G"); });
 autoupdater.on('download.end', function(name) { console.log("Downloaded " + name); });
 autoupdater.on('download.error', function(err) { console.error("Error when downloading: " + err); });
-autoupdater.on('end', function() { console.log("The app is ready to function"); });
+autoupdater.on('end', function() {
+  console.log("The app is ready to function");
+  update_done = true;
+});
 autoupdater.on('error', function(name, e) { console.error(name, e); });
 
 // Start checking
 require('dns').resolve('github.com', function(err) {
   if (!err)
     autoupdater.fire('check');
+  else
+    update_done = true;
 });
 
+while (!update_done)
+  ;
+
+///// ROUTES /////
+
 var dashboard = require('./routes/overview');
+var notifications = require('./routes/notifications');
+var settings = require('./routes/settings');
+var overview_api = require('./routes/overview_api');
+var hosts_api = require('./routes/hosts_api');
+var camera_api = require('./routes/camera_api');
+var monitor_api = require('./routes/monitor_api');
+var contact = require('./routes/contact');
 
 console.log(jumpers.battmon_style);
 console.log(jumpers.battmon_style == 'standalone');
@@ -72,13 +93,8 @@ else {
   if (jumpers.extn)
     var camera_external = require('./routes/camera_external');
 }
-var notifications = require('./routes/notifications');
-var settings = require('./routes/settings');
-var overview_api = require('./routes/overview_api');
-var hosts_api = require('./routes/hosts_api');
-var camera_api = require('./routes/camera_api');
-var monitor_api = require('./routes/monitor_api');
-var contact = require('./routes/contact');
+
+///// POLLING /////
 
 if (jumpers.battmon_style == 'standalone')
   var battmon_polling = require('./battmon_polling');
@@ -98,6 +114,8 @@ else {
 }
 var alarms_polling = require('./alarms_polling');
 var hostdiscovery = require('./hostdiscovery');
+
+///// GENERAL /////
 
 var app = express();
 
@@ -130,6 +148,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+///// PATHS /////
 
 app.use('/', dashboard);
 app.use('/dashboard', chamber);
