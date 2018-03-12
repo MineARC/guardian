@@ -23,39 +23,16 @@ console.log('aura: ' + aura_jumper);
 console.log('extn: ' + extn_jumper);
 console.log('mode: ' + mode_jumper);
 
-fs.readFile('/boot/localize', 'utf8', function(err, contents) {
-  if (!err) {
-    console.log(contents.trim());
-    exports.localize = contents.trim();
-  }
-});
-
-fs.readFile('/boot/sitename', 'utf8', function(err, contents) {
-  if (!err) {
-    console.log(contents.trim());
-    exports.sitename = contents.trim();
-  }
-});
-
-fs.readFile('/boot/battmon_style', 'utf8', function(err, contents) {
-  if (!err) {
-    console.log(contents.trim());
-    exports.battmon_style = contents.trim();
-    if (exports.battmon_style = 'standalone')
-      exports.mode = 4;
-  }
-});
-
-fs.readFile('/boot/battmon_strings', 'utf8', function(err, contents) {
-  if (!err) {
-    console.log(contents.trim());
-    exports.battmon_strings = contents.trim();
-  }
-});
-
-exports.battmon_style = ''
-exports.battmon_strings = 10;
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
 exports.extn = extn_jumper;
 exports.mode = mode_jumper;
+
+exports.localize = fs.readFileSync('/boot/localize', 'utf8').trim();
+exports.sitename = fs.readFileSync('/boot/sitename', 'utf8').trim();
+
+if (fs.existsSync('/boot/battmon_style')) {
+  if (fs.readFileSync('/boot/battmon_style', 'utf8').trim() == 'standalone')
+    exports.mode = 4;
+  exports.battmon_strings = fs.readFileSync('/boot/battmon_strings', 'utf8').trim();
+}
