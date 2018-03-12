@@ -69,7 +69,7 @@ function afterUpdate() {
   var contact = require('./routes/contact');
 
   if (jumpers.mode == 4)
-    var battmon = require('./routes/battmon');
+    var chamber = require('./routes/battmon');
   else {
     var chamber = require('./routes/home');
     var camera_internal = require('./routes/camera_internal');
