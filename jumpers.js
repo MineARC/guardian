@@ -32,7 +32,9 @@ exports.localize = fs.readFileSync('/boot/localize', 'utf8').trim();
 exports.sitename = fs.readFileSync('/boot/sitename', 'utf8').trim();
 
 if (fs.existsSync('/boot/battmon_style')) {
-  if (fs.readFileSync('/boot/battmon_style', 'utf8').trim() == 'standalone')
+  if (fs.readFileSync('/boot/battmon_style', 'utf8').trim() == 'standalone') {
+    console.log('mode: 4');
     exports.mode = 4;
+  }
   exports.battmon_strings = fs.readFileSync('/boot/battmon_strings', 'utf8').trim();
 }
