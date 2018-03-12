@@ -1,6 +1,6 @@
 {
   "name": "minearc-guardian",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "auto-updater": {
     "repo": "MineARC/guardian",
     "branch": "testing"
