@@ -16,7 +16,7 @@ var mode_jumper = rpio.read(40) + 2 * rpio.read(38);
 // 1 - elvp
 // 2 - S3
 // 3 - S4
-// 4 - battmon
+// 4 - battmon standalone
 
 console.log('cams: ' + cams_jumper);
 console.log('aura: ' + aura_jumper);

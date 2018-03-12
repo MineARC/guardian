@@ -68,17 +68,12 @@ function afterUpdate() {
   var monitor_api = require('./routes/monitor_api');
   var contact = require('./routes/contact');
 
-  console.log(jumpers.battmon_style);
-  console.log(jumpers.battmon_style == 'standalone');
-
-  if (jumpers.battmon_style == 'standalone')
-    var chamber = require('./routes/battmon');
-  else
-    var chamber = require('./routes/home');
-
-  if (jumpers.battmon_style == 'standalone')
+  if (jumpers.mode == 4)
     var battmon = require('./routes/battmon');
   else {
+    var chamber = require('./routes/home');
+    var camera_internal = require('./routes/camera_internal');
+
     if (jumpers.mode == 0)
       var elv = require('./routes/elv');
     if (jumpers.mode == 1)
@@ -87,13 +82,12 @@ function afterUpdate() {
       var series3 = require('./routes/series3');
     if (jumpers.mode == 3)
       var series4 = require('./routes/series4');
-    var camera_internal = require('./routes/camera_internal');
     if (jumpers.extn)
       var camera_external = require('./routes/camera_external');
   }
 
   ///// POLLING /////
-  if (jumpers.battmon_style == 'standalone')
+  if (jumpers.mode == 4)
     var battmon_polling = require('./battmon_polling');
   else {
     if (jumpers.mode == 0)
@@ -109,6 +103,7 @@ function afterUpdate() {
     if (jumpers.aura)
       var aura_polling = require('./aura_polling');
   }
+
   var alarms_polling = require('./alarms_polling');
   var hostdiscovery = require('./hostdiscovery');
 
@@ -146,21 +141,18 @@ function afterUpdate() {
   app.use('/', dashboard);
   app.use('/dashboard', chamber);
   app.use('/chamber', chamber);
+  app.use('/camera_internal', camera_internal);
 
-  if (jumpers.battmon_style != 'standalone') {
-    if (jumpers.mode == 0)
-      app.use('/monitor', elv);
-    if (jumpers.mode == 1)
-      app.use('/monitor', elvp);
-    if (jumpers.mode == 2)
-      app.use('/monitor', series3);
-    if (jumpers.mode == 3)
-      app.use('/monitor', series4);
-
-    app.use('/camera_internal', camera_internal);
-    if (jumpers.extn)
-      app.use('/camera_external', camera_external);
-  }
+  if (jumpers.mode == 0)
+    app.use('/monitor', elv);
+  if (jumpers.mode == 1)
+    app.use('/monitor', elvp);
+  if (jumpers.mode == 2)
+    app.use('/monitor', series3);
+  if (jumpers.mode == 3)
+    app.use('/monitor', series4);
+  if (jumpers.extn)
+    app.use('/camera_external', camera_external);
 
   app.use('/notifications', notifications);
   app.use('/settings', settings);

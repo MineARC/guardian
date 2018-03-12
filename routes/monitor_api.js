@@ -1,7 +1,7 @@
 var express = require('express');
 var jumpers = require('../jumpers');
 var alias = require('../alias');
-if (jumpers.battmon_style == 'standalone') {
+if (jumpers.mode == 4) {
   var battmon_polling = require('../battmon_polling');
 } else {
   if (jumpers.cams)
@@ -22,7 +22,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   var data = {alarms : {}};
   data['alias'] = alias.alias;
-  if (jumpers.battmon_style == 'standalone') {
+  if (jumpers.mode == 4) {
     data['battmon'] = battmon_polling.data;
     for (var key in battmon_polling.alarms) {
       data.alarms[key] = battmon_polling.alarms[key];
