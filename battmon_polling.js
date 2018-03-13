@@ -22,7 +22,10 @@ var battmon_alarms = {
   'Voltage High' : {state : false, type : 'battmon'},
   'Voltage Low' : {state : false, type : 'battmon'},
   'Temperature High' : {state : false, type : 'battmon'},
-  'Temperature Low' : {state : false, type : 'battmon'}
+  'Temperature Low' : {state : false, type : 'battmon'},
+  'Balance Undervoltage' : {state : false, type : 'battmon'},
+  'Balance Overvoltage' : {state : false, type : 'battmon'},
+  'Balance Overcurrent' : {state : false, type : 'battmon'}
 }
 
 var battmon_data = {
@@ -33,8 +36,8 @@ var battmon_data = {
 
 for (var i = 0; i < jumpers.battmon_strings; i++) {
   battmon_data.Bank[i] = [
-    {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}},
-    {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}, {Voltage : {value : 12.8, unit : 'V'}, Temperature : {value : 21.0, unit : 'C'}}
+    {Voltage : {value : -1, unit : 'V'}, Temperature : {value : -1, unit : 'C'}}, {Voltage : {value : -1, unit : 'V'}, Temperature : {value : -1, unit : 'C'}},
+    {Voltage : {value : -1, unit : 'V'}, Temperature : {value : -1, unit : 'C'}}, {Voltage : {value : -1, unit : 'V'}, Temperature : {value : -1, unit : 'C'}}
   ];
 }
 
@@ -114,6 +117,9 @@ function updateAlarms() {
   battmon_alarms['Voltage Low'].state = isVoltLow;
   battmon_alarms['Temperature High'].state = isTempHigh;
   battmon_alarms['Temperature Low'].state = isTempLow;
+  battmon_alarms['Balance Undervoltage'].state = battmon_data.Balance.UVFLT;
+  battmon_alarms['Balance Overvoltage'].state = battmon_data.Balance.OVFLT;
+  battmon_alarms['Balance Overcurrent'].state = battmon_data.Balance.PTCFLT;
 }
 
 // function updateHistory() {
