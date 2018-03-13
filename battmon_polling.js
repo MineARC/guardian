@@ -28,6 +28,8 @@ var battmon_alarms = {
   'Balance Overcurrent' : {state : false, type : 'battmon'}
 }
 
+var moving_median = {Bank : []};
+
 var battmon_data = {
   Bank : [],
   Balance :
@@ -38,6 +40,11 @@ for (var i = 0; i < jumpers.battmon_strings; i++) {
   battmon_data.Bank[i] = [
     {Voltage : {value : -1, unit : 'V'}, Temperature : {value : -1, unit : 'C'}}, {Voltage : {value : -1, unit : 'V'}, Temperature : {value : -1, unit : 'C'}},
     {Voltage : {value : -1, unit : 'V'}, Temperature : {value : -1, unit : 'C'}}, {Voltage : {value : -1, unit : 'V'}, Temperature : {value : -1, unit : 'C'}}
+  ];
+
+  moving_median.Bank[i] = [
+    {Voltage : [ 0, 0, 0, 0, 0 ], Temperature : [ 0, 0, 0, 0, 0 ]}, {Voltage : [ 0, 0, 0, 0, 0 ], Temperature : [ 0, 0, 0, 0, 0 ]},
+    {Voltage : [ 0, 0, 0, 0, 0 ], Temperature : [ 0, 0, 0, 0, 0 ]}, {Voltage : [ 0, 0, 0, 0, 0 ], Temperature : [ 0, 0, 0, 0, 0 ]}
   ];
 }
 
@@ -87,8 +94,15 @@ function processPage(data, string) {
       td = td.next();
       temperature = td.text();
 
-      battmon_data.Bank[string_no][battery_no].Voltage.value = 1.2164 * voltage - 1.5419;
-      battmon_data.Bank[string_no][battery_no].Temperature.value = 1.2164 * temperature - 1.5419;
+      moving_median.Bank[string_no][battery_no].Voltage.push(1.2164 * voltage - 1.5419);
+      moving_median.Bank[string_no][battery_no].Voltage.shift();
+
+      moving_median.Bank[string_no][battery_no].Temperature.push(1.2164 * temperature - 1.5419);
+      moving_median.Bank[string_no][battery_no].Temperature.shift();
+
+      battmon_data.Bank[string_no][battery_no].Voltage.value = getMedian(moving_median.Bank[string_no][battery_no].Voltage);
+      battmon_data.Bank[string_no][battery_no].Temperature.value = getMedian(moving_median.Bank[string_no][battery_no].Temperature);
+
     });
   }
 }
@@ -130,3 +144,13 @@ function updateAlarms() {
 //       return console.log(err.message);
 //   });
 // }
+
+function getMedian(args) {
+  if (!args.length) {
+    return 0
+  };
+  var numbers = args.slice(0).sort((a, b) => a - b);
+  var middle = Math.floor(numbers.length / 2);
+  var isEven = numbers.length % 2 === 0;
+  return isEven ? (numbers[middle] + numbers[middle - 1]) / 2 : numbers[middle];
+}
