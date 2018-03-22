@@ -112,8 +112,34 @@ function processPage(data) {
         moving_median.Bank[string_no][battery_no].Temperature.push(temperature);
         moving_median.Bank[string_no][battery_no].Temperature.shift();
 
+        if (battery_no == 3) {
+          var median_of_medians_temperature = getMedian([
+            getMedian(moving_median.Bank[string_no][0].Temperature), getMedian(moving_median.Bank[string_no][1].Temperature),
+            getMedian(moving_median.Bank[string_no][2].Temperature), getMedian(moving_median.Bank[string_no][3].Temperature)
+          ]);
+
+          battmon_data.Bank[string_no].Temperature = median_of_medians_temperature;
+
+          var median_of_medians_voltage = getMedian([
+            getMedian(moving_median.Bank[string_no][0].Voltage), getMedian(moving_median.Bank[string_no][1].Voltage), getMedian(moving_median.Bank[string_no][2].Voltage),
+            getMedian(moving_median.Bank[string_no][3].Voltage)
+          ]);
+
+          for (var i = 0; i < 4; i++) {
+            if (getMedian(moving_median.Bank[string_no][i].Voltage) + 1.2 > median_of_medians_voltage)
+              battmon_data.Bank[string_no].Battery[i].status = 'alarm high';
+            else if (getMedian(moving_median.Bank[string_no][i].Voltage) > 15.2)
+              battmon_data.Bank[string_no].Battery[i].status = 'alarm high';
+            else if (getMedian(moving_median.Bank[string_no][i].Voltage) - 1.2 < median_of_medians_voltage)
+              battmon_data.Bank[string_no].Battery[i].status = 'alarm low';
+            else if (getMedian(moving_median.Bank[string_no][i].Voltage) < 11.0)
+              battmon_data.Bank[string_no].Battery[i].status = 'alarm low';
+            else
+              battmon_data.Bank[string_no].Battery[i].status = 'good';
+          }
+        }
+
         battmon_data.Bank[string_no][battery_no].Voltage.value = getMedian(moving_median.Bank[string_no][battery_no].Voltage).toFixed(1);
-        battmon_data.Bank[string_no][battery_no].Temperature.value = getMedian(moving_median.Bank[string_no][battery_no].Temperature).toFixed(1);
 
         exports.data = battmon_data;
       }
@@ -129,14 +155,14 @@ function updateAlarms() {
 
   for (var i = 0; i < jumpers.battmon_strings; i++) {
     for (var j = 0; j < 3; j++) {
-      if (battmon_data.Bank[i][j].Voltage > 14.8)
+      if (battmon_data.Bank[i].Battery[j].status = 'alarm high')
         isVoltHigh = true;
-      else if (battmon_data.Bank[i][j].Voltage < 12.5)
+      else if (battmon_data.Bank[i].Battery[j].status = 'alarm low')
         isVoltLow = true;
 
-      if (battmon_data.Bank[i][j].Temperature > 30)
+      if (getMedian(moving_median.Bank[i][j].Temperature) + 20 > battmon_data.Bank[i].Temperature.value)
         isTempHigh = true;
-      else if (battmon_data.Bank[i][j].Temperature < 0)
+      else if (getMedian(moving_median.Bank[i][j].Temperature) - 20 < battmon_data.Bank[i].Temperature.value)
         isTempLow = true;
     }
   }

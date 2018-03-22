@@ -4,12 +4,20 @@ var async = require('async');
 var os = require('os');
 var alias = require('./alias');
 var jumpers = require('./jumpers');
-if (jumpers.cams) var cams_polling = require('./cams_polling');
-if (jumpers.aura) var aura_polling = require('./aura_polling');
-if (jumpers.mode == 0) var elv_polling = require('./elv_polling');
-if (jumpers.mode == 1) var elvp_polling = require('./elvp_polling');
-if (jumpers.mode == 2) var series3_polling = require('./series3_polling');
-if (jumpers.mode == 3) var series4_polling = require('./series4_polling');
+if (jumpers.cams)
+  var cams_polling = require('./cams_polling');
+if (jumpers.aura)
+  var aura_polling = require('./aura_polling');
+if (jumpers.mode == 0)
+  var elv_polling = require('./elv_polling');
+if (jumpers.mode == 1)
+  var elvp_polling = require('./elvp_polling');
+if (jumpers.mode == 2)
+  var series3_polling = require('./series3_polling');
+if (jumpers.mode == 3)
+  var series4_polling = require('./series4_polling');
+if (jumpers.mode == 4)
+  var battmon_polling = require('./battmon_polling');
 var underscore = require('underscore');
 var db = require('./database');
 
@@ -20,12 +28,20 @@ poll_alerts();
 // Check the active alerts against the database and send out emails
 function poll_alerts() {
   var alarms = {};
-  if (jumpers.cams) alarms['cams'] = cams_polling.alarms;
-  if (jumpers.aura) alarms['aura'] = aura_polling.alarms;
-  if (jumpers.mode == 0) alarms['elv'] = elv_polling.alarms;
-  if (jumpers.mode == 1) alarms['elvp'] = elvp_polling.alarms;
-  if (jumpers.mode == 2) alarms['series3'] = series3_polling.alarms;
-  if (jumpers.mode == 3) alarms['series4'] = series4_polling.alarms;
+  if (jumpers.cams)
+    alarms['cams'] = cams_polling.alarms;
+  if (jumpers.aura)
+    alarms['aura'] = aura_polling.alarms;
+  if (jumpers.mode == 0)
+    alarms['elv'] = elv_polling.alarms;
+  if (jumpers.mode == 1)
+    alarms['elvp'] = elvp_polling.alarms;
+  if (jumpers.mode == 2)
+    alarms['series3'] = series3_polling.alarms;
+  if (jumpers.mode == 3)
+    alarms['series4'] = series4_polling.alarms;
+  if (jumpers.mode == 4)
+    alarms['battmon'] = battmon_polling.alarms;
 
   var alarms_active = {};
   for (var type in alarms) {
@@ -44,17 +60,14 @@ function poll_alerts() {
 
 function send_mail(fromName, fromAddress, to, subject, text, callback) {
   var smtpConfig = {
-    host: 'smtp.office365.com',
-    port: 587,
+    host : 'smtp.office365.com',
+    port : 587,
     // requireTLS: true,
     // tls: { rejectUnauthorized: false },
     // authMethod: 'LOGIN',
-    auth: {
-      user: 'Guardian@minearc.com.au',
-      pass: 'Guardian'
-    },
-    logger: true,
-    debug: true
+    auth : {user : 'Guardian@minearc.com.au', pass : 'Guardian'},
+    logger : true,
+    debug : true
   }
 
   // create reusable transporter object using the default SMTP transport
@@ -62,19 +75,15 @@ function send_mail(fromName, fromAddress, to, subject, text, callback) {
 
   // setup e-mail data with unicode symbols
   var mailOptions = {
-    from: '"' + fromName + '"' + fromAddress, // sender address
-    to: to, // list of receivers
-    subject: subject, // Subject line
-    html: text, // html body
-    attachments: [{
-      filename: 'header.jpg',
-      path: process.cwd() + '/public/img/header.jpg',
-      cid: 'header'
-    }]
+    from : '"' + fromName + '"' + fromAddress, // sender address
+    to : to,                                   // list of receivers
+    subject : subject,                         // Subject line
+    html : text,                               // html body
+    attachments : [ {filename : 'header.jpg', path : process.cwd() + '/public/img/header.jpg', cid : 'header'} ]
   };
 
   // send mail with defined transport object
-  transporter.sendMail(mailOptions, function (error, info) {
+  transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
       console.log(error);
       return callback(false);
@@ -91,7 +100,7 @@ function get_all_callback(alarms_active, err, all) {
   }
 
   // For each email in the database do checks individually
-  all.forEach(function (email) {
+  all.forEach(function(email) {
     var result = {};
     var send = false;
 
@@ -100,7 +109,7 @@ function get_all_callback(alarms_active, err, all) {
     // send them a new email for all active alarms.
     for (var type in alarms_active) {
       // if (email.subscription[type]) {
-      var alarm = alarms_active[type]; //underscore.intersection(alarms_active[type], email.subscription[type])
+      var alarm = alarms_active[type]; // underscore.intersection(alarms_active[type], email.subscription[type])
       for (var i = 0; i < alarm.length; i++) {
         // Check if alarm has never been sent or if its due to be sent
         if (!email.sent[type])
@@ -109,13 +118,13 @@ function get_all_callback(alarms_active, err, all) {
           send = true;
           if (!result[type])
             result[type] = []
-          result[type].push(alarm[i]);
+            result[type].push(alarm[i]);
         }
       }
       // }
     }
 
-    // If any active alarms meet the test to be sent, send     
+    // If any active alarms meet the test to be sent, send
     if (send) {
       var sent = email.sent;
       for (var type in result) {
@@ -132,7 +141,7 @@ function get_all_callback(alarms_active, err, all) {
 function send_mail_callback(email, sent, success) {
   // If the email was sent, write to the database the new sent status
   if (success) {
-    db.setSent(email, sent, function (err, changes) {
+    db.setSent(email, sent, function(err, changes) {
       if (err) {
         return console.log(err.message);
       }
@@ -176,15 +185,16 @@ function format_alarms(alarms) {
   strVar += "						<div>";
   var chamber_suffix = '';
   switch (jumpers.localize) {
-    case 'us':
-      chamber_suffix = 'MAA';
-    case 'za':
-      chamber_suffix = 'MAF';
-    default:
-    case 'au':
-      chamber_suffix = 'MA';
+  case 'us':
+    chamber_suffix = 'MAA';
+  case 'za':
+    chamber_suffix = 'MAF';
+  default:
+  case 'au':
+    chamber_suffix = 'MA';
   }
-  strVar += "							<span>The chamber: <b>" + name + "<\/b> with " + chamber_suffix + " number: <b>" + ma + "<\/b> has experienced the following fault(s)<\/span>";
+  strVar += "							<span>The chamber: <b>" + name + "<\/b> with " + chamber_suffix + " number: <b>" + ma +
+            "<\/b> has experienced the following fault(s)<\/span>";
   strVar += "						<\/div>";
   strVar += "            <br>";
   strVar += "						<div>";
@@ -213,7 +223,8 @@ function format_alarms(alarms) {
   strVar += "						<\/div>";
   strVar += "						<div>";
   strVar += "							<span>For further information about this fault please contact MineARC service at <\/span>";
-  strVar += "							<a href=\"redir.aspx?C=8lGQmt9ZmEmZpGFhDyAd65Vtg5J0B9QIFKPjm_Mbrm8zTSVOj8PfpwYR2rL2jg4GcP0sxnpf1wk.&amp;URL=mailto%3aservice%40minearc.com.au%3fSubject%3dGuardian%2520Event\"";
+  strVar +=
+      "							<a href=\"redir.aspx?C=8lGQmt9ZmEmZpGFhDyAd65Vtg5J0B9QIFKPjm_Mbrm8zTSVOj8PfpwYR2rL2jg4GcP0sxnpf1wk.&amp;URL=mailto%3aservice%40minearc.com.au%3fSubject%3dGuardian%2520Event\"";
   strVar += "								target=\"_blank\">";
   strVar += "								<span>service@minearc.com.au<\/span>";
   strVar += "							<\/a>";
@@ -222,12 +233,15 @@ function format_alarms(alarms) {
   strVar += "							<hr width=\"100%\" size=\"2\" align=\"center\" style=\"width:100%;\">";
   strVar += "						<\/div>";
   strVar += "						<div class=\"small\">";
-  strVar += "							<span><i>This transmission is for the intended addressee only and is confidential information. If you have received this transmission in error, please delete it and notify the sender or forward the message to <\/i><\/span>";
-  strVar += "							<a href=\"redir.aspx?C=8lGQmt9ZmEmZpGFhDyAd65Vtg5J0B9QIFKPjm_Mbrm8zTSVOj8PfpwYR2rL2jg4GcP0sxnpf1wk.&amp;URL=mailto%3ainfo%40minearc.com.au\"";
+  strVar +=
+      "							<span><i>This transmission is for the intended addressee only and is confidential information. If you have received this transmission in error, please delete it and notify the sender or forward the message to <\/i><\/span>";
+  strVar +=
+      "							<a href=\"redir.aspx?C=8lGQmt9ZmEmZpGFhDyAd65Vtg5J0B9QIFKPjm_Mbrm8zTSVOj8PfpwYR2rL2jg4GcP0sxnpf1wk.&amp;URL=mailto%3ainfo%40minearc.com.au\"";
   strVar += "								target=\"_blank\">";
   strVar += "								<span><i>info@minearc.com.au<\/i><\/span>";
   strVar += "							<\/a>";
-  strVar += "							<span><i>. The contents of this e-mail are the opinion of the writer only and are not endorsed by MineARC&nbsp;unless expressly stated otherwise. MineARC do not represent that this communication (including any files attached) is free from computer viruses or other faults or defects. It is the responsibility of any person opening any files attached to this communication to scan those files for computer viruses<\/i><\/span>";
+  strVar +=
+      "							<span><i>. The contents of this e-mail are the opinion of the writer only and are not endorsed by MineARC&nbsp;unless expressly stated otherwise. MineARC do not represent that this communication (including any files attached) is free from computer viruses or other faults or defects. It is the responsibility of any person opening any files attached to this communication to scan those files for computer viruses<\/i><\/span>";
   strVar += "						<\/div>";
   strVar += "					<\/td>";
   strVar += "				<\/tr>";
