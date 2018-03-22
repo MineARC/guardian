@@ -8,7 +8,7 @@ while n < (isNaN(battmon_strings) ? 10 : parseInt(battmon_strings))
         .panel-body
           .row.text-center
             .col-sm-4.item.pos-rlt(style='padding-top: 10px;')
-              .batt.temperature
+              .batt.battery-temp
                 .batt-right
                   span.h2.batt2.temperature= battmon.Bank[n].Temperature.value
                   span.text.text-sm ℃
