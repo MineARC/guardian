@@ -1,7 +1,6 @@
 var request = require('request');
 var cheerio = require('cheerio');
 var jq = require('jquery');
-var db = require('./database');
 var jumpers = require('./jumpers');
 
 console.log("battmon_polling loaded");
@@ -15,14 +14,13 @@ var battmon_data = {
 };
 
 for (var i = 0; i < jumpers.battmon_strings; i++) {
-  battmon_data.Bank[i] = [
-    {Voltage : {value : 12, unit : 'V'}, Temperature : {value : 12, unit : 'C'}}, {Voltage : {value : 12, unit : 'V'}, Temperature : {value : 12, unit : 'C'}},
-    {Voltage : {value : 12, unit : 'V'}, Temperature : {value : 12, unit : 'C'}}, {Voltage : {value : 12, unit : 'V'}, Temperature : {value : 12, unit : 'C'}}
-  ];
+  battmon_data.Bank[i] = {Temperature : {value : 12, unit : 'C'}, Battery : [ {Status : 'good'}, {Status : 'good'}, {Status : 'good'}, {Status : 'good'} ]};
 
   moving_median.Bank[i] = [
-    {Voltage : [ 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12 ]}, {Voltage : [ 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12 ]},
-    {Voltage : [ 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12 ]}, {Voltage : [ 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12 ]}
+    {Voltage : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ]},
+    {Voltage : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ]},
+    {Voltage : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ]},
+    {Voltage : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ]}
   ];
 }
 
@@ -36,46 +34,24 @@ var battmon_alarms = {
   'Balance Overcurrent' : {state : false, type : 'battmon'}
 };
 
-setInterval(poll_database, 10000);
-poll_database();
-
-function poll_database() {
-  db.getMonitorData(6, function(err, data) {
-    if (err) {
-      return console.log(err.message);
-    }
-    exports.history = data;
-    if (data[data.length - 1])
-      for (var i = 0; i < data[data.length - 1].length; i++) {
-        for (var j = 0; j < 4; j++) {
-          battmon_data.Bank[i][j].Voltage.value = data[data.length - 1][i][j].Voltage;
-          battmon_data.Bank[i][j].Temperature.value = data[data.length - 1][i][j].Temperature;
-        }
-      }
-  });
-}
-
 exports.data = battmon_data;
 exports.alarms = battmon_alarms;
 
-setInterval(poll_monitor, 10000);
+setInterval(poll_monitor, 9000);
 poll_monitor();
 
 function poll_monitor() {
   battmon_data.Bank.forEach(function(element, index) {
     var request_options = {url : 'http://172.17.0.' + (129 + index), proxy : ''};
 
-    setTimeout(function() {
-      request.get(request_options, function(err, res, body) {
-        if (!err && (res.statusCode == 200 || res.statusCode == 304)) {
-          processPage(body);
-        }
-      })
-    }, 100 * index);
+    request.get(request_options, function(err, res, body) {
+      if (!err && (res.statusCode == 200 || res.statusCode == 304)) {
+        processPage(body);
+      }
+    });
   });
 
   updateAlarms();
-  updateHistory();
 }
 
 function processPage(data) {
@@ -172,24 +148,6 @@ function updateAlarms() {
   battmon_alarms['Balance Undervoltage'].state = battmon_data.Balance.UVFLT;
   battmon_alarms['Balance Overvoltage'].state = battmon_data.Balance.OVFLT;
   battmon_alarms['Balance Overcurrent'].state = battmon_data.Balance.PTCFLT;
-}
-
-function updateHistory() {
-  var history_data = [];
-
-  for (var i = 0; i < jumpers.battmon_strings; i++) {
-    history_data[i] = [
-      {Voltage : battmon_data.Bank[i][0].Voltage.value, Temperature : battmon_data.Bank[i][0].Temperature.value},
-      {Voltage : battmon_data.Bank[i][1].Voltage.value, Temperature : battmon_data.Bank[i][1].Temperature.value},
-      {Voltage : battmon_data.Bank[i][2].Voltage.value, Temperature : battmon_data.Bank[i][2].Temperature.value},
-      {Voltage : battmon_data.Bank[i][3].Voltage.value, Temperature : battmon_data.Bank[i][3].Temperature.value}
-    ];
-  }
-
-  db.addMonitorData(6, history_data, function(err, success) {
-    if (err)
-      return console.log(err.message);
-  });
 }
 
 function getMedian(args) {
