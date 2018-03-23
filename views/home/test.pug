@@ -17,7 +17,6 @@ while n < (isNaN(battmon_strings) ? 10 : parseInt(battmon_strings))
                   span.h2.batt2.voltage= battmon.Bank[n][2].Voltage
                   hr
                   span.h2.batt2.voltage= battmon.Bank[n][3].Voltage
-                  hr
             .col-sm-6.item.pos-rlt(style='padding-top: 10px;')
               .batt
                 .batt-left
@@ -28,5 +27,4 @@ while n < (isNaN(battmon_strings) ? 10 : parseInt(battmon_strings))
                   span.h2.batt2.temperature= battmon.Bank[n][2].Temperature
                   hr
                   span.h2.batt2.temperature= battmon.Bank[n][3].Temperature
-                  hr
   - n++;

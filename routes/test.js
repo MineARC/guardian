@@ -7,7 +7,7 @@ var router = express.Router();
 
 console.log("battmon route loaded");
 
-router.get('/', function (req, res, next) {
+router.get('/', function(req, res, next) {
   var data = {};
   data['alias'] = alias.alias;
   data['localize'] = jumpers.localize;
