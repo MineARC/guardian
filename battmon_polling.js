@@ -59,18 +59,18 @@ function processPage(data) {
 
   if (jq('p').first().text() == 'version = 1.0') {
     var ltc3305 = parseInt(jq('p').first().next().text().split(" = ")[1]);
-    battmon_data.Balance.MODE = (ltc3305 & 0x0001) << 0;
-    battmon_data.Balance.EN1 = (ltc3305 & 0x0002) << 1;
-    battmon_data.Balance.EN2 = (ltc3305 & 0x0004) << 2;
-    battmon_data.Balance.TERM1 = (ltc3305 & 0x0008) << 3;
-    battmon_data.Balance.TERM2 = (ltc3305 & 0x0010) << 4;
-    battmon_data.Balance.BAL = (ltc3305 & 0x0020) << 5;
-    battmon_data.Balance.DONE = (ltc3305 & 0x0040) << 6;
-    battmon_data.Balance.BATX = (ltc3305 & 0x0080) << 7;
-    battmon_data.Balance.BATY = (ltc3305 & 0x0100) << 8;
-    battmon_data.Balance.UVFLT = (ltc3305 & 0x0200) << 9;
-    battmon_data.Balance.OVFLT = (ltc3305 & 0x0400) << 10;
-    battmon_data.Balance.PTCFLT = (ltc3305 & 0x0800) << 11;
+    battmon_data.Balance.MODE = (ltc3305 & 0x0001) != 0;
+    battmon_data.Balance.EN1 = (ltc3305 & 0x0002) != 0;
+    battmon_data.Balance.EN2 = (ltc3305 & 0x0004) != 0;
+    battmon_data.Balance.TERM1 = (ltc3305 & 0x0008) != 0;
+    battmon_data.Balance.TERM2 = (ltc3305 & 0x0010) != 0;
+    battmon_data.Balance.BAL = (ltc3305 & 0x0020) != 0;
+    battmon_data.Balance.DONE = (ltc3305 & 0x0040) != 0;
+    battmon_data.Balance.BATX = (ltc3305 & 0x0080) != 0;
+    battmon_data.Balance.BATY = (ltc3305 & 0x0100) != 0;
+    battmon_data.Balance.UVFLT = (ltc3305 & 0x0200) != 0;
+    battmon_data.Balance.OVFLT = (ltc3305 & 0x0400) != 0;
+    battmon_data.Balance.PTCFLT = (ltc3305 & 0x0800) != 0;
 
     jq('tr').each(function(index, element) {
       var td = jq(element).find('td').first();
