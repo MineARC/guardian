@@ -16,7 +16,7 @@ var battmon_data = {
 };
 
 for (var i = 0; i < jumpers.battmon_strings; i++) {
-  battmon_data.Bank[i] = {Temperature : {value : 12, unit : 'C'}, Battery : [ {status : 'Good'}, {status : 'Good'}, {status : 'Good'}, {status : 'Good'} ]};
+  battmon_data.Bank[i] = {Temperature : {value : 12, unit : 'C'}, Battery : [ {status : 0}, {status : 0}, {status : 0}, {status : 0} ]};
 
   test_data.Bank[i] = [ {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12} ];
 
@@ -132,15 +132,15 @@ function processPage(data) {
 
           for (var i = 0; i < 4; i++) {
             if (getMedian(moving_median.Bank[string_no][i].Voltage) - 1.3 > median_of_medians_voltage)
-              battmon_data.Bank[string_no].Battery[i].status = 'Alarm High';
+              battmon_data.Bank[string_no].Battery[i].status = 1;
             else if (getMedian(moving_median.Bank[string_no][i].Voltage) > 15.2)
-              battmon_data.Bank[string_no].Battery[i].status = 'Alarm High';
+              battmon_data.Bank[string_no].Battery[i].status = 1;
             else if (getMedian(moving_median.Bank[string_no][i].Voltage) + 1.3 < median_of_medians_voltage)
-              battmon_data.Bank[string_no].Battery[i].status = 'Alarm Low';
+              battmon_data.Bank[string_no].Battery[i].status = -1;
             else if (getMedian(moving_median.Bank[string_no][i].Voltage) < 11.0)
-              battmon_data.Bank[string_no].Battery[i].status = 'Alarm Low';
+              battmon_data.Bank[string_no].Battery[i].status = -1;
             else
-              battmon_data.Bank[string_no].Battery[i].status = 'Good';
+              battmon_data.Bank[string_no].Battery[i].status = 0;
 
             test_data.Bank[string_no][i].Voltage = getMedian(moving_median.Bank[string_no][i].Voltage).toFixed(1);
             test_data.Bank[string_no][i].Temperature = getMedian(moving_median.Bank[string_no][i].Temperature).toFixed(1);
@@ -161,15 +161,17 @@ function updateAlarms() {
   var isTempLow = false;
 
   for (var i = 0; i < jumpers.battmon_strings; i++) {
-    for (var j = 0; j < 3; j++) {
-      if (battmon_data.Bank[i].Battery[j].status == 'Alarm High')
+    for (var j = 0; j < 4; j++) {
+      if (battmon_data.Bank[i].Battery[j].status == 1)
         isVoltHigh = true;
-      else if (battmon_data.Bank[i].Battery[j].status == 'Alarm Low')
+      else if (battmon_data.Bank[i].Battery[j].status == -1)
         isVoltLow = true;
 
       if (getMedian(moving_median.Bank[i][j].Temperature) - 20 > battmon_data.Bank[i].Temperature.value)
         isTempHigh = true;
       else if (getMedian(moving_median.Bank[i][j].Temperature) + 20 < battmon_data.Bank[i].Temperature.value)
+        isTempLow = true;
+      else if (getMedian(moving_median.Bank[i][j].Temperature) > 50)
         isTempLow = true;
     }
   }
