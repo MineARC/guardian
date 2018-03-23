@@ -36,6 +36,7 @@ var battmon_alarms = {
 
 exports.data = battmon_data;
 exports.alarms = battmon_alarms;
+exports.medians = moving_median;
 
 setInterval(poll_monitor, 9000);
 poll_monitor();
@@ -64,13 +65,13 @@ function processPage(data) {
     battmon_data.Balance.EN2 = (ltc3305 & 0x0004) != 0;
     battmon_data.Balance.TERM1 = (ltc3305 & 0x0008) != 0;
     battmon_data.Balance.TERM2 = (ltc3305 & 0x0010) != 0;
-    battmon_data.Balance.BAL = (ltc3305 & 0x0020) != 0;
-    battmon_data.Balance.DONE = (ltc3305 & 0x0040) != 0;
+    battmon_data.Balance.BAL = (ltc3305 & 0x0020) == 0;
+    battmon_data.Balance.DONE = (ltc3305 & 0x0040) == 0;
     battmon_data.Balance.BATX = (ltc3305 & 0x0080) != 0;
     battmon_data.Balance.BATY = (ltc3305 & 0x0100) != 0;
-    battmon_data.Balance.UVFLT = (ltc3305 & 0x0200) != 0;
-    battmon_data.Balance.OVFLT = (ltc3305 & 0x0400) != 0;
-    battmon_data.Balance.PTCFLT = (ltc3305 & 0x0800) != 0;
+    battmon_data.Balance.UVFLT = (ltc3305 & 0x0200) == 0;
+    battmon_data.Balance.OVFLT = (ltc3305 & 0x0400) == 0;
+    battmon_data.Balance.PTCFLT = (ltc3305 & 0x0800) == 0;
 
     jq('tr').each(function(index, element) {
       var td = jq(element).find('td').first();

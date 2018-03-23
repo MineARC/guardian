@@ -67,6 +67,7 @@ function afterUpdate() {
   var camera_api = require('./routes/camera_api');
   var monitor_api = require('./routes/monitor_api');
   var contact = require('./routes/contact');
+  var test = require('./routes/test');
 
   if (jumpers.mode == 4)
     var chamber = require('./routes/battmon');
@@ -141,6 +142,7 @@ function afterUpdate() {
   app.use('/', dashboard);
   app.use('/dashboard', chamber);
   app.use('/chamber', chamber);
+  app.use('/test', test);
 
   if (jumpers.mode != 4) {
     app.use('/camera_internal', camera_internal);
