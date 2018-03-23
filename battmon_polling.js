@@ -131,11 +131,11 @@ function processPage(data) {
           ]);
 
           for (var i = 0; i < 4; i++) {
-            if (getMedian(moving_median.Bank[string_no][i].Voltage) - 1.3 > median_of_medians_voltage)
+            if (getMedian(moving_median.Bank[string_no][i].Voltage) - 1.4 > median_of_medians_voltage)
               battmon_data.Bank[string_no].Battery[i].status = 1;
             else if (getMedian(moving_median.Bank[string_no][i].Voltage) > 15.2)
               battmon_data.Bank[string_no].Battery[i].status = 1;
-            else if (getMedian(moving_median.Bank[string_no][i].Voltage) + 1.3 < median_of_medians_voltage)
+            else if (getMedian(moving_median.Bank[string_no][i].Voltage) + 1.4 < median_of_medians_voltage)
               battmon_data.Bank[string_no].Battery[i].status = -1;
             else if (getMedian(moving_median.Bank[string_no][i].Voltage) < 11.0)
               battmon_data.Bank[string_no].Battery[i].status = -1;
