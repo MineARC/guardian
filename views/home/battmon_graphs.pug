@@ -15,17 +15,17 @@ while n < (isNaN(battmon_strings) ? 10 : parseInt(battmon_strings))
             .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-1
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n].Battery[0].Status
+                  span.h2.batt2.voltage= battmon.Bank[n].Battery[0].status
             .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-2
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n].Battery[1].Status
+                  span.h2.batt2.voltage= battmon.Bank[n].Battery[1].status
             .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-3
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n].Battery[2].Status
+                  span.h2.batt2.voltage= battmon.Bank[n].Battery[2].status
             .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-4
                 .batt-left
-                  span.h2.batt2.voltage= battmon.Bank[n].Battery[3].Status
+                  span.h2.batt2.voltage= battmon.Bank[n].Battery[3].status
   - n++;

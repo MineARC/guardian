@@ -14,7 +14,7 @@ var battmon_data = {
 };
 
 for (var i = 0; i < jumpers.battmon_strings; i++) {
-  battmon_data.Bank[i] = {Temperature : {value : 12, unit : 'C'}, Battery : [ {Status : 'Good'}, {Status : 'Good'}, {Status : 'Good'}, {Status : 'Good'} ]};
+  battmon_data.Bank[i] = {Temperature : {value : 12, unit : 'C'}, Battery : [ {status : 'Good'}, {status : 'Good'}, {status : 'Good'}, {status : 'Good'} ]};
 
   moving_median.Bank[i] = [
     {Voltage : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ]},
@@ -118,7 +118,7 @@ function processPage(data) {
             getMedian(moving_median.Bank[string_no][2].Temperature), getMedian(moving_median.Bank[string_no][3].Temperature)
           ]);
 
-          battmon_data.Bank[string_no].Temperature = median_of_medians_temperature;
+          battmon_data.Bank[string_no].Temperature.value = median_of_medians_temperature.toFixed(1);
 
           var median_of_medians_voltage = getMedian([
             getMedian(moving_median.Bank[string_no][0].Voltage), getMedian(moving_median.Bank[string_no][1].Voltage), getMedian(moving_median.Bank[string_no][2].Voltage),
@@ -126,11 +126,11 @@ function processPage(data) {
           ]);
 
           for (var i = 0; i < 4; i++) {
-            if (getMedian(moving_median.Bank[string_no][i].Voltage) + 0.2 > median_of_medians_voltage)
+            if (getMedian(moving_median.Bank[string_no][i].Voltage) - 1.2 > median_of_medians_voltage)
               battmon_data.Bank[string_no].Battery[i].status = 'Alarm High';
             else if (getMedian(moving_median.Bank[string_no][i].Voltage) > 15.2)
               battmon_data.Bank[string_no].Battery[i].status = 'Alarm High';
-            else if (getMedian(moving_median.Bank[string_no][i].Voltage) - 0.2 < median_of_medians_voltage)
+            else if (getMedian(moving_median.Bank[string_no][i].Voltage) + 1.2 < median_of_medians_voltage)
               battmon_data.Bank[string_no].Battery[i].status = 'Alarm Low';
             else if (getMedian(moving_median.Bank[string_no][i].Voltage) < 11.0)
               battmon_data.Bank[string_no].Battery[i].status = 'Alarm Low';
