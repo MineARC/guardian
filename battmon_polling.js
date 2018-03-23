@@ -7,6 +7,8 @@ console.log("battmon_polling loaded");
 
 var moving_median = {Bank : []};
 
+var test_data = {Bank : []};
+
 var battmon_data = {
   Bank : [],
   Balance :
@@ -15,6 +17,8 @@ var battmon_data = {
 
 for (var i = 0; i < jumpers.battmon_strings; i++) {
   battmon_data.Bank[i] = {Temperature : {value : 12, unit : 'C'}, Battery : [ {status : 'Good'}, {status : 'Good'}, {status : 'Good'}, {status : 'Good'} ]};
+
+  test_data.Bank[i] = [ {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12} ];
 
   moving_median.Bank[i] = [
     {Voltage : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ], Temperature : [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12 ]},
@@ -35,8 +39,8 @@ var battmon_alarms = {
 };
 
 exports.data = battmon_data;
+exports.medians = test_data;
 exports.alarms = battmon_alarms;
-exports.medians = moving_median;
 
 setInterval(poll_monitor, 9000);
 poll_monitor();
@@ -107,10 +111,10 @@ function processPage(data) {
           break;
         }
 
-        moving_median.Bank[string_no][battery_no].Voltage.push(real_voltage.toFixed(2));
+        moving_median.Bank[string_no][battery_no].Voltage.push(real_voltage);
         moving_median.Bank[string_no][battery_no].Voltage.shift();
 
-        moving_median.Bank[string_no][battery_no].Temperature.push(temperature.toFixed(2));
+        moving_median.Bank[string_no][battery_no].Temperature.push(temperature);
         moving_median.Bank[string_no][battery_no].Temperature.shift();
 
         if (battery_no == 3) {
@@ -137,10 +141,14 @@ function processPage(data) {
               battmon_data.Bank[string_no].Battery[i].status = 'Alarm Low';
             else
               battmon_data.Bank[string_no].Battery[i].status = 'Good';
+
+            test_data.Bank[string_no][i].Voltage = getMedian(moving_median.Bank[string_no][i].Voltage).toFixed(1);
+            test_data.Bank[string_no][i].Temperature = getMedian(moving_median.Bank[string_no][i].Temperature).toFixed(1);
           }
         }
 
         exports.data = battmon_data;
+        exports.medians = test_data;
       }
     });
   }
@@ -159,9 +167,9 @@ function updateAlarms() {
       else if (battmon_data.Bank[i].Battery[j].status = 'Alarm Low')
         isVoltLow = true;
 
-      if (getMedian(moving_median.Bank[i][j].Temperature) + 20 > battmon_data.Bank[i].Temperature.value)
+      if (getMedian(moving_median.Bank[i][j].Temperature) - 20 > battmon_data.Bank[i].Temperature.value)
         isTempHigh = true;
-      else if (getMedian(moving_median.Bank[i][j].Temperature) - 20 < battmon_data.Bank[i].Temperature.value)
+      else if (getMedian(moving_median.Bank[i][j].Temperature) + 20 < battmon_data.Bank[i].Temperature.value)
         isTempLow = true;
     }
   }
