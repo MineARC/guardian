@@ -110,7 +110,7 @@ function processPage(data) {
         moving_median.Bank[string_no][battery_no].Voltage.push(real_voltage.toFixed(2));
         moving_median.Bank[string_no][battery_no].Voltage.shift();
 
-        moving_median.Bank[string_no][battery_no].Temperature.push(temperaturetoFixed(2));
+        moving_median.Bank[string_no][battery_no].Temperature.push(temperature.toFixed(2));
         moving_median.Bank[string_no][battery_no].Temperature.shift();
 
         if (battery_no == 3) {
