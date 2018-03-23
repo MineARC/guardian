@@ -162,9 +162,9 @@ function updateAlarms() {
 
   for (var i = 0; i < jumpers.battmon_strings; i++) {
     for (var j = 0; j < 3; j++) {
-      if (battmon_data.Bank[i].Battery[j].status = 'Alarm High')
+      if (battmon_data.Bank[i].Battery[j].status == 'Alarm High')
         isVoltHigh = true;
-      else if (battmon_data.Bank[i].Battery[j].status = 'Alarm Low')
+      else if (battmon_data.Bank[i].Battery[j].status == 'Alarm Low')
         isVoltLow = true;
 
       if (getMedian(moving_median.Bank[i][j].Temperature) - 20 > battmon_data.Bank[i].Temperature.value)
