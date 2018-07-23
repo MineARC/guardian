@@ -3,7 +3,7 @@
   "version": "0.0.29",
   "auto-updater": {
     "repo": "MineARC/guardian",
-    "branch": "master"
+    "branch": "spanish"
   },
   "private": false,
   "scripts": {
