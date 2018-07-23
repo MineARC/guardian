@@ -10,17 +10,17 @@ block append content
         table#table-overview.table.dataTable.display(ui-jq='dataTable', ui-options='{ paging: false }', role='grid')
           thead
             tr.row
-              th.sorting.col-xs-3 Chamber
-              th.sorting.col-xs-3 Alarms
+              th.sorting.col-xs-3 Chamber*
+              th.sorting.col-xs-3 Alarmas
               case localize
                 when 'us'
-                  th.sorting.col-xs-3 MAA Number
+                  th.sorting.col-xs-3 MAA Número
                 when 'za'
-                  th.sorting.col-xs-3 MAF Number
+                  th.sorting.col-xs-3 MAF Número
                 default
-                  th.sorting.col-xs-3 MA Number
-              th.sorting.col-xs-3 Address
-              th.sorting.col-xs-3 Type
+                  th.sorting.col-xs-3 MA Número
+              th.sorting.col-xs-3 Dirección
+              th.sorting.col-xs-3 Tipo
           tbody
             if(hosts)
               each host in hosts

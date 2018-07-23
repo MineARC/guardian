@@ -2,20 +2,20 @@
   div.col-xs-12.items
     table.table#table-elv
       tr
-        td.row-name Mains Present
-        td.table-right.row-info= elv.mains ? 'Yes' : 'No'
+        td.row-name Energía Presente
+        td.table-right.row-info= elv.mains ? 'Sí' : 'No'
       tr
-        td.row-name Inverter Output
-        td.table-right.row-info= elv.inverter ? 'Yes' : 'No'
+        td.row-name Inversor Salida
+        td.table-right.row-info= elv.inverter ? 'Sí' : 'No'
       tr
-        td.row-name Emergency Bank Voltage
+        td.row-name Voltaje Banco Emergencia
         td.table-right.row-info= (elv.serial.V / 1000).toFixed(2) + ' V'
       tr
-        td.row-name Current
+        td.row-name Corriente
         td.table-right.row-info= (elv.serial.I / 1000).toFixed(2) + ' A'
       tr
-        td.row-name Power
+        td.row-name Potencia
         td.table-right.row-info= elv.serial.P + ' W'
       tr
-        td.row-name Consumed Energy
+        td.row-name Energía Consumida
         td.table-right.row-info= (elv.serial.CE / 1000).toFixed(2) + ' Ah'

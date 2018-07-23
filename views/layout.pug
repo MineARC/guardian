@@ -38,22 +38,22 @@ html(lang='en')
             nav.navi.clearfix(ui-nav='')
               ul.nav
                 li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
-                  span NAVIGATION
+                  span NAVEGACIÓN
                 li
                   a.auto(href='/')
                     i.icon-home
-                    span.font-bold HOME
+                    span.font-bold INICIO
                 li
                   a(href='notifications')
                     i.icon-settings
-                    span.font-bold SETTINGS
+                    span.font-bold AJUSTES
                 li
                   a(href='contact')
                     i.icon-info
-                    span.font-bold HELP
+                    span.font-bold AYUDA
                 li.line.dk
                 li.hidden-folded.padder.m-t.m-b-sm.text-muted.text-xs
-                  span FLEET
+                  span FLOTA
                 #fleet
                   block fleet
       #content.app-content(role='main')
@@ -66,13 +66,13 @@ html(lang='en')
               .tab-content
                 #tab-1.tab-pane.active(role='tabpanel')
                   .wrapper-md
-                    .m-b-sm.text-md ALERT FEED
+                    .m-b-sm.text-md ALERTAS
                     ul#alerts.list-group.no-bg.no-borders.pull-in
                       block alerts
       footer#footer.app-footer(role='footer')
         .wrapper.b-t.bg-light
           span.pull-right
-            | 2.2.0 
+            | 2.2.0-es
             a.m-l-sm.text-muted(href='#', ui-scroll='app')
               em.fa.fa-long-arrow-up
           |         © MineARC Systems Copyright.

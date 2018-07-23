@@ -1,7 +1,7 @@
 extends layout
 
 block title
-  | SETTINGS
+  | AJUSTES
 
 block append content
   .wrapper-md
@@ -21,7 +21,7 @@ block append content
                   .checkbox
                     label
                       input.check_all(type='checkbox')
-                      | All
+                      | All*
                 each host in hosts
                   li
                     .checkbox
@@ -32,13 +32,13 @@ block append content
             =email
     div.pull-right
       button#btn-save.btn.m-b-xs.w-xs.btn-success
-        | Save
+        | Save*
     div
       form#form-add.input-group
         input.form-control(type='text' placeholder='example@example.com')
         span.input-group-btn
           button#btn-add.btn.btn-info(type='button')
-            | Add
+            | Añadir
 
 block append fleet
   if(hosts)
