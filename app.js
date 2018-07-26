@@ -141,7 +141,7 @@ function afterUpdate() {
 
   app.use('/', dashboard);
   app.use('/dashboard', chamber);
-  app.use('/chamber', chamber););
+  app.use('/chamber', chamber);
   // app.use('/test', test);
 
   if (jumpers.mode != 4) {
