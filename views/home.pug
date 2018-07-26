@@ -117,6 +117,9 @@ block append content
         if(cams)
           #tab_cams.tab-pane
             include home/cams.pug
+        if(battmon)
+          #tab_battmon.tab-pane
+            include home/battmon.pug
 
     if(aura)
       include home/aura_graphs.pug

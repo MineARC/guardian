@@ -1,0 +1,31 @@
+- var n = 0;
+while n < (isNaN(battmon_strings) ? 10 : parseInt(battmon_strings))
+  .row(class='string-' + (+n + 1))
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading
+          = 'Battery String ' + (+n + 1)
+        .panel-body
+          .row.text-center
+            .col-sm-4.item.pos-rlt(style='padding-top: 10px;')
+              .batt.battery-temp
+                .batt-right
+                  span.h2.batt2.temperature= battmon.Bank[n].Temperature.value
+                  span.text.text-sm ℃
+            .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
+              .batt.battery-1(class= battmon.Bank[n].Battery[3].status == 1 ? 'batt-alhigh' : battmon.Bank[n].Battery[3].status == -1 ? 'batt-allow' : '')
+                .batt-left
+                  span.h2.batt2.voltage= battmon.Bank[n].Battery[0].status == 1 ? '⇡ High' : battmon.Bank[n].Battery[0].status == -1 ? '⇣ Low' : '✔ Good'
+            .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
+              .batt.battery-2(class= battmon.Bank[n].Battery[3].status == 1 ? 'batt-alhigh' : battmon.Bank[n].Battery[3].status == -1 ? 'batt-allow' : '')
+                .batt-left
+                  span.h2.batt2.voltage= battmon.Bank[n].Battery[1].status == 1 ? '⇡ High' : battmon.Bank[n].Battery[1].status == -1 ? '⇣ Low' : '✔ Good'
+            .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
+              .batt.battery-3(class= battmon.Bank[n].Battery[3].status == 1 ? 'batt-alhigh' : battmon.Bank[n].Battery[3].status == -1 ? 'batt-allow' : '')
+                .batt-left
+                  span.h2.batt2.voltage= battmon.Bank[n].Battery[2].status == 1 ? '⇡ High' : battmon.Bank[n].Battery[2].status == -1 ? '⇣ Low' : '✔ Good'
+            .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
+              .batt.battery-4(class= battmon.Bank[n].Battery[3].status == 1 ? 'batt-alhigh' : battmon.Bank[n].Battery[3].status == -1 ? 'batt-allow' : '')
+                .batt-left
+                  span.h2.batt2.voltage= battmon.Bank[n].Battery[3].status == 1 ? '⇡ High' : battmon.Bank[n].Battery[3].status == -1 ? '⇣ Low' : '✔ Good'
+  - n++;

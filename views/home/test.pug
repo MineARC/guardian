@@ -1,0 +1,30 @@
+- var n = 0;
+while n < (isNaN(battmon_strings) ? 10 : parseInt(battmon_strings))
+  .row(class='string-' + (+n + 1))
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading
+          = 'Battery String ' + (+n + 1)
+        .panel-body
+          .row.text-center
+            .col-sm-6.item.pos-rlt(style='padding-top: 10px;')
+              .batt
+                .batt-right
+                  span.h2.batt2.voltage= battmon.Bank[n][0].Voltage
+                  hr
+                  span.h2.batt2.voltage= battmon.Bank[n][1].Voltage
+                  hr
+                  span.h2.batt2.voltage= battmon.Bank[n][2].Voltage
+                  hr
+                  span.h2.batt2.voltage= battmon.Bank[n][3].Voltage
+            .col-sm-6.item.pos-rlt(style='padding-top: 10px;')
+              .batt
+                .batt-left
+                  span.h2.batt2.temperature= battmon.Bank[n][0].Temperature
+                  hr
+                  span.h2.batt2.temperature= battmon.Bank[n][1].Temperature
+                  hr
+                  span.h2.batt2.temperature= battmon.Bank[n][2].Temperature
+                  hr
+                  span.h2.batt2.temperature= battmon.Bank[n][3].Temperature
+  - n++;
