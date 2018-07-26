@@ -6,7 +6,7 @@ var aura_co_data = [];
 switch (localize) {
   case 'us':
     var aura_temp_chart = new CanvasJS.Chart("graph-aura-1", {
-      title: { text: "Apparent Temperature" },
+      title: { text: "Aparente Interna" },
       data: [{
         type: "line",
         markerType: 'none',
@@ -14,14 +14,14 @@ switch (localize) {
         dataPoints: aura_temp_data
       }],
       axisX: {
-        title: 'Time H',
+        title: 'Hora H',
         labelFormatter: function (e) {
           return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
         },
         interval: 7200,
       },
       axisY: {
-        title: 'Temperature F',
+        title: 'Temperatura F',
         minimum: 14,
         maximum: 122,
         interval: 18,
@@ -36,7 +36,7 @@ switch (localize) {
 
   default:
     var aura_temp_chart = new CanvasJS.Chart("graph-aura-1", {
-      title: { text: "Apparent Temperature" },
+      title: { text: "Aparente De Temperatura" },
       data: [{
         type: "line",
         markerType: 'none',
@@ -44,14 +44,14 @@ switch (localize) {
         dataPoints: aura_temp_data
       }],
       axisX: {
-        title: 'Time H',
+        title: 'Hora H',
         labelFormatter: function (e) {
           return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
         },
         interval: 7200,
       },
       axisY: {
-        title: 'Temperature C',
+        title: 'Temperatura C',
         minimum: -10,
         maximum: 50,
         interval: 10,
@@ -74,7 +74,7 @@ var aura_o2_chart = new CanvasJS.Chart("graph-aura-2", {
     dataPoints: aura_o2_data
   }],
   axisX: {
-    title: 'Time H',
+    title: 'Hora H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
@@ -102,7 +102,7 @@ var aura_co2_chart = new CanvasJS.Chart("graph-aura-3", {
     dataPoints: aura_co2_data
   }],
   axisX: {
-    title: 'Time H',
+    title: 'Hora H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
@@ -130,7 +130,7 @@ var aura_co_chart = new CanvasJS.Chart("graph-aura-4", {
     dataPoints: aura_co_data
   }],
   axisX: {
-    title: 'Time H',
+    title: 'Hora H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },

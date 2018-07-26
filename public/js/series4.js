@@ -7,7 +7,7 @@ var series4_temp_battery_data = [];
 var series4_current_battery_data = [];
 
 var series4_voltage_mains_chart = new CanvasJS.Chart("graph-voltage-1", {
-  title: { text: "Mains Voltage" },
+  title: { text: "Voltaje Energía Eléctr." },
   data: [{
     type: "line",
     markerType: 'none',
@@ -15,14 +15,14 @@ var series4_voltage_mains_chart = new CanvasJS.Chart("graph-voltage-1", {
     dataPoints: series4_voltage_mains_data
   }],
   axisX: {
-    title: 'Time H',
+    title: 'Hora H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
     interval: 7200,
   },
   axisY: {
-    title: 'Voltage V',
+    title: 'Voltaje V',
     minimum: 0,
     maximum: 300,
     interval: 50,
@@ -35,7 +35,7 @@ var series4_voltage_mains_chart = new CanvasJS.Chart("graph-voltage-1", {
 });
 
 var series4_voltage_inverter_chart = new CanvasJS.Chart("graph-voltage-2", {
-  title: { text: "Inverter Voltage" },
+  title: { text: "Voltaje Del Inversor" },
   data: [{
     type: "line",
     markerType: 'none',
@@ -43,14 +43,14 @@ var series4_voltage_inverter_chart = new CanvasJS.Chart("graph-voltage-2", {
     dataPoints: series4_voltage_inverter_data
   }],
   axisX: {
-    title: 'Time H',
+    title: 'Hora H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
     interval: 7200,
   },
   axisY: {
-    title: 'Voltage V',
+    title: 'Voltaje V',
     minimum: 0,
     maximum: 300,
     interval: 50,
@@ -63,7 +63,7 @@ var series4_voltage_inverter_chart = new CanvasJS.Chart("graph-voltage-2", {
 });
 
 var series4_voltage_battery_chart = new CanvasJS.Chart("graph-voltage-3", {
-  title: { text: "Battery Voltage" },
+  title: { text: "Voltaje De La Batería" },
   data: [{
     type: "line",
     markerType: 'none',
@@ -71,14 +71,14 @@ var series4_voltage_battery_chart = new CanvasJS.Chart("graph-voltage-3", {
     dataPoints: series4_voltage_battery_data
   }],
   axisX: {
-    title: 'Time H',
+    title: 'Hora H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
     interval: 7200,
   },
   axisY: {
-    title: 'Voltage V',
+    title: 'Voltaje V',
     minimum: 0,
     maximum: 60,
     interval: 10,
@@ -93,7 +93,7 @@ var series4_voltage_battery_chart = new CanvasJS.Chart("graph-voltage-3", {
 switch (localize) {
   case 'us':
     var series4_temp_internal_chart = new CanvasJS.Chart("graph-temp-1", {
-      title: { text: "Internal Temperature" },
+      title: { text: "Temperatura Interna" },
       data: [{
         type: "line",
         markerType: 'none',
@@ -101,14 +101,14 @@ switch (localize) {
         dataPoints: series4_temp_internal_data,
       }],
       axisX: {
-        title: 'Time H',
+        title: 'Hora H',
         labelFormatter: function (e) {
           return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
         },
         interval: 7200,
       },
       axisY: {
-        title: 'Temperature °F',
+        title: 'Temperatura °F',
         minimum: 32,
         maximum: 140,
         interval: 18,
@@ -121,7 +121,7 @@ switch (localize) {
     });
 
     var series4_temp_external_chart = new CanvasJS.Chart("graph-temp-2", {
-      title: { text: "External Temperature" },
+      title: { text: "Temperatura Externa" },
       data: [{
         type: "line",
         markerType: 'none',
@@ -129,14 +129,14 @@ switch (localize) {
         dataPoints: series4_temp_external_data,
       }],
       axisX: {
-        title: 'Time H',
+        title: 'Hora H',
         labelFormatter: function (e) {
           return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
         },
         interval: 7200,
       },
       axisY: {
-        title: 'Temperature °F',
+        title: 'Temperatura °F',
         minimum: 32,
         maximum: 140,
         interval: 18,
@@ -149,7 +149,7 @@ switch (localize) {
     });
 
     var series4_temp_battery_chart = new CanvasJS.Chart("graph-temp-3", {
-      title: { text: "Battery Temperature" },
+      title: { text: "Temperatura De La Batería" },
       data: [{
         type: "line",
         markerType: 'none',
@@ -157,14 +157,14 @@ switch (localize) {
         dataPoints: series4_temp_battery_data,
       }],
       axisX: {
-        title: 'Time H',
+        title: 'Hora H',
         labelFormatter: function (e) {
           return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
         },
         interval: 7200,
       },
       axisY: {
-        title: 'Temperature °F',
+        title: 'Temperatura °F',
         minimum: 32,
         maximum: 140,
         interval: 18,
@@ -179,7 +179,7 @@ switch (localize) {
 
   default:
     var series4_temp_internal_chart = new CanvasJS.Chart("graph-temp-1", {
-      title: { text: "Internal Temperature" },
+      title: { text: "Temperatura Interna" },
       data: [{
         type: "line",
         markerType: 'none',
@@ -187,14 +187,14 @@ switch (localize) {
         dataPoints: series4_temp_internal_data,
       }],
       axisX: {
-        title: 'Time H',
+        title: 'Hora H',
         labelFormatter: function (e) {
           return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
         },
         interval: 7200,
       },
       axisY: {
-        title: 'Temperature °C',
+        title: 'Temperatura °C',
         minimum: 0,
         maximum: 60,
         interval: 10,
@@ -207,7 +207,7 @@ switch (localize) {
     });
 
     var series4_temp_external_chart = new CanvasJS.Chart("graph-temp-2", {
-      title: { text: "External Temperature" },
+      title: { text: "Temperatura Externa" },
       data: [{
         type: "line",
         markerType: 'none',
@@ -215,14 +215,14 @@ switch (localize) {
         dataPoints: series4_temp_external_data,
       }],
       axisX: {
-        title: 'Time H',
+        title: 'Hora H',
         labelFormatter: function (e) {
           return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
         },
         interval: 7200,
       },
       axisY: {
-        title: 'Temperature °C',
+        title: 'Temperatura °C',
         minimum: 0,
         maximum: 60,
         interval: 10,
@@ -235,7 +235,7 @@ switch (localize) {
     });
 
     var series4_temp_battery_chart = new CanvasJS.Chart("graph-temp-3", {
-      title: { text: "Battery Temperature" },
+      title: { text: "Temperatura De La Batería" },
       data: [{
         type: "line",
         markerType: 'none',
@@ -243,14 +243,14 @@ switch (localize) {
         dataPoints: series4_temp_battery_data,
       }],
       axisX: {
-        title: 'Time H',
+        title: 'Hora H',
         labelFormatter: function (e) {
           return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
         },
         interval: 7200,
       },
       axisY: {
-        title: 'Temperature °C',
+        title: 'Temperatura °C',
         minimum: 0,
         maximum: 60,
         interval: 10,
@@ -265,7 +265,7 @@ switch (localize) {
 }
 
 var series4_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
-  title: { text: "Battery Current" },
+  title: { text: "Corriente De La Batería" },
   data: [{
     type: "line",
     markerType: 'none',
@@ -273,14 +273,14 @@ var series4_current_battery_chart = new CanvasJS.Chart("graph-current-1", {
     dataPoints: series4_current_battery_data,
   }],
   axisX: {
-    title: 'Time H',
+    title: 'Hora H',
     labelFormatter: function (e) {
       return CanvasJS.formatDate(new Date(null).setSeconds(e.value), "H");
     },
     interval: 7200,
   },
   axisY: {
-    title: 'Current A',
+    title: 'Corriente A',
     minimum: -90,
     maximum: 90,
     interval: 30
