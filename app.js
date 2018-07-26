@@ -67,11 +67,11 @@ function afterUpdate() {
   var camera_api = require('./routes/camera_api');
   var monitor_api = require('./routes/monitor_api');
   var contact = require('./routes/contact');
-  var test = require('./routes/test');
+  // var test = require('./routes/test');
 
-  if (jumpers.mode == 4)
+  if (jumpers.mode == 4) {
     var chamber = require('./routes/battmon');
-  else {
+  } else {
     var chamber = require('./routes/home');
     var camera_internal = require('./routes/camera_internal');
 
@@ -88,9 +88,9 @@ function afterUpdate() {
   }
 
   ///// POLLING /////
-  if (jumpers.mode == 4)
+  if (jumpers.mode == 4) {
     var battmon_polling = require('./battmon_polling');
-  else {
+  } else {
     if (jumpers.mode == 0)
       var elv_polling = require('./elv_polling');
     if (jumpers.mode == 1)
@@ -114,7 +114,7 @@ function afterUpdate() {
 
   app.use(compression())
 
-      var admins = {'username' : {password : 'password'}};
+  var admins = {'username' : {password : 'password'}};
 
   // app.use(function (req, res, next) {
   //   var user = auth(req);
