@@ -2,7 +2,7 @@
   .col-sm-12
     .panel.panel-default
       .panel-heading
-        | TEMPERATURE
+        | TEMPERATURA
       .panel-body
         .row.text-center
           if(aura)
@@ -14,7 +14,7 @@
                       a(data-toggle="modal" data-target="#aura_1_modal")
                         i.fa.fa-3x.fa-line-chart.text-white
                   .inline#readout-temp-aura
-                    div Internal Apparent
+                    div Aparente Interna
                     .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                     animate: 1000,\
                     percent: 0,\
@@ -50,7 +50,7 @@
                       a(data-toggle="modal" data-target="#temp_1_modal")
                         i.fa.fa-3x.fa-line-chart.text-white
                   .inline#readout-temp-internal
-                    div Internal Actual
+                    div Internal Actual*
                     .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                     animate: 1000,\
                     percent: 0,\
@@ -86,7 +86,7 @@
                       a(data-toggle="modal" data-target="#temp_2_modal")
                         i.fa.fa-3x.fa-line-chart.text-white
                   .inline#readout-temp-external
-                    div External
+                    div Externo
                     .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                     animate: 1000,\
                     percent: 0,\
@@ -122,7 +122,7 @@
                       a(data-toggle="modal" data-target="#temp_3_modal")
                         i.fa.fa-3x.fa-line-chart.text-white
                   .inline#readout-temp-battery
-                    div Battery
+                    div Batería
                     .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                     animate: 1000,\
                     percent: 0,\
@@ -159,7 +159,7 @@
                       a(data-toggle="modal" data-target="#temp_1_modal")
                         i.fa.fa-3x.fa-line-chart.text-white
                   .inline#readout-temp-internal
-                    div Internal
+                    div Interna
                     .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                     animate: 1000,\
                     percent: 0,\
@@ -195,7 +195,7 @@
                       a(data-toggle="modal" data-target="#temp_2_modal")
                         i.fa.fa-3x.fa-line-chart.text-white
                   .inline#readout-temp-external
-                    div External
+                    div Externo
                     .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                     animate: 1000,\
                     percent: 0,\
@@ -231,7 +231,7 @@
                       a(data-toggle="modal" data-target="#temp_3_modal")
                         i.fa.fa-3x.fa-line-chart.text-white
                   .inline#readout-temp-battery
-                    div Battery
+                    div Batería
                     .easyPieChart(ui-jq='easyPieChart', ui-options="{\
                     animate: 1000,\
                     percent: 0,\
@@ -263,7 +263,7 @@
   .col-sm-9
     .panel.panel-default
       .panel-heading
-        | VOLTAGE
+        | VOLTAJE
       .panel-body
         .row.text-center
           .col-sm-4
@@ -274,7 +274,7 @@
                     a(data-toggle="modal" data-target="#voltage_1_modal")
                       i.fa.fa-3x.fa-line-chart.text-white
                 .inline#readout-voltage-inverter
-                  div Inverter
+                  div Inversor
                   span.h2.value
                     | 0
                     span(style='font-size: 0.5em') V
@@ -289,7 +289,7 @@
                     a(data-toggle="modal" data-target="#voltage_2_modal")
                       i.fa.fa-3x.fa-line-chart.text-white
                 .inline#readout-voltage-bridge
-                  div Bridge
+                  div Bridge* / Transformer*
                   span.h2.value
                     | 0
                     span(style='font-size: 0.5em') V
@@ -304,7 +304,7 @@
                     a(data-toggle="modal" data-target="#voltage_3_modal")
                       i.fa.fa-3x.fa-line-chart.text-white
                 .inline#readout-voltage-battery
-                  div Battery
+                  div Batería
                   span.h2.value
                     | 0
                     span(style='font-size: 0.5em') V
@@ -314,7 +314,7 @@
   .col-sm-3
     .panel.panel-default
       .panel-heading
-        | CURRENT
+        | CORRIENTE
       .panel-body
         .row.text-center
           .col-sm-12
@@ -325,7 +325,7 @@
                     a(data-toggle="modal" data-target="#current_1_modal")
                       i.fa.fa-3x.fa-line-chart.text-white
                 .inline#readout-current-battery
-                  div Battery
+                  div Batería
                   span.h2.value
                     | 0
                     span(style='font-size: 0.5em') A

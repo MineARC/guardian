@@ -2,11 +2,11 @@
   div.col-xs-12.items
     table.table#table-cams
       tr
-        td.row-name Occupied
+        td.row-name Ocupado
         td.table-right.row-info= cams.occupied ? 'Yes' : 'No'
       tr
-        td.row-name Airflow
+        td.row-name Flujo Aire
         td.table-right.row-info= cams.solenoid ? 'No' : 'Yes'
       tr
-        td.row-name Airflow Uptime
+        td.row-name Tiempo Uso Flujo Aire
         td.table-right.row-info= (cams.rate * 100).toFixed(2) + ' %'

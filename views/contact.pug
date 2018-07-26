@@ -1,7 +1,7 @@
 extends layout
 
 block title
-  | CONTACT
+  | CONTACTO
 
 block append content
   .wrapper-md
@@ -11,12 +11,12 @@ block append content
           //- .panel-heading
           //-   | VOLTAGE
           .panel-body
-            form(role='form', action='mailto:info@minearc.com.au', method='post')
+            form(role='form', action='mailto:info@minearc.com', method='post')
               .form-group
-                label Subject
-                input.form-control(name='Subject', type='text', placeholder='Subject')
+                label Línea De Asunto
+                input.form-control(name='Subject', type='text', placeholder='Línea De Asunto')
               .form-control(ui-jq='wysiwyg', style='overflow:scroll;height:200px;max-height:200px', contenteditable='true')
-              button.btn.btn-sm.btn-primary(type='submit', value='Send', style='margin-top: 10px') Submit
+              button.btn.btn-sm.btn-primary(type='submit', value='Send', style='margin-top: 10px') Enviar
 
 
       .col-sm-6
