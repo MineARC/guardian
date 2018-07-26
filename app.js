@@ -141,8 +141,8 @@ function afterUpdate() {
 
   app.use('/', dashboard);
   app.use('/dashboard', chamber);
-  app.use('/chamber', chamber);
-  app.use('/test', test);
+  app.use('/chamber', chamber););
+  // app.use('/test', test);
 
   if (jumpers.mode != 4) {
     app.use('/camera_internal', camera_internal);
