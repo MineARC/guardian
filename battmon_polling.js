@@ -42,7 +42,7 @@ poll_monitor();
 
 function poll_monitor() {
   battmon_data.Bank.forEach(function(element, index) {
-    var request_options = {url : 'http://172.17.0.' + (129 + index), proxy : ''};
+    var request_options = {url : 'http://172.17.0.' + (128 + index), proxy : ''};
 
     request.get(request_options, function(err, res, body) {
       if (!err && (res.statusCode == 200 || res.statusCode == 304)) {
@@ -143,17 +143,14 @@ function updateAlarms() {
 
   for (var i = 0; i < jumpers.battmon_strings; i++) {
     for (var j = 0; j < 4; j++) {
-      if (battmon_data.Bank[i].Battery[j].status == 1)
-        isVoltHigh = true;
-      else if (battmon_data.Bank[i].Battery[j].status == -1)
+      if (getMedian(moving_median.Bank[i][j].Voltage) < 12.0)
         isVoltLow = true;
-
-      if (getMedian(moving_median.Bank[i][j].Temperature) - 20 > battmon_data.Bank[i].Temperature.value)
+      else if (getMedian(moving_median.Bank[i][j].Voltage) > 16.0)
+        isVoltHigh = true;
+      if (getMedian(moving_median.Bank[i][j].Temperature) < 0.0)
+        isTempLow = true;
+      else if (getMedian(moving_median.Bank[i][j].Temperature) > 50.0)
         isTempHigh = true;
-      else if (getMedian(moving_median.Bank[i][j].Temperature) + 20 < battmon_data.Bank[i].Temperature.value)
-        isTempLow = true;
-      else if (getMedian(moving_median.Bank[i][j].Temperature) > 50)
-        isTempLow = true;
     }
   }
 
