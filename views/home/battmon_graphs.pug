@@ -39,38 +39,38 @@ while n < (isNaN(battmon_strings) ? 10 : parseInt(battmon_strings))
           = 'Battery String ' + (+n + 1)
         .panel-body
           .row.text-center
-            .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
+            .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-1
                 .batt-left
                   span.h2.batt2.voltage= battmon.Bank[n][0].Voltage
-                  | V
+                  |  V
                 .batt-right
                   span.h2.batt2.temperature= battmon.Bank[n][0].Temperature
-                  | C
-            .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
+                  |  C
+            .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-2
                 .batt-left
                   span.h2.batt2.voltage= battmon.Bank[n][1].Voltage
-                  | V
+                  |  V
                 .batt-right
                   span.h2.batt2.temperature= battmon.Bank[n][1].Temperature
-                  | C
-            .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
+                  |  C
+            .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-3
                 .batt-left
                   span.h2.batt2.voltage= battmon.Bank[n][2].Voltage
-                  | V
+                  |  V
                 .batt-right
                   span.h2.batt2.temperature= battmon.Bank[n][2].Temperature
-                  | C
-            .col-sm-2.item.pos-rlt(style='padding-top: 10px;')
+                  |  C
+            .col-sm-3.item.pos-rlt(style='padding-top: 10px;')
               .batt.battery-4
                 .batt-left
                   span.h2.batt2.voltage= battmon.Bank[n][3].Voltage
-                  | V
+                  |  V
                 .batt-right
                   span.h2.batt2.temperature= battmon.Bank[n][3].Temperature
-                  | C
+                  |  C
 
             //- .col-sm-6.item.pos-rlt(style='padding-top: 10px;')
             //-   .batt

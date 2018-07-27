@@ -7,8 +7,6 @@ console.log("battmon_polling loaded");
 
 var moving_median = {Bank : []};
 
-var test_data = {Bank : []};
-
 var battmon_data = {
   Bank : [],
   Balance :
@@ -16,9 +14,7 @@ var battmon_data = {
 };
 
 for (var i = 0; i < jumpers.battmon_strings; i++) {
-  battmon_data.Bank[i] = {Temperature : {value : 12, unit : 'C'}, Battery : [ {status : 0}, {status : 0}, {status : 0}, {status : 0} ]};
-
-  test_data.Bank[i] = [ {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12} ];
+  battmon_data.Bank[i] = [ {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12} ];
 
   moving_median.Bank[i] = [
     {Voltage : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ], Temperature : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ]},
@@ -39,7 +35,6 @@ var battmon_alarms = {
 };
 
 exports.data = battmon_data;
-exports.medians = test_data;
 exports.alarms = battmon_alarms;
 
 setInterval(poll_monitor, 9000);
@@ -92,19 +87,19 @@ function processPage(data) {
 
         switch (battery_no) {
         case 0:
-          real_voltage = voltage * 1.054;
+          real_voltage = voltage;
           break;
         case 1:
-          real_voltage = voltage * 1.054;
+          real_voltage = voltage;
           real_voltage -= moving_median.Bank[string_no][0].Voltage[moving_median.Bank[string_no][0].Voltage.length - 1];
           break;
         case 2:
-          real_voltage = voltage * 1.054;
+          real_voltage = voltage;
           real_voltage -= moving_median.Bank[string_no][1].Voltage[moving_median.Bank[string_no][1].Voltage.length - 1];
           real_voltage -= moving_median.Bank[string_no][0].Voltage[moving_median.Bank[string_no][0].Voltage.length - 1];
           break;
         case 3:
-          real_voltage = voltage * 1.054;
+          real_voltage = voltage;
           real_voltage -= moving_median.Bank[string_no][2].Voltage[moving_median.Bank[string_no][2].Voltage.length - 1];
           real_voltage -= moving_median.Bank[string_no][1].Voltage[moving_median.Bank[string_no][1].Voltage.length - 1];
           real_voltage -= moving_median.Bank[string_no][0].Voltage[moving_median.Bank[string_no][0].Voltage.length - 1];
@@ -123,32 +118,18 @@ function processPage(data) {
             getMedian(moving_median.Bank[string_no][2].Temperature), getMedian(moving_median.Bank[string_no][3].Temperature)
           ]);
 
-          battmon_data.Bank[string_no].Temperature.value = median_of_medians_temperature.toFixed(1);
-
           var median_of_medians_voltage = getMedian([
             getMedian(moving_median.Bank[string_no][0].Voltage), getMedian(moving_median.Bank[string_no][1].Voltage), getMedian(moving_median.Bank[string_no][2].Voltage),
             getMedian(moving_median.Bank[string_no][3].Voltage)
           ]);
 
           for (var i = 0; i < 4; i++) {
-            if (getMedian(moving_median.Bank[string_no][i].Voltage) - 1.4 > median_of_medians_voltage)
-              battmon_data.Bank[string_no].Battery[i].status = 1;
-            else if (getMedian(moving_median.Bank[string_no][i].Voltage) > 15.2)
-              battmon_data.Bank[string_no].Battery[i].status = 1;
-            else if (getMedian(moving_median.Bank[string_no][i].Voltage) + 1.4 < median_of_medians_voltage)
-              battmon_data.Bank[string_no].Battery[i].status = -1;
-            else if (getMedian(moving_median.Bank[string_no][i].Voltage) < 11.0)
-              battmon_data.Bank[string_no].Battery[i].status = -1;
-            else
-              battmon_data.Bank[string_no].Battery[i].status = 0;
-
-            test_data.Bank[string_no][i].Voltage = getMedian(moving_median.Bank[string_no][i].Voltage).toFixed(1);
-            test_data.Bank[string_no][i].Temperature = getMedian(moving_median.Bank[string_no][i].Temperature).toFixed(1);
+            battmon_data.Bank[string_no][i].Voltage = getMedian(moving_median.Bank[string_no][i].Voltage).toFixed(1);
+            battmon_data.Bank[string_no][i].Temperature = getMedian(moving_median.Bank[string_no][i].Temperature).toFixed(1);
           }
         }
 
         exports.data = battmon_data;
-        exports.medians = test_data;
       }
     });
   }

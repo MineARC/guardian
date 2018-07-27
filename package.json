@@ -1,6 +1,6 @@
 {
   "name": "minearc-guardian",
-  "version": "0.0.67",
+  "version": "0.0.68",
   "auto-updater": {
     "repo": "MineARC/guardian",
     "branch": "battmon-stable"
