@@ -10,7 +10,7 @@ block append content
         table#table-overview.table.dataTable.display(ui-jq='dataTable', ui-options='{ paging: false }', role='grid')
           thead
             tr.row
-              th.sorting.col-xs-3 Chamber*
+              th.sorting.col-xs-3 Aposento
               th.sorting.col-xs-3 Alarmas
               case localize
                 when 'us'
@@ -41,7 +41,7 @@ block append content
                         button.btn.btn-info.btn-sm.dropdown-toggle(type='button' data-toggle='dropdown')
                           span.num_subs= host.alarms_total
                         ul.alert.alert-info.col-xs-12.dropdown-menu
-                          | Everything is fine
+                          | Todo Esta Bien
                   td
                     = host.hostname.split('-')[1]
                   td
