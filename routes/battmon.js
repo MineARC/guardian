@@ -37,7 +37,7 @@ router.get('/', function(req, res, next) {
   data['hosts'] = hostdiscovery.hosts_data;
   data['battmon_strings'] = jumpers.battmon_strings;
 
-  res.render('test', data);
+  res.render('battmon', data);
 });
 
 module.exports = router;
