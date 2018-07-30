@@ -77,21 +77,15 @@ function getMostRecentFileName(next) {
     }
   });
 
-  setTimeout(function() {
+  setTimeout(function () {
     if (internal_name != -Infinity) {
       var file = path.join(internal_dir, internal_name);
-      fs.readFile(file, 'binary', function(err, contents) {
-        if (!err)
-          internal_image = contents;
-      });
+      internal_image = fs.readFileSync(file, 'binary');
     }
 
     if (external_name != -Infinity) {
       file = path.join(external_dir, external_name);
-      fs.readFile(file, 'binary', function(err, contents) {
-        if (!err)
-          external_image = contents;
-      });
+      external_image = fs.readFileSync(file, 'binary');
     }
 
     next(internal_image, external_image);
