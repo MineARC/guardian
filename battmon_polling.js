@@ -17,10 +17,10 @@ for (var i = 0; i < jumpers.battmon_strings; i++) {
   battmon_data.Bank[i] = [ {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12}, {Temperature : 12, Voltage : 12} ];
 
   moving_median.Bank[i] = [
-    {Voltage : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ], Temperature : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ]},
-    {Voltage : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ], Temperature : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ]},
-    {Voltage : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ], Temperature : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ]},
-    {Voltage : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ], Temperature : [ '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' ]}
+    {Voltage : [ 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0 ], Temperature : [ 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0 ]},
+    {Voltage : [ 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0 ], Temperature : [ 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0 ]},
+    {Voltage : [ 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0 ], Temperature : [ 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0 ]},
+    {Voltage : [ 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0 ], Temperature : [ 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 12.0 ]}
   ];
 }
 
@@ -57,7 +57,7 @@ function poll_monitor() {
 function processPage(data) {
   jq = cheerio.load(data);
 
-  if (jq('p').first().text() == 'version = 1.0') {
+  if (jq('p').first().text() == 'version = 1.1') {
     var ltc3305 = parseInt(jq('p').first().next().text().split(" = ")[1]);
     battmon_data.Balance.MODE = (ltc3305 & 0x0001) != 0;
     battmon_data.Balance.EN1 = (ltc3305 & 0x0002) != 0;
