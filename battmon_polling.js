@@ -75,7 +75,7 @@ function processPage(data) {
     jq('tr').each(function(index, element) {
       var td = jq(element).find('td').first();
       if (td.length) {
-        var string_no = parseInt(td.html()) - 1;
+        var string_no = parseInt(td.html());
         td = td.next();
         var battery_no = parseInt(td.html());
         td = td.next();
