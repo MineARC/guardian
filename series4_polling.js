@@ -113,6 +113,7 @@ function processPage(data) {
 
   var row_name = '';
   var row_info = '';
+  var row_unit = '';
 
   // First add the name gotten from the top of the document
   // Use html() and and not text() so that we can seperate the bold text
@@ -137,14 +138,16 @@ function processPage(data) {
     // Use html() here also for reasons
     row_info = jq(element).next().html();
     if (row_info != null) {
-      row_unit = row_info.match(/(V|A|C|F|ppm)$/g);
+      row_unit = row_info.match(/(V|A|C|F|ppm)/g);
       if (row_unit)
-        row_unit = row_unit[0];
+        row_unit = row_unit[row_unit.length - 1];
       // Only care about numbers, sign, and decimal point
       row_info = parseFloat(row_info.match(/[-+0-9.]+/g)[0]);
       if (jumpers.localize == 'us' && row_unit == 'C') {
         row_info = ((row_info * 9 / 5) + 32).toFixed(1);
         row_unit = 'F';
+      } else if (row_unit == 'F') {
+        row_unit = 'C';
       }
     }
 
