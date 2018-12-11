@@ -138,7 +138,7 @@ function processPage(data) {
     // Use html() here also for reasons
     row_info = jq(element).next().html();
     if (row_info != null) {
-      row_unit = row_info.match(/(V|A|C|F|ppm)/g);
+      row_unit = row_info.match(/(V|A|C|F|ppm|%)/g);
       if (row_unit)
         row_unit = row_unit[row_unit.length - 1];
       // Only care about numbers, sign, and decimal point
