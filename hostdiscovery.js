@@ -104,6 +104,9 @@ function poll_nmap() {
               if (api_res.guardian) {
                 // Everything but the ip address comes from the api
                 switch (api_res.hostname) {
+                  case 'guardian-1640':
+                    element.ip = '1640.minearcguardian.com';
+                    break;
                   case 'guardian-1638':
                     element.ip = '1638.minearcguardian.com';
                     break;
