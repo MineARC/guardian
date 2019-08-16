@@ -32,7 +32,7 @@ function adapters() {
 
   for (var iface in adapters) {
 
-    if (iface == 'eth0' || iface == 'wlan1') {
+    if (iface == 'eth0' || iface == 'wlan0') {
 
       for (var dev in adapters[iface]) {
         adapter = adapters[iface][dev];
