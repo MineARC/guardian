@@ -67,20 +67,19 @@ block append content
   .wrapper-md
     .tab-container
       ul.nav.nav-tabs
-        li.active
+        li#cameraEnable
           a(href='#', data-toggle='tab', data-target='#tab_camera') CAMERA
-          input#enableCameras.form-control(type="checkbox")
         if(elv)
-          li
+          li.active
             a(href='#', data-toggle='tab', data-target='#tab_elv') ELV
         if(elvp)
-          li
+          li.active
             a(href='#', data-toggle='tab', data-target='#tab_elvp') ELVP
         if(series3)
-          li
+          li.active
             a(href='#', data-toggle='tab', data-target='#tab_series3') SERIES III
         if(series4)
-          li
+          li.active
             a(href='#', data-toggle='tab', data-target='#tab_series4') SERIES IV
           if(series4.fan_board_1)
             li

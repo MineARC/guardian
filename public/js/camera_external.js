@@ -7,7 +7,7 @@ $(document).ready(function ($) {
   update_external_image();
 
   function update_external_image() {
-    if ($('#enableCameras').prop('checked') && timestamp + 10000 <= Date.now()) {
+    if ($('#cameraEnable').hasClass('active') && timestamp + 10000 <= Date.now()) {
       external_showing.attr('src', '/api/camera/external?' + Math.floor(Date.now() / 10000));
       clearTimeout(timeout);
       timeout = setTimeout(update_external_image, 20000);

@@ -7,7 +7,7 @@ $(document).ready(function ($) {
   update_internal_image();
 
   function update_internal_image() {
-    if ($('#enableCameras').prop('checked') && timestamp + 10000 <= Date.now()) {
+    if ($('#cameraEnable').hasClass('active') && timestamp + 10000 <= Date.now()) {
       internal_showing.attr('src', '/api/camera/internal?' + Math.floor(Date.now() / 10000));
       clearTimeout(timeout);
       timeout = setTimeout(update_internal_image, 20000);
