@@ -3,7 +3,7 @@
   "version": "0.0.34",
   "auto-updater": {
     "repo": "MineARC/guardian",
-    "branch": "master"
+    "branch": "4g"
   },
   "private": false,
   "scripts": {
