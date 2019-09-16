@@ -16,8 +16,8 @@ db.getState('cams', function (err, data) {
 });
 
 var cams_alarms = {
-  'Air Leak': { state: false, type: 'cams' },
-  'Air Quality': { state: false, type: 'cams' }
+//  'Air Leak': { state: false, type: 'cams' },
+//  'Air Quality': { state: false, type: 'cams' }
 }
 
 var cams_data = {
@@ -71,8 +71,8 @@ function update() {
       cams_data.rate = 1;
   }
 
-  cams_alarms['Air Leak'].state = (!cams_data.occupied && cams_data.rate >= 0.15);
-  cams_alarms['Air Quality'].state = (cams_data.occupied && cams_data.solenoid);
+//  cams_alarms['Air Leak'].state = (!cams_data.occupied && cams_data.rate >= 0.15);
+//  cams_alarms['Air Quality'].state = (cams_data.occupied && cams_data.solenoid);
 
   db.setState('cams', cams_data, function (err, result) {
     if (err) {

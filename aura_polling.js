@@ -107,7 +107,7 @@ function processPage(data) {
     jq('tr').each(function (index, element) {
       gas_name = jq(element).find('td').first().text().split(' ')[0];
       gas_value = jq(element).find('td').first().next().text();
-      if (gas_name in aura_data) {
+      if (gas_name in aura_data && gas_value != "-1.0") {
         aura_data[gas_name].value = gas_value;
         timestamps[gas_name] = Date.now();
       }
