@@ -92,6 +92,7 @@ if (jumpers.mode == 2) var series3_polling = require('./series3_polling');
 if (jumpers.mode == 3) var series4_polling = require('./series4_polling');
 if (jumpers.cams) var cams_polling = require('./cams_polling');
 if (jumpers.aura) var aura_polling = require('./aura_polling')
+if (jumpers.firefly) var firefly = require('./firefly');
 var alarms_polling = require('./alarms_polling');
 var hostdiscovery = require('./hostdiscovery');
 
@@ -124,6 +125,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Add firefly to request
+app.use('*', (req, res, next) => {
+  res.locals.firefly = jumpers.firefly;
+  next();
+});
 
 app.use('/', dashboard);
 app.use('/dashboard', chamber);
