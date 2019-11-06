@@ -1,6 +1,6 @@
 {
   "name": "minearc-guardian",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "auto-updater": {
     "repo": "MineARC/guardian",
     "branch": "firefly"

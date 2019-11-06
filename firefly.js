@@ -50,10 +50,14 @@ function poll_firefly() {
     level_json.color = 'GREEN';
     level_json.led_state = 'BACKWARD';
     level_json.train = 2;
+    exports.color = 'Green'
+    exports.state = 'Follow'
 
   } else {
     level_json.color = 'GREEN';
     level_json.led_state = 'ON';
+    exports.color = 'Green'
+    exports.state = 'On'
   }
 
   client.publish('firefly/emergency', JSON.stringify(publish_json));

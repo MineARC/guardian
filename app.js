@@ -128,7 +128,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Add firefly to request
 app.use('*', (req, res, next) => {
-  res.locals.firefly = jumpers.firefly;
+  if(jumpers.firefly)
+  res.locals.firefly = firefly;
   next();
 });
 
