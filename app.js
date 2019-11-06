@@ -70,115 +70,120 @@ require('dns').resolve('github.com', function (err) {
     autoupdater.fire('check');
 });
 
-var dashboard = require('./routes/overview');
-var chamber = require('./routes/home');
-if (jumpers.mode == 0) var elv = require('./routes/elv');
-if (jumpers.mode == 1) var elvp = require('./routes/elvp');
-if (jumpers.mode == 2) var series3 = require('./routes/series3');
-if (jumpers.mode == 3) var series4 = require('./routes/series4');
-var camera_internal = require('./routes/camera_internal');
-if (jumpers.extn) var camera_external = require('./routes/camera_external');
-var notifications = require('./routes/notifications');
-var settings = require('./routes/settings');
-var overview_api = require('./routes/overview_api');
-var hosts_api = require('./routes/hosts_api');
-var camera_api = require('./routes/camera_api');
-var monitor_api = require('./routes/monitor_api');
-var contact = require('./routes/contact');
+setTimeout(guardian, 10000);
 
-if (jumpers.mode == 0) var elv_polling = require('./elv_polling');
-if (jumpers.mode == 1) var elvp_polling = require('./elvp_polling');
-if (jumpers.mode == 2) var series3_polling = require('./series3_polling');
-if (jumpers.mode == 3) var series4_polling = require('./series4_polling');
-if (jumpers.cams) var cams_polling = require('./cams_polling');
-if (jumpers.aura) var aura_polling = require('./aura_polling')
-if (jumpers.firefly) var firefly = require('./firefly');
-var alarms_polling = require('./alarms_polling');
-var hostdiscovery = require('./hostdiscovery');
+function guardian() {
 
-var app = express();
+  var dashboard = require('./routes/overview');
+  var chamber = require('./routes/home');
+  if (jumpers.mode == 0) var elv = require('./routes/elv');
+  if (jumpers.mode == 1) var elvp = require('./routes/elvp');
+  if (jumpers.mode == 2) var series3 = require('./routes/series3');
+  if (jumpers.mode == 3) var series4 = require('./routes/series4');
+  var camera_internal = require('./routes/camera_internal');
+  if (jumpers.extn) var camera_external = require('./routes/camera_external');
+  var notifications = require('./routes/notifications');
+  var settings = require('./routes/settings');
+  var overview_api = require('./routes/overview_api');
+  var hosts_api = require('./routes/hosts_api');
+  var camera_api = require('./routes/camera_api');
+  var monitor_api = require('./routes/monitor_api');
+  var contact = require('./routes/contact');
 
-app.use(cors());
-app.options('*', cors());
+  if (jumpers.mode == 0) var elv_polling = require('./elv_polling');
+  if (jumpers.mode == 1) var elvp_polling = require('./elvp_polling');
+  if (jumpers.mode == 2) var series3_polling = require('./series3_polling');
+  if (jumpers.mode == 3) var series4_polling = require('./series4_polling');
+  if (jumpers.cams) var cams_polling = require('./cams_polling');
+  if (jumpers.aura) var aura_polling = require('./aura_polling')
+  if (jumpers.firefly) var firefly = require('./firefly');
+  var alarms_polling = require('./alarms_polling');
+  var hostdiscovery = require('./hostdiscovery');
 
-app.use(compression())
+  var app = express();
 
-var admins = { 'username': { password: 'password' } };
+  app.use(cors());
+  app.options('*', cors());
 
-// app.use(function (req, res, next) {
-//   var user = auth(req);
-//   if (!user || !admins[user.name] || admins[user.name].password !== user.pass) {
-//     res.set('WWW-Authenticate', 'Basic realm="example"');
-//     return res.status(401).send();
-//   }
-//   return next();
-// });
+  app.use(compression())
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+  var admins = { 'username': { password: 'password' } };
 
-// uncomment after placing favicon in /public
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+  // app.use(function (req, res, next) {
+  //   var user = auth(req);
+  //   if (!user || !admins[user.name] || admins[user.name].password !== user.pass) {
+  //     res.set('WWW-Authenticate', 'Basic realm="example"');
+  //     return res.status(401).send();
+  //   }
+  //   return next();
+  // });
 
-// Add firefly to request
-app.use('*', (req, res, next) => {
-  if(jumpers.firefly)
-  res.locals.firefly = firefly;
-  next();
-});
+  // view engine setup
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'pug');
 
-app.use('/', dashboard);
-app.use('/dashboard', chamber);
-app.use('/chamber', chamber);
+  // uncomment after placing favicon in /public
+  app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+  app.use(logger('dev'));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(cookieParser());
+  app.use(express.static(path.join(__dirname, 'public')));
 
-if (jumpers.mode == 0) app.use('/monitor', elv);
-if (jumpers.mode == 1) app.use('/monitor', elvp);
-if (jumpers.mode == 2) app.use('/monitor', series3);
-if (jumpers.mode == 3) app.use('/monitor', series4);
+  // Add firefly to request
+  app.use('*', (req, res, next) => {
+    if(jumpers.firefly)
+      res.locals.firefly = firefly;
+    next();
+  });
 
-app.use('/camera_internal', camera_internal);
-if (jumpers.extn) app.use('/camera_external', camera_external);
-app.use('/notifications', notifications);
-app.use('/settings', settings);
-app.use('/api/overview', overview_api);
-app.use('/api/hosts', hosts_api);
-app.use('/api/monitor', monitor_api);
-app.use('/api/camera', camera_api);
-app.use('/contact', contact);
+  app.use('/', dashboard);
+  app.use('/dashboard', chamber);
+  app.use('/chamber', chamber);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+  if (jumpers.mode == 0) app.use('/monitor', elv);
+  if (jumpers.mode == 1) app.use('/monitor', elvp);
+  if (jumpers.mode == 2) app.use('/monitor', series3);
+  if (jumpers.mode == 3) app.use('/monitor', series4);
 
-// error handlers
+  app.use('/camera_internal', camera_internal);
+  if (jumpers.extn) app.use('/camera_external', camera_external);
+  app.use('/notifications', notifications);
+  app.use('/settings', settings);
+  app.use('/api/overview', overview_api);
+  app.use('/api/hosts', hosts_api);
+  app.use('/api/monitor', monitor_api);
+  app.use('/api/camera', camera_api);
+  app.use('/contact', contact);
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
+  // catch 404 and forward to error handler
+  app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+  });
+
+  // error handlers
+
+  // development error handler
+  // will print stacktrace
+  if (app.get('env') === 'development') {
+    app.use(function (err, req, res, next) {
+      res.status(err.status || 500);
+      res.render('error', {
+        error: err
+      });
+    });
+  }
+
+  // production error handler
+  // no stacktraces leaked to user
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
-      error: err
+      error: {}
     });
   });
+
+  module.exports = app;
 }
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    error: {}
-  });
-});
-
-module.exports = app;

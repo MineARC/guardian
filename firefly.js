@@ -1,8 +1,7 @@
-var fs = require('fs');
 var mqtt = require('mqtt');
-var db = require('./database');
 var jumpers = require('./jumpers');
 if (jumpers.cams) var cams_polling = require('./cams_polling');
+var exports = module.exports;
 
 var client = mqtt.connect('mqtt://localhost');
 
@@ -50,14 +49,13 @@ function poll_firefly() {
     level_json.color = 'GREEN';
     level_json.led_state = 'BACKWARD';
     level_json.train = 2;
-    exports.color = 'Green'
-    exports.state = 'Follow'
-
+    exports.color = 'Green';
+    exports.state = 'Follow';
   } else {
     level_json.color = 'GREEN';
     level_json.led_state = 'ON';
-    exports.color = 'Green'
-    exports.state = 'On'
+    exports.color = 'Green';
+    exports.state = 'On';
   }
 
   client.publish('firefly/emergency', JSON.stringify(publish_json));
