@@ -32,7 +32,7 @@ fs.readFile('/boot/sitename', 'utf8', function (err, contents) {
     exports.sitename = contents.trim();
 });
 
-fs.exists('/boot/firefly', 'utf8', function (exists) {
+fs.exists('/boot/firefly', function (exists) {
     console.log('firefly: ' + exists);
     exports.firefly = exists;
 });
