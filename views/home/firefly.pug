@@ -2,6 +2,10 @@
   div.col-xs-12.items
     table.table#table-firefly
       tr
+        tr.row-name Management
+        td.table-right.row-info
+          a(href='//'+window.location.hostname+':8080/') Link
+      tr
         td.row-name State
         td.table-right.row-info= firefly.state
       tr
