@@ -1,9 +1,10 @@
 var mqtt = require('mqtt');
 var jumpers = require('./jumpers');
 if (jumpers.cams) var cams_polling = require('./cams_polling');
+if (jumpers.mode == 3) var series4_polling = require('./series4_polling');
 var exports = module.exports;
 
-var client = mqtt.connect('mqtt://localhost');
+var client = mqtt.connect('mqtt://172.17.0.1');
 
 client.on('connect', function() {
   client.subscribe('firefly/emergency', function(err) {
@@ -13,32 +14,22 @@ client.on('connect', function() {
   });
 });
 
-client.on('message', function(topic, message) {
-  // console.log(message.toString());
-});
-
-level_json = {
-  'color': 'GREEN',
-  'led_state': 'ON',
-  'on_time': 5,
-  'off_time': 5,
-  'train': 2
-};
-
-port_json = {
-  'level1': level_json,
-  'level2': level_json,
-  'level3': level_json,
-  'level4': level_json,
-  'level5': level_json,
-  'level6': level_json
-};
+client.on('message', function(topic, message) {});
 
 publish_json = {
-  'port1': port_json,
-  'port2': port_json,
-  'port3': port_json,
-  'port4': port_json
+  'color': 'GREEN',
+  'led_state': 'ON',
+  'on_time': 20,
+  'off_time': 20,
+  'train': 1
+};
+
+last_json = {
+  'color': 'GREEN',
+  'led_state': 'OFF',
+  'on_time': 300,
+  'off_time': 200,
+  'train': 10
 };
 
 setInterval(poll_firefly, 10000);
@@ -46,17 +37,30 @@ poll_firefly();
 
 function poll_firefly() {
   if (jumpers.cams && cams_polling.data.occupied) {
-    level_json.color = 'GREEN';
-    level_json.led_state = 'BACKWARD';
-    level_json.train = 2;
+    publish_json.color = 'GREEN';
+    publish_json.led_state = 'BACKWARD';
     exports.color = 'Green';
     exports.state = 'Follow';
+  } else if (jumpers.mode == 3 && series4_polling.data.mode == 'Emergency') {
+    publish_json.color = 'GREEN';
+    publish_json.led_state = 'BACKWARD';
+    exports.color = 'Green';
+    exports.state = 'Follow';
+    // } else if (alarm) {
+    //   publish_json.color = 'RED';
+    //   publish_json.led_state = 'STROBE';
+    //   exports.color = 'Red';
+    //   exports.state = 'Strobe';
   } else {
-    level_json.color = 'GREEN';
-    level_json.led_state = 'ON';
+    publish_json.color = 'GREEN';
+    publish_json.led_state = 'ON';
     exports.color = 'Green';
     exports.state = 'On';
   }
 
-  client.publish('firefly/emergency', JSON.stringify(publish_json));
+  if (JSON.stringify(publish_json).localeCompare(JSON.stringify(last_json)) !=
+      0) {
+    last_json = JSON.parse(JSON.stringify(publish_json));
+    client.publish('firefly/emergency', JSON.stringify(publish_json));
+  }
 }
