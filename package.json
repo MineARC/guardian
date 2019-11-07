@@ -3,7 +3,7 @@
   "version": "0.0.38",
   "auto-updater": {
     "repo": "MineARC/guardian",
-    "branch": "firefly"
+    "branch": "master"
   },
   "private": false,
   "scripts": {
