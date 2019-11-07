@@ -32,6 +32,12 @@ fs.readFile('/boot/sitename', 'utf8', function (err, contents) {
     exports.sitename = contents.trim();
 });
 
+fs.exists('/boot/firefly', function (exists) {
+    console.log('firefly: ' + exists);
+    exports.firefly = exists;
+});
+
+
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
 exports.extn = extn_jumper;
