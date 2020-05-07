@@ -30,6 +30,7 @@ var series4_alarms = {
   'CO2 fan 2 has failed on Fan board 1': { state: false, type: 'series4' },
   'CO fan has failed on Fan board 1': { state: false, type: 'series4' },
   'Lighting has failed on Fan board 1': { state: false, type: 'series4' },
+  'Lightining has failed on Fan board 1': { state: false, type: 'series4' },
   'Siren has failed on Fan board 1': { state: false, type: 'series4' },
   'Green strobe light has failed on Fan board 1': { state: false, type: 'series4' },
   'Red strobe light has failed on Fan board 1': { state: false, type: 'series4' },

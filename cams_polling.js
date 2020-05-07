@@ -1,4 +1,5 @@
 var rpio = require('rpio');
+var jumpers = require('./jumpers');
 var db = require('./database');
 
 var occupied_pin = 31;
@@ -15,10 +16,17 @@ db.getState('cams', function (err, data) {
   }
 });
 
-var cams_alarms = {
-  'Air Leak': { state: false, type: 'cams' },
-  'Air Quality': { state: false, type: 'cams' }
-}
+// if(jumpers.disable_air_leak) {
+//   var cams_alarms = {
+//     'Air Quality': { state: false, type: 'cams' }
+//   }
+// }
+// else {
+  var cams_alarms = {
+    'Air Leak': { state: false, type: 'cams' },
+    'Air Quality': { state: false, type: 'cams' }
+  }
+// }
 
 var cams_data = {
   occupied: false,
@@ -71,7 +79,8 @@ function update() {
       cams_data.rate = 1;
   }
 
-  cams_alarms['Air Leak'].state = (!cams_data.occupied && cams_data.rate >= 0.15);
+  if(!jumpers.disable_air_leak)
+    cams_alarms['Air Leak'].state = (!cams_data.occupied && cams_data.rate >= 0.15);
   cams_alarms['Air Quality'].state = (cams_data.occupied && cams_data.solenoid);
 
   db.setState('cams', cams_data, function (err, result) {

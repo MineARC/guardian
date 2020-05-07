@@ -37,6 +37,10 @@ fs.exists('/boot/firefly', function (exists) {
     exports.firefly = exists;
 });
 
+fs.exists('/boot/disable_air_leak', function (exists) {
+    console.log('disable_air_leak: ' + exists);
+    exports.disable_air_leak = exists;
+});
 
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
