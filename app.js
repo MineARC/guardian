@@ -17,55 +17,55 @@ var autoupdater = new AutoUpdater({
 });
 
 // State the events
-autoupdater.on('git-clone', function() {
+autoupdater.on('git-clone', function () {
   console.log(
-      'You have a clone of the repository. Use \'git pull\' to be up-to-date');
+    'You have a clone of the repository. Use \'git pull\' to be up-to-date');
 });
-autoupdater.on('check.up-to-date', function(v) {
+autoupdater.on('check.up-to-date', function (v) {
   console.info('You have the latest version: ' + v);
 });
-autoupdater.on('check.out-dated', function(v_old, v) {
+autoupdater.on('check.out-dated', function (v_old, v) {
   console.warn('Your version is outdated. ' + v_old + ' of ' + v);
   autoupdater.fire('download-update');  // If autoupdate: false, you'll have to
-                                        // do this manually.
+  // do this manually.
   // Maybe ask if the'd like to download the update.
 });
-autoupdater.on('update.downloaded', function() {
+autoupdater.on('update.downloaded', function () {
   console.log('Update downloaded and ready for install');
   autoupdater.fire(
-      'extract');  // If autoupdate: false, you'll have to do this manually.
+    'extract');  // If autoupdate: false, you'll have to do this manually.
 });
-autoupdater.on('update.not-installed', function() {
+autoupdater.on('update.not-installed', function () {
   console.log('The Update was already in your folder! It\'s read for install');
   autoupdater.fire(
-      'extract');  // If autoupdate: false, you'll have to do this manually.
+    'extract');  // If autoupdate: false, you'll have to do this manually.
 });
-autoupdater.on('update.extracted', function() {
+autoupdater.on('update.extracted', function () {
   console.log('Update extracted successfully!');
   console.warn('RESTART THE APP!');
   process.exit();
 });
-autoupdater.on('download.start', function(name) {
+autoupdater.on('download.start', function (name) {
   console.log('Starting downloading: ' + name);
 });
-autoupdater.on('download.progress', function(name, perc) {
+autoupdater.on('download.progress', function (name, perc) {
   process.stdout.write('Downloading ' + perc + '% \033[0G');
 });
-autoupdater.on('download.end', function(name) {
+autoupdater.on('download.end', function (name) {
   console.log('Downloaded ' + name);
 });
-autoupdater.on('download.error', function(err) {
+autoupdater.on('download.error', function (err) {
   console.error('Error when downloading: ' + err);
 });
-autoupdater.on('end', function() {
+autoupdater.on('end', function () {
   console.log('The app is ready to function');
 });
-autoupdater.on('error', function(name, e) {
+autoupdater.on('error', function (name, e) {
   console.error(name, e);
 });
 
 // Start checking
-require('dns').resolve('github.com', function(err) {
+require('dns').resolve('github.com', function (err) {
   if (!err) autoupdater.fire('check');
 });
 
@@ -112,7 +112,7 @@ function guardian() {
 
   app.use(compression())
 
-  var admins = {'username': {password: 'password'}};
+  var admins = { 'username': { password: 'password' } };
 
   // app.use(function (req, res, next) {
   //   var user = auth(req);
@@ -132,7 +132,7 @@ function guardian() {
   app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
   app.use(logger('dev'));
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: false}));
+  app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, 'public')));
 
@@ -141,6 +141,32 @@ function guardian() {
     if (jumpers.firefly) res.locals.firefly = firefly;
     next();
   });
+
+  // Add aura to request
+  app.use('*', (req, res, next) => {
+    // Add aura
+    res.locals.aura =
+    {
+      Temp: { gas: 'Temp', color: '#C5E3BF', title:'Apparent Temperature', unit: 'C', decimal: 1, range: { min: 0, max: 50 }, warning: { min: 10, max: 35 }, alarm: { min: 0, max: 40 } },
+      Temp_F: { gas: 'Temp_F', color: '#C5E3BF', title:'Apparent Temperature', unit: 'F', decimal: 1, range: { min: 32, max: 122 }, warning: { min: 50, max: 95 }, alarm: { min: 32, max: 104 } },
+      O2: { gas: 'O2', color: '#C5E3BF', title:'Oxygen', unit: '%', decimal: 1, range: { min: 17.5, max: 25 }, warning: { min: 19.5, max: 22 }, alarm: { min: 18.5, max: 23 } },
+      CO2: { gas: 'CO2', color: '#C5E3BF', title:'Carbon Dioxide', unit: '%', decimal: 2, range: { min: 0, max: 2 }, warning: { min: -1, max: 0.5 }, alarm: { min: -1, max: 1 } },
+      CO: { gas: 'CO', color: '#C5E3BF', title:'Carbon Monoxide', unit: 'ppm', decimal: 1, range: { min: 0, max: 50 }, warning: { min: -1, max: 15 }, alarm: { min: -1, max: 25 } },
+      H2S: { gas: 'H2S', color: '#C5E3BF', title:'Hydrogen Sulfide', unit: 'ppm', decimal: 1, range: { min: 0, max: 20 }, warning: { min: -1, max: 2 }, alarm: { min: -1, max: 10 } },
+      NH3: { gas: 'NH3', color: '#C5E3BF', title:'Ammonia', unit: 'ppm', decimal: 1, range: { min: 0, max: 100 }, warning: { min: -1, max: 25 }, alarm: { min: -1, max: 50 } },
+      Cl: { gas: 'Cl', color: '#C5E3BF', title:'Chlorine', unit: 'ppm', decimal: 1, range: { min: 0, max: 2 }, warning: { min: -1, max: 0.5 }, alarm: { min: -1, max: 1 } },
+      NO: { gas: 'NO', color: '#C5E3BF', title:'Nitrogen Monoxide', unit: 'ppm', decimal: 1, range: { min: 0, max: 50 }, warning: { min: -1, max: 12 }, alarm: { min: -1, max: 25 } },
+      NO2: { gas: 'NO2', color: '#C5E3BF', title:'Nitrogen Dioxide', unit: 'ppm', decimal: 1, range: { min: 0, max: 10 }, warning: { min: -1, max: 1 }, alarm: { min: -1, max: 5 } },
+      CH4: { gas: 'CH4', color: '#C5E3BF', title:'Methane', unit: 'ppm', decimal: 1, range: { min: 0, max: 100 }, warning: { min: -1, max: 20 }, alarm: { min: -1, max: 40 } },
+      SO2: { gas: 'SO2', color: '#C5E3BF', title:'Sulfur Dioxide', unit: 'ppm', decimal: 1, range: { min: 0, max: 25 }, warning: { min: -1, max: 2 }, alarm: { min: -1, max: 5 } },
+      HF: { gas: 'HF', color: '#C5E3BF', title:'Hydrogen Fluride', unit: 'ppm', decimal: 1, range: { min: 0, max: 10 }, warning: { min: -1, max: 1.5 }, alarm: { min: -1, max: 3 } },
+      ClO2: { gas: 'ClO2', color: '#C5E3BF', title:'Chlorine Dioxide', unit: 'ppm', decimal: 1, range: { min: 0, max: 10 }, warning: { min: -1, max: 1.5 }, alarm: { min: -1, max: 3 } },
+      HCL: { gas: 'HCL', color: '#C5E3BF', title:'Hydrogen Chloride', unit: 'ppm', decimal: 1, range: { min: 0, max: 10 }, warning: { min: -1, max: 1.5 }, alarm: { min: -1, max: 3 } }
+    };
+
+    next();
+  });
+
 
   app.use('/', dashboard);
   app.use('/dashboard', chamber);
@@ -162,7 +188,7 @@ function guardian() {
   app.use('/contact', contact);
 
   // catch 404 and forward to error handler
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -173,17 +199,17 @@ function guardian() {
   // development error handler
   // will print stacktrace
   if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
       res.status(err.status || 500);
-      res.render('error', {error: err});
+      res.render('error', { error: err });
     });
   }
 
   // production error handler
   // no stacktraces leaked to user
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {error: {}});
+    res.render('error', { error: {} });
   });
 
   module.exports = app;

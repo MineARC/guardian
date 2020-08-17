@@ -15,6 +15,7 @@ router.get('/', function (req, res, next) {
   data['alias'] = alias.alias;
   data['localize'] = jumpers.localize;
   data['hosts'] = hostdiscovery.hosts_data;
+  data['aura_params'] = res.locals.aura;
   if (jumpers.cams) {
     data['cams'] = cams_polling.data;
     for (var key in cams_polling.alarms) {
@@ -26,6 +27,9 @@ router.get('/', function (req, res, next) {
     for (var key in aura_polling.alarms) {
       data.alarms[key] = aura_polling.alarms[key];
     }
+  }
+  if (jumpers.aura && aura_polling.data_ext && aura_polling.hasExt) {
+    data['aura_ext'] = aura_polling.data_ext;
   }
   if (jumpers.extn) data['extn'] = true;
   if (jumpers.mode == 0) {

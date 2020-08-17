@@ -21,7 +21,6 @@ setInterval(function () {
   }
 }, 1000);
 
-
 function getMostRecentFileName(next) {
   var internal_image = (' ' + exports.data.internal).slice(1);
   var external_image = (' ' + exports.data.external).slice(1);

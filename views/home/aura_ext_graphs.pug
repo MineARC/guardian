@@ -2,19 +2,19 @@
   .col-xs-12
     .panel.panel-default
       .panel-heading
-        | AURA-FX GAS
+        | AURA-FX EXTERNAL GAS
       .panel-body
         .row.text-center
-          each gas, key in aura
+          each gas, key in aura_ext
             if(gas.isRecent && key != 'Temp' && key != 'Temp_F')
               .col-sm-4
                 .item
                   .pos-rlt
                     .item-overlay.bg-black-opacity.r.r-2x.r.r-2x(style='z-index: 10;')
                       .center.text-center.m-t-n.w-full
-                        a(data-toggle="modal" data-target="#aura_" + key + "_modal")
+                        a(data-toggle="modal" data-target="#aura_ext_" + key + "_modal")
                           i.fa.fa-3x.fa-line-chart.text-white
-                    .inline(id='readout-' + key + '-aura')
+                    .inline(id='readout-' + key + '-aura-ext')
                       div
                         =key
                       .easyPieChart#chart1(ui-jq='easyPieChart', ui-options="{\
