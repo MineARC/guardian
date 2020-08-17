@@ -153,7 +153,7 @@ function poll_aura() {
   for (var gas in aura_ext_data) {
     aura_ext_data[gas].isRecent = timestamps_ext[gas] >= Date.now() - 120000;
   }
-  exports.hasExt = Object.values(aura_ext_data).reduce((acc, cur) => { return cur.isRecent || acc; });
+  exports.hasExt = Object.keys(aura_ext_data).reduce((acc, cur) => { return aura_ext_data[cur].isRecent || acc; });
   updateAlarms();
   updateHistory();
 }

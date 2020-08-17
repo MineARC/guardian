@@ -3,7 +3,7 @@
   "version": "0.0.43",
   "auto-updater": {
     "repo": "MineARC/guardian",
-    "branch": "master"
+    "branch": "aura"
   },
   "private": false,
   "scripts": {
