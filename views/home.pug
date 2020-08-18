@@ -99,7 +99,7 @@ block append content
             a(href='#', data-toggle='tab', data-target='#tab_cams') CAMS
         if(firefly)
           li
-            a(href='#', data-toggle='tab', data-target='#tab_firefly') FIREFLY
+            a(href='#', data-toggle='tab', data-target='#tab_firefly') GUARDIAN LIGHTING
 
       .tab-content
         #tab_camera.tab-pane.active
@@ -118,6 +118,9 @@ block append content
         if(aura)
           #tab_aura.tab-pane
             include home/aura.pug
+        if(aura_ext)
+          #tab_aura_ext.tab-pane
+            include home/aura_ext.pug
         if(cams)
           #tab_cams.tab-pane
             include home/cams.pug
