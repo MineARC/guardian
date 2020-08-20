@@ -20,6 +20,7 @@ router.get('/', function (req, res, next) {
   }
   if (jumpers.aura) {
     data['aura'] = aura_polling.data;
+    data['aura_ext'] = aura_polling.data_ext;
     for (var key in aura_polling.alarms) {
       data.alarms[key] = aura_polling.alarms[key];
     }
@@ -55,6 +56,7 @@ router.get('/history', function (req, res, next) {
   var history = {};
   if (jumpers.cams) history['cams'] = cams_polling.history;
   if (jumpers.aura) history['aura'] = aura_polling.history;
+  if (jumpers.aura) history['aura_ext'] = aura_polling.history_ext;
   if (jumpers.mode == 0) history['elv'] = elv_polling.history;
   if (jumpers.mode == 1) history['elvp'] = elvp_polling.history;
   if (jumpers.mode == 2) history['series3'] = series3_polling.history;
