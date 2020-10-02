@@ -7,7 +7,7 @@ $(document).ready(function ($) {
   update_external_image();
 
   function update_external_image() {
-    if (timestamp + 1000 <= Date.now()) {
+    if ($('#tab_camera').hasClass('active') && timestamp + 1000 <= Date.now()) {
       external_showing.attr('src', '/api/camera/external?' + Math.floor(Date.now() / 1000));
       clearTimeout(timeout);
       timeout = setTimeout(update_external_image, 20000);

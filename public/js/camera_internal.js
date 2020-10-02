@@ -7,7 +7,7 @@ $(document).ready(function ($) {
   update_internal_image();
 
   function update_internal_image() {
-    if (timestamp + 1000 <= Date.now()) {
+    if ($('#tab_camera').hasClass('active') && timestamp + 1000 <= Date.now()) {
       internal_showing.attr('src', '/api/camera/internal?' + Math.floor(Date.now() / 1000));
       clearTimeout(timeout);
       timeout = setTimeout(update_internal_image, 20000);
