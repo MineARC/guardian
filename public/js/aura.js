@@ -65,12 +65,12 @@ for (aura in aura_params) {
   });
 
 
-  $("#aura_" + aura.gas + "_modal").on('shown.bs.modal', function () {
-    aura_chart[aura.gas].render();
+  $("#aura_" + aura.gas + "_modal").on('shown.bs.modal', null, aura.gas, function (e) {
+    aura_chart[e.data].render();
   });
 
-  $("#aura_ext_" + aura.gas + "_modal").on('shown.bs.modal', function () {
-    aura_ext_chart[aura.gas].render();
+  $("#aura_ext_" + aura.gas + "_modal").on('shown.bs.modal', null, aura.gas, function (e) {
+    aura_ext_chart[e.data].render();
   });
 
 }
