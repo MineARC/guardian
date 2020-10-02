@@ -1,6 +1,9 @@
 .row
   div.col-xs-12.items
     table.table#table-aura
+      tr
+        td.row-name Version
+        td.table-right.row-info= aura_version
       each gas, key in aura
         if(gas.isRecent)
           tr(class=key)

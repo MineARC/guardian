@@ -164,6 +164,7 @@ function processPage(data) {
   // Create an object to store the status
   var gas_name = '';
   var gas_value = '';
+  exports.version = jq('p').first().text().split(' = ')[1];
   var major = parseInt(jq('p').first().text().split('=')[1].split('.')[0]);
   var minor = parseInt(jq('p').first().text().split('=')[1].split('.')[1]);
 
@@ -189,6 +190,8 @@ function processPage(data) {
     });
   }
   else if (major == 2 && minor >= 25) {
+    exports.version_ext = jq('p').first().text().split(' = ')[1];
+
     jq('tr').each(function (index, element) {
       gas_name = jq(element).find('td').first().text().split(' ')[0];
       gas_value = jq(element).find('td').first().next().text();
@@ -225,6 +228,7 @@ function processPageExt(data) {
   // Create an object to store the status
   var gas_name = '';
   var gas_value = '';
+  exports.version_ext = jq('p').first().text().split(' = ')[1];
   var major = parseInt(jq('p').first().text().split('=')[1].split('.')[0]);
   var minor = parseInt(jq('p').first().text().split('=')[1].split('.')[1]);
 
