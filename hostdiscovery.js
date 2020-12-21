@@ -110,6 +110,9 @@ function poll_nmap() {
                   case 'guardian-1638':
                     element.ip = '1638.minearcguardian.com';
                     break;
+                  case 'guardian-1856':
+                    element.ip = '1856.minearcguardian.com';
+                    break;
                   case 'guardian-1002':
                     element.ip = 'aus-s4.minearcguardian.com';
                     break;
