@@ -4,26 +4,24 @@ block title
   span#alias= alias
            
 block append content
+  each aura in aura_params
+    .modal.no-fade(id='aura_' + aura.gas + '_modal' role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph(id='graph-aura-' + aura.gas)
+            
+    .modal.no-fade(id='aura_ext_' + aura.gas + '_modal' role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            .graph(id='graph-aura-ext-' + aura.gas)
+
   #aura_1_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
         .modal-body
           .graph#graph-aura-1
-  #aura_2_modal.modal.no-fade(role='dialog')
-    .modal-dialog
-      .modal-content
-        .modal-body
-          .graph#graph-aura-2
-  #aura_3_modal.modal.no-fade(role='dialog')
-    .modal-dialog
-      .modal-content
-        .modal-body
-          .graph#graph-aura-3
-  #aura_4_modal.modal.no-fade(role='dialog')
-    .modal-dialog
-      .modal-content
-        .modal-body
-          .graph#graph-aura-4
   #temp_1_modal.modal.no-fade(role='dialog')
     .modal-dialog
       .modal-content
@@ -93,9 +91,15 @@ block append content
         if(aura)
           li
             a(href='#', data-toggle='tab', data-target='#tab_aura') AURA
+        if(aura_ext)
+          li
+            a(href='#', data-toggle='tab', data-target='#tab_aura_ext') AURA EXTERNAL
         if(cams)
           li
             a(href='#', data-toggle='tab', data-target='#tab_cams') CAMS
+        if(firefly)
+          li
+            a(href='#', data-toggle='tab', data-target='#tab_firefly') GUARDIAN LIGHTING
 
       .tab-content
         #tab_camera.tab-pane
@@ -114,12 +118,20 @@ block append content
         if(aura)
           #tab_aura.tab-pane
             include home/aura.pug
+        if(aura_ext)
+          #tab_aura_ext.tab-pane
+            include home/aura_ext.pug
         if(cams)
           #tab_cams.tab-pane
             include home/cams.pug
+        if(firefly)
+          #tab_firefly.tab-pane
+            include home/firefly.pug
 
     if(aura)
       include home/aura_graphs.pug
+    if(aura_ext)
+      include home/aura_ext_graphs.pug
     if(elv)
       include home/elv_graphs.pug
     if(elvp)
@@ -151,6 +163,8 @@ block append alerts
 block prepend styles
 
 block prepend scripts
+  script.
+    var aura_params = !{JSON.stringify(aura_params)};
   script(src='/js/canvasjs.min.js')
   script(src='/js/home.js')
   script(src='/js/camera_internal.js')

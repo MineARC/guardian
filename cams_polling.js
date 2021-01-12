@@ -1,4 +1,5 @@
 var rpio = require('rpio');
+var jumpers = require('./jumpers');
 var db = require('./database');
 
 var occupied_pin = 31;

@@ -1,0 +1,13 @@
+.row
+  div.col-xs-12.items
+    table.table#table-firefly
+      tr
+        td.row-name Management
+        td.table-right.row-info
+          a(href='/' onclick='javascript:event.target.port=8080') Link
+      tr
+        td.row-name State
+        td.table-right.row-info= firefly.state
+      tr
+        td.row-name Color
+        td.table-right.row-info= firefly.color

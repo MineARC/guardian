@@ -32,6 +32,16 @@ fs.readFile('/boot/sitename', 'utf8', function (err, contents) {
     exports.sitename = contents.trim();
 });
 
+fs.exists('/boot/firefly', function (exists) {
+    console.log('firefly: ' + exists);
+    exports.firefly = exists;
+});
+
+fs.exists('/boot/disable_air_leak', function (exists) {
+    console.log('disable_air_leak: ' + exists);
+    exports.disable_air_leak = exists;
+});
+
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
 exports.extn = extn_jumper;

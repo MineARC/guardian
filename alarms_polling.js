@@ -51,7 +51,7 @@ function send_mail(fromName, fromAddress, to, subject, text, callback) {
     // authMethod: 'LOGIN',
     auth: {
       user: 'Guardian@minearc.com.au',
-      pass: 'Guardian'
+      pass: '17pGtXqVhysbcDdb'
     },
     logger: true,
     debug: true

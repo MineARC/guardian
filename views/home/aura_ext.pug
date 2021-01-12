@@ -1,0 +1,11 @@
+.row
+  div.col-xs-12.items
+    table.table#table-aura-ext
+      tr
+        td.row-name Version
+        td.table-right.row-info= aura_version_ext
+      each gas, key in aura_ext
+        if(gas.isRecent)
+          tr(class=key)
+            td.row-name= key
+            td.table-right.row-info #{gas.value} #{gas.unit}
