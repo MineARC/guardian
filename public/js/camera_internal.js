@@ -1,20 +1,20 @@
 $(document).ready(function ($) {
   var internal_showing = $('#internal');
   var timeout;
-  var timestamp = Date.now();
+  var timestamp = Date.now() - 10001;
   $('#internal').bind('load', update_internal_image);
 
   update_internal_image();
 
   function update_internal_image() {
-    if ($('#tab_camera').hasClass('active') && timestamp + 1000 <= Date.now()) {
-      internal_showing.attr('src', '/api/camera/internal?' + Math.floor(Date.now() / 1000));
+    if ($('#cameraEnable').hasClass('active') && timestamp + 10000 <= Date.now()) {
+      internal_showing.attr('src', '/api/camera/internal?' + Math.floor(Date.now() / 10000));
       clearTimeout(timeout);
       timeout = setTimeout(update_internal_image, 20000);
       timestamp = Date.now();
     }
     else {
-      setTimeout(update_internal_image, Date.now - timestamp + 1000);
+      setTimeout(update_internal_image, Date.now - timestamp + 10000);
     }
   }
 });

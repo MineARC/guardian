@@ -65,19 +65,19 @@ block append content
   .wrapper-md
     .tab-container
       ul.nav.nav-tabs
-        li.active
+        li#cameraEnable
           a(href='#', data-toggle='tab', data-target='#tab_camera') CAMERA
         if(elv)
-          li
+          li.active
             a(href='#', data-toggle='tab', data-target='#tab_elv') ELV
         if(elvp)
-          li
+          li.active
             a(href='#', data-toggle='tab', data-target='#tab_elvp') ELVP
         if(series3)
-          li
+          li.active
             a(href='#', data-toggle='tab', data-target='#tab_series3') SERIES III
         if(series4)
-          li
+          li.active
             a(href='#', data-toggle='tab', data-target='#tab_series4') SERIES IV
           if(series4.fan_board_1)
             li
@@ -102,16 +102,16 @@ block append content
             a(href='#', data-toggle='tab', data-target='#tab_firefly') GUARDIAN LIGHTING
 
       .tab-content
-        #tab_camera.tab-pane.active
+        #tab_camera.tab-pane
           include home/camera.pug
         if(elv)
-          #tab_elv.tab-pane
+          #tab_elv.tab-pane.active
             include home/elv.pug
         if(elvp)
-          #tab_elvp.tab-pane
+          #tab_elvp.tab-pane.active
             include home/elvp.pug
         if(series3)
-          #tab_series3.tab-pane
+          #tab_series3.tab-pane.active
             include home/series3.pug
         if(series4)
           include home/series4.pug

@@ -1,9 +1,9 @@
 {
   "name": "minearc-guardian",
-  "version": "0.0.46",
+  "version": "0.0.35",
   "auto-updater": {
     "repo": "MineARC/guardian",
-    "branch": "master"
+    "branch": "4g"
   },
   "private": false,
   "scripts": {
