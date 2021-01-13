@@ -3,7 +3,7 @@
   "version": "0.0.46",
   "auto-updater": {
     "repo": "MineARC/guardian",
-    "branch": "ubuntu"
+    "branch": "battmon-ubuntu"
   },
   "private": false,
   "scripts": {

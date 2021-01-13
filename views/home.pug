@@ -127,6 +127,9 @@ block append content
         if(firefly)
           #tab_firefly.tab-pane
             include home/firefly.pug
+        if(battmon)
+          #tab_battmon.tab-pane
+            include home/battmon.pug
 
     if(aura)
       include home/aura_graphs.pug

@@ -46,3 +46,11 @@ exports.cams = cams_jumper;
 exports.aura = aura_jumper;
 exports.extn = extn_jumper;
 exports.mode = mode_jumper;
+
+if (fs.existsSync('/boot/guardian/battmon_style')) {
+  if (fs.readFileSync('/boot/guardian/battmon_style', 'utf8').trim() == 'standalone') {
+    console.log('mode: 4');
+    exports.mode = 4;
+  }
+  exports.battmon_strings = fs.readFileSync('/boot/guardian/battmon_strings', 'utf8').trim();
+}  
