@@ -76,43 +76,43 @@ var timestamps_ext = {
 }
 
 var aura_data = {
-  Temp: { value: 0, isRecent: false },
-  Temp_F: { value: 0, isRecent: false },
-  Humid: { value: 0, isRecent: false },
-  Press: { value: 0, isRecent: false },
-  O2: { value: 0, isRecent: false },
-  CO2: { value: 0, isRecent: false },
-  CO: { value: 0, isRecent: false },
-  H2S: { value: 0, isRecent: false },
-  NH3: { value: 0, isRecent: false },
-  Cl: { value: 0, isRecent: false },
-  NO: { value: 0, isRecent: false },
-  NO2: { value: 0, isRecent: false },
-  CH4: { value: 0, isRecent: false },
-  SO2: { value: 0, isRecent: false },
-  HF: { value: 0, isRecent: false },
-  ClO2: { value: 0, isRecent: false },
-  HCL: { value: 0, isRecent: false },
+  Temp: { value: 0, isRecent: false, calibration: '' },
+  Temp_F: { value: 0, isRecent: false, calibration: '' },
+  Humid: { value: 0, isRecent: false, calibration: '' },
+  Press: { value: 0, isRecent: false, calibration: '' },
+  O2: { value: 0, isRecent: false, calibration: '' },
+  CO2: { value: 0, isRecent: false, calibration: '' },
+  CO: { value: 0, isRecent: false, calibration: '' },
+  H2S: { value: 0, isRecent: false, calibration: '' },
+  NH3: { value: 0, isRecent: false, calibration: '' },
+  Cl: { value: 0, isRecent: false, calibration: '' },
+  NO: { value: 0, isRecent: false, calibration: '' },
+  NO2: { value: 0, isRecent: false, calibration: '' },
+  CH4: { value: 0, isRecent: false, calibration: '' },
+  SO2: { value: 0, isRecent: false, calibration: '' },
+  HF: { value: 0, isRecent: false, calibration: '' },
+  ClO2: { value: 0, isRecent: false, calibration: '' },
+  HCL: { value: 0, isRecent: false, calibration: '' },
 };
 
 var aura_ext_data = {
-  Temp: { value: 0, isRecent: false },
-  Temp_F: { value: 0, isRecent: false },
-  Humid: { value: 0, isRecent: false },
-  Press: { value: 0, isRecent: false },
-  O2: { value: 0, isRecent: false },
-  CO2: { value: 0, isRecent: false },
-  CO: { value: 0, isRecent: false },
-  H2S: { value: 0, isRecent: false },
-  NH3: { value: 0, isRecent: false },
-  Cl: { value: 0, isRecent: false },
-  NO: { value: 0, isRecent: false },
-  NO2: { value: 0, isRecent: false },
-  CH4: { value: 0, isRecent: false },
-  SO2: { value: 0, isRecent: false },
-  HF: { value: 0, isRecent: false },
-  ClO2: { value: 0, isRecent: false },
-  HCL: { value: 0, isRecent: false },
+  Temp: { value: 0, isRecent: false, calibration: '' },
+  Temp_F: { value: 0, isRecent: false, calibration: '' },
+  Humid: { value: 0, isRecent: false, calibration: '' },
+  Press: { value: 0, isRecent: false, calibration: '' },
+  O2: { value: 0, isRecent: false, calibration: '' },
+  CO2: { value: 0, isRecent: false, calibration: '' },
+  CO: { value: 0, isRecent: false, calibration: '' },
+  H2S: { value: 0, isRecent: false, calibration: '' },
+  NH3: { value: 0, isRecent: false, calibration: '' },
+  Cl: { value: 0, isRecent: false, calibration: '' },
+  NO: { value: 0, isRecent: false, calibration: '' },
+  NO2: { value: 0, isRecent: false, calibration: '' },
+  CH4: { value: 0, isRecent: false, calibration: '' },
+  SO2: { value: 0, isRecent: false, calibration: '' },
+  HF: { value: 0, isRecent: false, calibration: '' },
+  ClO2: { value: 0, isRecent: false, calibration: '' },
+  HCL: { value: 0, isRecent: false, calibration: '' },
 };
 
 exports.data = aura_data;
@@ -164,6 +164,7 @@ function processPage(data) {
   // Create an object to store the status
   var gas_name = '';
   var gas_value = '';
+  var calibration = '';
   exports.version = jq('p').first().text().split(' = ')[1];
   var major = parseInt(jq('p').first().text().split('=')[1].split('.')[0]);
   var minor = parseInt(jq('p').first().text().split('=')[1].split('.')[1]);
@@ -195,16 +196,19 @@ function processPage(data) {
     jq('tr').each(function (index, element) {
       gas_name = jq(element).find('td').first().text().split(' ')[0];
       gas_value = jq(element).find('td').first().next().text();
-      position = jq(element).find('td').first().next().next().next().next().text();
+      calibration = jq(element).find('td').first().next().next().next().text();
+      var position = jq(element).find('td').first().next().next().next().next().text();
       if (position % 6 < 4) {
         if (gas_name in aura_data) {
           aura_data[gas_name].value = gas_value;
+          aura_data[gas_name].calibration = calibration;
           timestamps[gas_name] = Date.now();
         }
       }
       else {
         if (gas_name in aura_ext_data) {
           aura_ext_data[gas_name].value = gas_value;
+          aura_ext_data[gas_name].calibration = calibration;
           timestamps_ext[gas_name] = Date.now();
         }
       }
@@ -214,8 +218,10 @@ function processPage(data) {
     jq('tr').each(function (index, element) {
       gas_name = jq(element).find('td').first().text().split(' ')[0];
       gas_value = jq(element).find('td').first().next().text();
+      calibration = jq(element).find('td').first().next().next().next().text();
       if (gas_name in aura_data) {
         aura_data[gas_name].value = gas_value;
+        aura_data[gas_name].calibration = calibration;
         timestamps[gas_name] = Date.now();
       }
     });
