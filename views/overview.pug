@@ -12,15 +12,22 @@ block append content
             tr.row
               th.sorting.col-xs-3 Aposento
               th.sorting.col-xs-3 Alarmas
-              case localize
-                when 'us'
-                  th.sorting.col-xs-3 MAA Número
-                when 'za'
-                  th.sorting.col-xs-3 MAF Número
-                default
-                  th.sorting.col-xs-3 MA Número
-              th.sorting.col-xs-3 Dirección
-              th.sorting.col-xs-3 Tipo
+              //- case localize
+              //-   when 'us'
+              //-     th.sorting.col-xs-3 MAA Número
+              //-   when 'za'
+              //-     th.sorting.col-xs-3 MAF Número
+              //-   default
+              //-     th.sorting.col-xs-3 MA Número
+              //- th.sorting.col-xs-3 Dirección
+              //- th.sorting.col-xs-3 Tipo
+              th.sorting.col-xs-3 Modo 
+              th.sorting.col-xs-3 Strobe Green 
+              th.sorting.col-xs-3 Strobe Red 
+              th.sorting.col-xs-3 CO 
+              th.sorting.col-xs-3 Voltaje Inversor (V)
+              th.sorting.col-xs-3 Voltaje batería (V)
+              
           tbody
             if(hosts)
               each host in hosts
@@ -42,25 +49,36 @@ block append content
                           span.num_subs= host.alarms_total
                         ul.alert.alert-info.col-xs-12.dropdown-menu
                           | Todo Esta Bien
+                  //- td
+                  //-   = host.hostname.split('-')[1]
+                  //- td
+                  //-   = host.ip
+                  //- td
+                  //-   case host.type
+                  //-     when 0 
+                  //-       | ELV
+                  //-     when 1 
+                  //-       | ELVP
+                  //-     when 2 
+                  //-       | Series 3
+                  //-     when 3 
+                  //-       | Series 4
+                  //-     when 4
+                  //-       | Battery Box
+                  //-     default
+                  //-       | Unknown
                   td
-                    = host.hostname.split('-')[1]
+                    = host.mode
                   td
-                    = host.ip
+                    = host.strobe_green
                   td
-                    case host.type
-                      when 0 
-                        | ELV
-                      when 1 
-                        | ELVP
-                      when 2 
-                        | Series 3
-                      when 3 
-                        | Series 4
-                      when 4
-                        | Battery Box
-                      default
-                        | Unknown
-
+                    = host.strobe_red
+                  td
+                    = host.co
+                  td
+                    = host.inverter
+                  td
+                    = host.battery
 
 block append fleet
   if(hosts)

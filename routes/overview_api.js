@@ -55,6 +55,15 @@ router.get('/', function(req, res, next) {
   }
   data['alarms_total'] = alarms_total;
   data['alarms_active'] = alarms_active;
+
+  data['extras'] = {};
+  data['extras']['mode'] = series4_polling && series4_polling.data ? series4_polling.data.mode : false;
+  data['extras']['strobe_green'] = series4_polling && series4_polling.data && series4_polling.data.fan_board_1 && series4_polling.data.fan_board_1[5] ? series4_polling.data.fan_board_1[5].row_info > 0.05 : false;
+  data['extras']['strobe_red'] = series4_polling && series4_polling.data && series4_polling.data.fan_board_1 && series4_polling.data.fan_board_1[6] ? series4_polling.data.fan_board_1[6].row_info > 0.05 : false;
+  data['extras']['co'] = aura_polling && aura_polling.data && aura_polling.data.CO ? aura_polling.data.CO.value : false;
+  data['extras']['inverter'] = series4_polling && series4_polling.data && series4_polling.data.system_information && series4_polling.data.system_information[2] ? series4_polling.data.system_information[2].row_info : false;
+  data['extras']['battery'] = series4_polling && series4_polling.data && series4_polling.data.system_information && series4_polling.data.system_information[1] ? series4_polling.data.system_information[1].row_info : false;
+
   db.getEmails(function(err, emails) {
     if (err) {
       console.log(err);
