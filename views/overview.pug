@@ -10,23 +10,14 @@ block append content
         table#table-overview.table.dataTable.display(ui-jq='dataTable', ui-options='{ paging: false }', role='grid')
           thead
             tr.row
-              th.sorting.col-xs-3 Aposento
-              th.sorting.col-xs-3 Alarmas
-              //- case localize
-              //-   when 'us'
-              //-     th.sorting.col-xs-3 MAA Número
-              //-   when 'za'
-              //-     th.sorting.col-xs-3 MAF Número
-              //-   default
-              //-     th.sorting.col-xs-3 MA Número
-              //- th.sorting.col-xs-3 Dirección
-              //- th.sorting.col-xs-3 Tipo
-              th.sorting.col-xs-3 Modo 
-              th.sorting.col-xs-3 Luz Verde 
-              th.sorting.col-xs-3 Luz Roja 
-              th.sorting.col-xs-3 CO (ppm)
-              th.sorting.col-xs-3 Voltaje Inversor (V)
-              th.sorting.col-xs-3 Voltaje batería (V)
+              th.sorting.col-xs-2 Aposento
+              th.sorting.col-xs-1 Alarmas
+              th.sorting.col-xs-2 Modo 
+              th.sorting.col-xs-2 Luz Verde 
+              th.sorting.col-xs-2 Luz Roja 
+              th.sorting.col-xs-2 CO (ppm)
+              th.sorting.col-xs-2 Voltaje Inversor (V)
+              th.sorting.col-xs-2 Voltaje batería (V)
               
           tbody
             if(hosts)
@@ -49,24 +40,6 @@ block append content
                           span.num_subs= host.alarms_total
                         ul.alert.alert-info.col-xs-12.dropdown-menu
                           | Todo Esta Bien
-                  //- td
-                  //-   = host.hostname.split('-')[1]
-                  //- td
-                  //-   = host.ip
-                  //- td
-                  //-   case host.type
-                  //-     when 0 
-                  //-       | ELV
-                  //-     when 1 
-                  //-       | ELVP
-                  //-     when 2 
-                  //-       | Series 3
-                  //-     when 3 
-                  //-       | Series 4
-                  //-     when 4
-                  //-       | Battery Box
-                  //-     default
-                  //-       | Unknown
                   td
                     = host.mode
                   td
