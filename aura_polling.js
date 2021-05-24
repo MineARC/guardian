@@ -8,7 +8,7 @@ setInterval(poll_database, 10000);
 poll_database();
 
 function poll_database() {
-  db.getMonitorData(5, function (err, data) {
+  db.getMonitorData(5, function(err, data) {
     if (err) {
       return console.log(err.message);
     }
@@ -17,23 +17,23 @@ function poll_database() {
 }
 
 var aura_alarms = {
-  'O2 Low': { state: false, type: 'aura' },
-  'O2 High': { state: false, type: 'aura' },
-  'CO2 High': { state: false, type: 'aura' },
-  'CO High': { state: false, type: 'aura' },
-  'Temp Low': { state: false, type: 'aura' },
-  'Temp High': { state: false, type: 'aura' },
-  'H2S High': { state: false, type: 'aura' },
-  'NH3 High': { state: false, type: 'aura' },
-  'Cl High': { state: false, type: 'aura' },
-  'NO High': { state: false, type: 'aura' },
-  'NO2 High': { state: false, type: 'aura' },
-  'CH4 High': { state: false, type: 'aura' },
-  'SO2 High': { state: false, type: 'aura' },
-  'HF High': { state: false, type: 'aura' },
-  'ClO2 High': { state: false, type: 'aura' },
-  'HCL High': { state: false, type: 'aura' },
-}
+  'O2 Low': {state: false, type: 'aura'},
+  'O2 High': {state: false, type: 'aura'},
+  'CO2 High': {state: false, type: 'aura'},
+  'CO High': {state: false, type: 'aura'},
+  'Temp Low': {state: false, type: 'aura'},
+  'Temp High': {state: false, type: 'aura'},
+  'H2S High': {state: false, type: 'aura'},
+  'NH3 High': {state: false, type: 'aura'},
+  'Cl High': {state: false, type: 'aura'},
+  'NO High': {state: false, type: 'aura'},
+  'NO2 High': {state: false, type: 'aura'},
+  'CH4 High': {state: false, type: 'aura'},
+  'SO2 High': {state: false, type: 'aura'},
+  'HF High': {state: false, type: 'aura'},
+  'ClO2 High': {state: false, type: 'aura'},
+  'HCL High': {state: false, type: 'aura'},
+};
 
 var timestamps = {
   Temp: 0,
@@ -53,7 +53,7 @@ var timestamps = {
   HF: 0,
   ClO2: 0,
   HCL: 0,
-}
+};
 
 var timestamps_ext = {
   Temp: 0,
@@ -73,46 +73,46 @@ var timestamps_ext = {
   HF: 0,
   ClO2: 0,
   HCL: 0,
-}
+};
 
 var aura_data = {
-  Temp: { value: 0, isRecent: false },
-  Temp_F: { value: 0, isRecent: false },
-  Humid: { value: 0, isRecent: false },
-  Press: { value: 0, isRecent: false },
-  O2: { value: 0, isRecent: false },
-  CO2: { value: 0, isRecent: false },
-  CO: { value: 0, isRecent: false },
-  H2S: { value: 0, isRecent: false },
-  NH3: { value: 0, isRecent: false },
-  Cl: { value: 0, isRecent: false },
-  NO: { value: 0, isRecent: false },
-  NO2: { value: 0, isRecent: false },
-  CH4: { value: 0, isRecent: false },
-  SO2: { value: 0, isRecent: false },
-  HF: { value: 0, isRecent: false },
-  ClO2: { value: 0, isRecent: false },
-  HCL: { value: 0, isRecent: false },
+  Temp: {value: 0, isRecent: false},
+  Temp_F: {value: 0, isRecent: false},
+  Humid: {value: 0, isRecent: false},
+  Press: {value: 0, isRecent: false},
+  O2: {value: 0, isRecent: false},
+  CO2: {value: 0, isRecent: false},
+  CO: {value: 0, isRecent: false},
+  H2S: {value: 0, isRecent: false},
+  NH3: {value: 0, isRecent: false},
+  Cl: {value: 0, isRecent: false},
+  NO: {value: 0, isRecent: false},
+  NO2: {value: 0, isRecent: false},
+  CH4: {value: 0, isRecent: false},
+  SO2: {value: 0, isRecent: false},
+  HF: {value: 0, isRecent: false},
+  ClO2: {value: 0, isRecent: false},
+  HCL: {value: 0, isRecent: false},
 };
 
 var aura_ext_data = {
-  Temp: { value: 0, isRecent: false },
-  Temp_F: { value: 0, isRecent: false },
-  Humid: { value: 0, isRecent: false },
-  Press: { value: 0, isRecent: false },
-  O2: { value: 0, isRecent: false },
-  CO2: { value: 0, isRecent: false },
-  CO: { value: 0, isRecent: false },
-  H2S: { value: 0, isRecent: false },
-  NH3: { value: 0, isRecent: false },
-  Cl: { value: 0, isRecent: false },
-  NO: { value: 0, isRecent: false },
-  NO2: { value: 0, isRecent: false },
-  CH4: { value: 0, isRecent: false },
-  SO2: { value: 0, isRecent: false },
-  HF: { value: 0, isRecent: false },
-  ClO2: { value: 0, isRecent: false },
-  HCL: { value: 0, isRecent: false },
+  Temp: {value: 0, isRecent: false},
+  Temp_F: {value: 0, isRecent: false},
+  Humid: {value: 0, isRecent: false},
+  Press: {value: 0, isRecent: false},
+  O2: {value: 0, isRecent: false},
+  CO2: {value: 0, isRecent: false},
+  CO: {value: 0, isRecent: false},
+  H2S: {value: 0, isRecent: false},
+  NH3: {value: 0, isRecent: false},
+  Cl: {value: 0, isRecent: false},
+  NO: {value: 0, isRecent: false},
+  NO2: {value: 0, isRecent: false},
+  CH4: {value: 0, isRecent: false},
+  SO2: {value: 0, isRecent: false},
+  HF: {value: 0, isRecent: false},
+  ClO2: {value: 0, isRecent: false},
+  HCL: {value: 0, isRecent: false},
 };
 
 exports.data = aura_data;
@@ -125,25 +125,28 @@ setInterval(poll_aura, 10000);
 poll_aura();
 
 function poll_aura() {
-  var request_options = {
-    url: 'http://localhost/pt/aura/',
-    proxy: ''
-  };
+  var request_options = {url: 'http://172.17.0.5/', proxy: ''};
 
-  var request_options_ext = {
-    url: 'http://172.17.0.6/',
-    proxy: ''
-  };
+  var request_options_ext = {url: 'http://172.17.0.6/', proxy: ''};
 
-  request.get(request_options, function (err, res, body) {
+  var request_options_node = {url: 'http://172.17.0.7/api', proxy: ''};
+
+
+  request.get(request_options, function(err, res, body) {
     if (!err && (res.statusCode == 200 || res.statusCode == 304)) {
       processPage(body);
     }
   });
 
-  request.get(request_options_ext, function (err, res, body) {
+  request.get(request_options_ext, function(err, res, body) {
     if (!err && (res.statusCode == 200 || res.statusCode == 304)) {
       processPageExt(body);
+    }
+  });
+
+  request.get(request_options_node, function(err, res, body) {
+    if (!err && (res.statusCode == 200 || res.statusCode == 304)) {
+      processPageNode(body);
     }
   });
 
@@ -153,7 +156,9 @@ function poll_aura() {
   for (var gas in aura_ext_data) {
     aura_ext_data[gas].isRecent = timestamps_ext[gas] >= Date.now() - 120000;
   }
-  exports.hasExt = Object.keys(aura_ext_data).reduce((acc, cur) => { return aura_ext_data[cur].isRecent || acc; }, false);
+  exports.hasExt = Object.keys(aura_ext_data).reduce((acc, cur) => {
+    return aura_ext_data[cur].isRecent || acc;
+  }, false);
   updateAlarms();
   updateHistory();
 }
@@ -169,7 +174,7 @@ function processPage(data) {
   var minor = parseInt(jq('p').first().text().split('=')[1].split('.')[1]);
 
   if (major == 1 && minor <= 1) {
-    jq('tr').each(function (index, element) {
+    jq('tr').each(function(index, element) {
       gas_name = jq(element).find('td').first().text();
       gas_value = jq(element).find('td').first().next().text();
       if (gas_name in aura_data) {
@@ -188,30 +193,28 @@ function processPage(data) {
         timestamps[gas_name] = Date.now();
       }
     });
-  }
-  else if (major == 2 && minor >= 25) {
+  } else if (major == 2 && minor >= 25) {
     exports.version_ext = jq('p').first().text().split(' = ')[1];
 
-    jq('tr').each(function (index, element) {
+    jq('tr').each(function(index, element) {
       gas_name = jq(element).find('td').first().text().split(' ')[0];
       gas_value = jq(element).find('td').first().next().text();
-      position = jq(element).find('td').first().next().next().next().next().text();
+      position =
+          jq(element).find('td').first().next().next().next().next().text();
       if (position % 6 < 4) {
         if (gas_name in aura_data) {
           aura_data[gas_name].value = gas_value;
           timestamps[gas_name] = Date.now();
         }
-      }
-      else {
+      } else {
         if (gas_name in aura_ext_data) {
           aura_ext_data[gas_name].value = gas_value;
           timestamps_ext[gas_name] = Date.now();
         }
       }
     });
-  }
-  else {
-    jq('tr').each(function (index, element) {
+  } else {
+    jq('tr').each(function(index, element) {
       gas_name = jq(element).find('td').first().text().split(' ')[0];
       gas_value = jq(element).find('td').first().next().text();
       if (gas_name in aura_data) {
@@ -233,7 +236,7 @@ function processPageExt(data) {
   var minor = parseInt(jq('p').first().text().split('=')[1].split('.')[1]);
 
   if (major == 1 && minor <= 1) {
-    jq('tr').each(function (index, element) {
+    jq('tr').each(function(index, element) {
       gas_name = jq(element).find('td').first().text();
       gas_value = jq(element).find('td').first().next().text();
       if (gas_name in aura_ext_data) {
@@ -252,9 +255,8 @@ function processPageExt(data) {
         timestamps_ext[gas_name] = Date.now();
       }
     });
-  }
-  else {
-    jq('tr').each(function (index, element) {
+  } else {
+    jq('tr').each(function(index, element) {
       gas_name = jq(element).find('td').first().text().split(' ')[0];
       gas_value = jq(element).find('td').first().next().text();
       if (gas_name in aura_ext_data) {
@@ -265,27 +267,62 @@ function processPageExt(data) {
   }
 }
 
+function processPageNode(data) {
+  var assets = JSON.parse(data).assets;
+  exports.version_ext = 'node';
+
+  for (node in assets) {
+    for (gas in assets[node].readings) {
+      if (gas.toUpperCase() in aura_ext_data) {
+        aura_ext_data[gas.toUpperCase()].value =
+            assets[node].readings[gas].value.toFixed(1);
+        if (gas == 'co2')
+          aura_ext_data[gas.toUpperCase()].value =
+              assets[node].readings[gas].value.toFixed(2);
+        timestamps_ext[gas.toUpperCase()] = Date.now();
+      }
+    }
+  }
+}
+
 function updateAlarms() {
-  aura_alarms['O2 Low'].state = aura_data.O2.isRecent && aura_data.O2.value <= 18.5;
-  aura_alarms['O2 High'].state = aura_data.O2.isRecent && aura_data.O2.value >= 23;
-  aura_alarms['CO2 High'].state = aura_data.CO2.isRecent && aura_data.CO2.value >= 1;
-  aura_alarms['CO High'].state = aura_data.CO.isRecent && aura_data.CO.value >= 25;
-  aura_alarms['Temp Low'].state = aura_data.Temp.isRecent && aura_data.Temp.value <= 0;
-  aura_alarms['Temp High'].state = aura_data.Temp.isRecent && aura_data.Temp.value >= 40;
-  aura_alarms['Temp Low'].state |= aura_data.Temp_F.isRecent && aura_data.Temp_F.value <= 32;
-  aura_alarms['Temp High'].state |= aura_data.Temp_F.isRecent && aura_data.Temp_F.value >= 104;
-  aura_alarms['H2S High'].state = aura_data.H2S.isRecent && aura_data.H2S.value >= 10;
+  aura_alarms['O2 Low'].state =
+      aura_data.O2.isRecent && aura_data.O2.value <= 18.5;
+  aura_alarms['O2 High'].state =
+      aura_data.O2.isRecent && aura_data.O2.value >= 23;
+  aura_alarms['CO2 High'].state =
+      aura_data.CO2.isRecent && aura_data.CO2.value >= 1;
+  aura_alarms['CO High'].state =
+      aura_data.CO.isRecent && aura_data.CO.value >= 25;
+  aura_alarms['Temp Low'].state =
+      aura_data.Temp.isRecent && aura_data.Temp.value <= 0;
+  aura_alarms['Temp High'].state =
+      aura_data.Temp.isRecent && aura_data.Temp.value >= 40;
+  aura_alarms['Temp Low'].state |=
+      aura_data.Temp_F.isRecent && aura_data.Temp_F.value <= 32;
+  aura_alarms['Temp High'].state |=
+      aura_data.Temp_F.isRecent && aura_data.Temp_F.value >= 104;
+  aura_alarms['H2S High'].state =
+      aura_data.H2S.isRecent && aura_data.H2S.value >= 10;
 
-  aura_alarms['NH3 High'].state = aura_data.NH3.isRecent && aura_data.NH3.value >= 50;
-  aura_alarms['Cl High'].state = aura_data.Cl.isRecent && aura_data.Cl.value >= 1;
-  aura_alarms['NO High'].state = aura_data.NO.isRecent && aura_data.NO.value >= 25;
-  aura_alarms['NO2 High'].state = aura_data.NO2.isRecent && aura_data.NO2.value >= 5;
-  aura_alarms['CH4 High'].state = aura_data.CH4.isRecent && aura_data.CH4.value >= 40;
-  aura_alarms['SO2 High'].state = aura_data.SO2.isRecent && aura_data.SO2.value >= 5;
-  aura_alarms['HF High'].state = aura_data.HF.isRecent && aura_data.HF.value >= 3;
-  aura_alarms['ClO2 High'].state = aura_data.ClO2.isRecent && aura_data.ClO2.value >= 3;
-  aura_alarms['HCL High'].state = aura_data.HCL.isRecent && aura_data.HCL.value >= 3;
-
+  aura_alarms['NH3 High'].state =
+      aura_data.NH3.isRecent && aura_data.NH3.value >= 50;
+  aura_alarms['Cl High'].state =
+      aura_data.Cl.isRecent && aura_data.Cl.value >= 1;
+  aura_alarms['NO High'].state =
+      aura_data.NO.isRecent && aura_data.NO.value >= 25;
+  aura_alarms['NO2 High'].state =
+      aura_data.NO2.isRecent && aura_data.NO2.value >= 5;
+  aura_alarms['CH4 High'].state =
+      aura_data.CH4.isRecent && aura_data.CH4.value >= 40;
+  aura_alarms['SO2 High'].state =
+      aura_data.SO2.isRecent && aura_data.SO2.value >= 5;
+  aura_alarms['HF High'].state =
+      aura_data.HF.isRecent && aura_data.HF.value >= 3;
+  aura_alarms['ClO2 High'].state =
+      aura_data.ClO2.isRecent && aura_data.ClO2.value >= 3;
+  aura_alarms['HCL High'].state =
+      aura_data.HCL.isRecent && aura_data.HCL.value >= 3;
 }
 
 function updateHistory() {
@@ -325,10 +362,9 @@ function updateHistory() {
     ClO2_ext: aura_ext_data.ClO2.value,
     HCL_ext: aura_ext_data.HCL.value,
 
-  }
+  };
 
-  db.addMonitorData(5, history_data, function (err, success) {
-    if (err)
-      return console.log(err.message);
+  db.addMonitorData(5, history_data, function(err, success) {
+    if (err) return console.log(err.message);
   });
 }
