@@ -243,6 +243,8 @@ function processPageExt(data) {
   // Create an object to store the status
   var gas_name = '';
   var gas_value = '';
+  var cal_date = '';
+  var man_date = '';
   exports.version_ext = jq('p').first().text().split(' = ')[1];
   var major = parseInt(jq('p').first().text().split('=')[1].split('.')[0]);
   var minor = parseInt(jq('p').first().text().split('=')[1].split('.')[1]);
@@ -271,8 +273,12 @@ function processPageExt(data) {
     jq('tr').each(function(index, element) {
       gas_name = jq(element).find('td').first().text().split(' ')[0];
       gas_value = jq(element).find('td').first().next().text();
+      cal_date = jq(element).find('td').first().next().next().next().text();
+      man_date = jq(element).find('td').first().next().next().text();
       if (gas_name in aura_ext_data) {
         aura_ext_data[gas_name].value = gas_value;
+        aura_ext_data[gas_name].cal = cal_date;
+        aura_ext_data[gas_name].man = man_date;
         timestamps_ext[gas_name] = Date.now();
       }
     });
