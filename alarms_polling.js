@@ -44,14 +44,14 @@ function poll_alerts() {
 
 function send_mail(fromName, fromAddress, to, subject, text, callback) {
   var smtpConfig = {
-    host: 'smtp.office365.com',
+    host: 'mail.minearcguardian.com',
     port: 587,
     // requireTLS: true,
     // tls: { rejectUnauthorized: false },
     // authMethod: 'LOGIN',
     auth: {
-      user: 'Guardian@minearc.com.au',
-      pass: '17pGtXqVhysbcDdb'
+      user: 'alerts@minearcguardian.com',
+      pass: 'Q4unZD8ZHWxQRYuq'
     },
     logger: true,
     debug: true
