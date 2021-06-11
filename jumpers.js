@@ -42,6 +42,12 @@ fs.exists('/boot/disable_air_leak', function (exists) {
     exports.disable_air_leak = exists;
 });
 
+fs.exists('/boot/aura_extras', function (exists) {
+    console.log('aura_extras: ' + exists);
+    exports.aura_extras = exists;
+});
+
+
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
 exports.extn = extn_jumper;
