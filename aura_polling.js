@@ -3,6 +3,7 @@ var cheerio = require('cheerio');
 var jq = require('jquery');
 var fs = require('fs');
 var db = require('./database');
+var jumpers = require('./jumpers');
 
 setInterval(poll_database, 10000);
 poll_database();
@@ -304,43 +305,81 @@ function processPageNode(data) {
 }
 
 function updateAlarms() {
-  aura_alarms['O2 Low'].state =
-      aura_data.O2.isRecent && aura_data.O2.value <= 18.5;
-  aura_alarms['O2 High'].state =
-      aura_data.O2.isRecent && aura_data.O2.value >= 23;
-  aura_alarms['CO2 High'].state =
-      aura_data.CO2.isRecent && aura_data.CO2.value >= 1;
-  aura_alarms['CO High'].state =
-      aura_data.CO.isRecent && aura_data.CO.value >= 25;
-  aura_alarms['Temp Low'].state =
-      aura_data.Temp.isRecent && aura_data.Temp.value <= 0;
-  aura_alarms['Temp High'].state =
-      aura_data.Temp.isRecent && aura_data.Temp.value >= 40;
-  aura_alarms['Temp Low'].state |=
-      aura_data.Temp_F.isRecent && aura_data.Temp_F.value <= 32;
-  aura_alarms['Temp High'].state |=
-      aura_data.Temp_F.isRecent && aura_data.Temp_F.value >= 104;
-  aura_alarms['H2S High'].state =
-      aura_data.H2S.isRecent && aura_data.H2S.value >= 10;
-
-  aura_alarms['NH3 High'].state =
-      aura_data.NH3.isRecent && aura_data.NH3.value >= 50;
-  aura_alarms['Cl High'].state =
-      aura_data.Cl.isRecent && aura_data.Cl.value >= 1;
-  aura_alarms['NO High'].state =
-      aura_data.NO.isRecent && aura_data.NO.value >= 25;
-  aura_alarms['NO2 High'].state =
-      aura_data.NO2.isRecent && aura_data.NO2.value >= 5;
-  aura_alarms['CH4 High'].state =
-      aura_data.CH4.isRecent && aura_data.CH4.value >= 40;
-  aura_alarms['SO2 High'].state =
-      aura_data.SO2.isRecent && aura_data.SO2.value >= 5;
-  aura_alarms['HF High'].state =
-      aura_data.HF.isRecent && aura_data.HF.value >= 3;
-  aura_alarms['ClO2 High'].state =
-      aura_data.ClO2.isRecent && aura_data.ClO2.value >= 3;
-  aura_alarms['HCL High'].state =
-      aura_data.HCL.isRecent && aura_data.HCL.value >= 3;
+  if (!jumpers.aura_extras) {
+    aura_alarms['O2 Low'].state =
+        aura_data.O2.isRecent && aura_data.O2.value <= 18.5;
+    aura_alarms['O2 High'].state =
+        aura_data.O2.isRecent && aura_data.O2.value >= 23;
+    aura_alarms['CO2 High'].state =
+        aura_data.CO2.isRecent && aura_data.CO2.value >= 1;
+    aura_alarms['CO High'].state =
+        aura_data.CO.isRecent && aura_data.CO.value >= 25;
+    aura_alarms['Temp Low'].state =
+        aura_data.Temp.isRecent && aura_data.Temp.value <= 0;
+    aura_alarms['Temp High'].state =
+        aura_data.Temp.isRecent && aura_data.Temp.value >= 40;
+    aura_alarms['Temp Low'].state |=
+        aura_data.Temp_F.isRecent && aura_data.Temp_F.value <= 32;
+    aura_alarms['Temp High'].state |=
+        aura_data.Temp_F.isRecent && aura_data.Temp_F.value >= 104;
+    aura_alarms['H2S High'].state =
+        aura_data.H2S.isRecent && aura_data.H2S.value >= 10;
+    aura_alarms['NH3 High'].state =
+        aura_data.NH3.isRecent && aura_data.NH3.value >= 50;
+    aura_alarms['Cl High'].state =
+        aura_data.Cl.isRecent && aura_data.Cl.value >= 1;
+    aura_alarms['NO High'].state =
+        aura_data.NO.isRecent && aura_data.NO.value >= 25;
+    aura_alarms['NO2 High'].state =
+        aura_data.NO2.isRecent && aura_data.NO2.value >= 5;
+    aura_alarms['CH4 High'].state =
+        aura_data.CH4.isRecent && aura_data.CH4.value >= 40;
+    aura_alarms['SO2 High'].state =
+        aura_data.SO2.isRecent && aura_data.SO2.value >= 5;
+    aura_alarms['HF High'].state =
+        aura_data.HF.isRecent && aura_data.HF.value >= 3;
+    aura_alarms['ClO2 High'].state =
+        aura_data.ClO2.isRecent && aura_data.ClO2.value >= 3;
+    aura_alarms['HCL High'].state =
+        aura_data.HCL.isRecent && aura_data.HCL.value >= 3;
+  } else {
+    aura_alarms['O2 Low'].state =
+        aura_data.O2.isRecent && aura_data.O2.value <= 19.5;
+    aura_alarms['O2 High'].state =
+        aura_data.O2.isRecent && aura_data.O2.value >= 22;
+    aura_alarms['CO2 High'].state =
+        aura_data.CO2.isRecent && aura_data.CO2.value >= 0.5;
+    aura_alarms['CO High'].state =
+        aura_data.CO.isRecent && aura_data.CO.value >= 15;
+    aura_alarms['Temp Low'].state =
+        aura_data.Temp.isRecent && aura_data.Temp.value <= 0;
+    aura_alarms['Temp High'].state =
+        aura_data.Temp.isRecent && aura_data.Temp.value >= 40;
+    aura_alarms['Temp Low'].state |=
+        aura_data.Temp_F.isRecent && aura_data.Temp_F.value <= 32;
+    aura_alarms['Temp High'].state |=
+        aura_data.Temp_F.isRecent && aura_data.Temp_F.value >= 104;
+    aura_alarms['H2S High'].state =
+        aura_data.H2S.isRecent && aura_data.H2S.value >= 2;
+    aura_alarms['NH3 High'].state =
+        aura_data.NH3.isRecent && aura_data.NH3.value >= 25;
+    aura_alarms['Cl High'].state =
+        aura_data.Cl.isRecent && aura_data.Cl.value >= 0.5;
+    aura_alarms['NO High'].state =
+        aura_data.NO.isRecent && aura_data.NO.value >= 12;
+    aura_alarms['NO2 High'].state =
+        aura_data.NO2.isRecent && aura_data.NO2.value >= 1;
+    aura_alarms['CH4 High'].state =
+        aura_data.CH4.isRecent && aura_data.CH4.value >= 20;
+    aura_alarms['SO2 High'].state =
+        aura_data.SO2.isRecent && aura_data.SO2.value >= 2;
+    aura_alarms['HF High'].state =
+        aura_data.HF.isRecent && aura_data.HF.value >= 1.5;
+    aura_alarms['ClO2 High'].state =
+        aura_data.ClO2.isRecent && aura_data.ClO2.value >= 1.5;
+    aura_alarms['HCL High'].state =
+        aura_data.HCL.isRecent && aura_data.HCL.value >= 1.5;
+  }
 }
 
 function updateHistory() {

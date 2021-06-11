@@ -22,24 +22,29 @@ console.log('aura: ' + aura_jumper);
 console.log('extn: ' + extn_jumper);
 console.log('mode: ' + mode_jumper);
 
-fs.readFile('/boot/localize', 'utf8', function (err, contents) {
-    console.log(contents.trim());
-    exports.localize = contents.trim();
+fs.readFile('/boot/localize', 'utf8', function(err, contents) {
+  console.log(contents.trim());
+  exports.localize = contents.trim();
 });
 
-fs.readFile('/boot/sitename', 'utf8', function (err, contents) {
-    console.log(contents.trim());
-    exports.sitename = contents.trim();
+fs.readFile('/boot/sitename', 'utf8', function(err, contents) {
+  console.log(contents.trim());
+  exports.sitename = contents.trim();
 });
 
-fs.exists('/boot/firefly', function (exists) {
-    console.log('firefly: ' + exists);
-    exports.firefly = exists;
+fs.exists('/boot/firefly', function(exists) {
+  console.log('firefly: ' + exists);
+  exports.firefly = exists;
 });
 
-fs.exists('/boot/disable_air_leak', function (exists) {
-    console.log('disable_air_leak: ' + exists);
-    exports.disable_air_leak = exists;
+fs.exists('/boot/disable_air_leak', function(exists) {
+  console.log('disable_air_leak: ' + exists);
+  exports.disable_air_leak = exists;
+});
+
+fs.exists('/boot/aura_extras', function(exists) {
+  console.log('aura_extras: ' + exists);
+  exports.aura_extras = exists;
 });
 
 exports.cams = cams_jumper;
