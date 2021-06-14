@@ -54,7 +54,7 @@ poll_monitor();
 
 function poll_monitor() {
   var request_options = {
-    url: 'http://localhost/pt/monitor/',
+    url: 'http://172.17.0.4/',
     proxy: ''
   };
 

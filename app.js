@@ -66,7 +66,7 @@ autoupdater.on('error', function (name, e) {
 
 // Start checking
 require('dns').resolve('github.com', function (err) {
-  if (!err) autoupdater.fire('check');
+//  if (!err) autoupdater.fire('check');
 });
 
 setTimeout(guardian, 10000);

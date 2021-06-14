@@ -1,4 +1,5 @@
 var serialport = require('serialport');
+const Readline = require('@serialport/parser-readline');
 var rpio = require('rpio');
 var db = require('./database');
 
@@ -12,7 +13,7 @@ setInterval(poll_database, 10000);
 poll_database();
 
 function poll_database() {
-  db.getMonitorData(0, function (err, data) {
+  db.getMonitorData(0, function(err, data) {
     if (err) {
       return console.log(err.message);
     }
@@ -20,12 +21,9 @@ function poll_database() {
   });
 }
 
-rpio.open(mains_pin, rpio.INPUT, rpio.PULL_DOWN);
-rpio.open(inverter_pin, rpio.INPUT, rpio.PULL_DOWN);
-
 var elv_alarms = {
-  'Low Battery Voltage': { state: false, type: 'elv' },
-  'No Mains Power': { state: false, type: 'elv' },
+  'Low Battery Voltage': {state: false, type: 'elv'},
+  'No Mains Power': {state: false, type: 'elv'},
 };
 
 var elv_data = {
@@ -62,28 +60,30 @@ var elv_data = {
     H17: '',
     H18: ''
   }
-}
+};
 
 exports.data = elv_data;
 exports.alarms = elv_alarms;
 
-var battMon = new serialport('/dev/ttyS0', {
-  baudRate: 19200,
-  autoOpen: false,
-  // look for return and newline at the end of each data packet:
-  parser: serialport.parsers.readline('\r\n')
+var port = new serialport('/dev/ttyS0', {baudRate: 19200, autoOpen: false});
+
+var battMon = port.pipe(new Readline({delimiter: '\r\n'}));
+
+battMon.on('open', () => {
+  console.log('port open. Data rate: ' + battMon.options.baudRate);
 });
 
-battMon.on('open', showPortOpen);
+battMon.on('close', () => {
+  console.log('port closed.');
+  setTimeout(battMon.open, 1000);
+});
+
+battMon.on('error', (error) => {
+  console.log('Serial port error: ' + error);
+  setTimeout(battMon.open, 1000);
+});
+
 battMon.on('data', sendSerialData);
-battMon.on('close', showPortClose);
-battMon.on('error', showError);
-
-battMon.open();
-
-function showPortOpen() {
-  console.log('port open. Data rate: ' + battMon.options.baudRate);
-}
 
 function sendSerialData(data) {
   var v = data.split('\t');
@@ -92,37 +92,27 @@ function sendSerialData(data) {
     elv_data.serial[v[0]] = v[1];
   }
 
-  if (v[0] == 'H18' && next <= Date.now() && elv_data.PID != '' && !isNaN((elv_data.serial.V / 1000)) && !isNaN((elv_data.serial.I / 1000))) {
-    updateAlarms();
+  if (v[0] == 'H18' && next <= Date.now() && elv_data.PID != '' &&
+      !isNaN((elv_data.serial.V / 1000)) &&
+      !isNaN((elv_data.serial.I / 1000))) {
+    elv_alarms['Low Battery Voltage'].state = elv_data.serial.Relay == 'ON';
+    elv_alarms['No Mains Power'].state = !elv_data.mains;
     next += delay;
     var graph_data = {
       voltage_battery: +((elv_data.serial.V / 1000).toFixed(2)),
       current_battery: +((elv_data.serial.I / 1000).toFixed(2)),
       voltage_mains: elv_data.mains,
       voltage_inverter: elv_data.inverter
-    }
-    db.addMonitorData(0, graph_data, function (err, success) {
-      if (err)
-        return console.log(err.message);
+    };
+    db.addMonitorData(0, graph_data, function(err, success) {
+      if (err) return console.log(err.message);
     });
   }
 }
 
-function showPortClose() {
-  console.log('port closed.');
-  setTimeout(battMon.open, 1000);
-}
-
-function showError(error) {
-  console.log('Serial port error: ' + error);
-  setTimeout(battMon.open, 1000);
-}
-
-serialport.list(function (err, ports) {
-  ports.forEach(function (port) {
-    console.log(port.comName);
-  });
-});
+setTimeout(() => {
+  port.open();
+}, 20000);
 
 function pollPins(pin) {
   switch (pin) {
@@ -135,13 +125,9 @@ function pollPins(pin) {
   }
 }
 
-function updateAlarms() {
-  elv_alarms['Low Battery Voltage'].state = elv_data.serial.Relay == 'ON';
-  elv_alarms['No Mains Power'].state = !elv_data.mains;
-}
-
-elv_data.mains = !!rpio.read(mains_pin);
-elv_data.inverter = !!rpio.read(inverter_pin);
-
-rpio.poll(mains_pin, pollPins);
-rpio.poll(inverter_pin, pollPins);
+setTimeout(() => {
+  rpio.open(mains_pin, rpio.INPUT, rpio.PULL_DOWN);
+  rpio.open(inverter_pin, rpio.INPUT, rpio.PULL_DOWN);
+  rpio.poll(mains_pin, pollPins);
+  rpio.poll(inverter_pin, pollPins);
+}, 15000);
