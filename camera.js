@@ -46,7 +46,7 @@ function getMostRecentFileName(next) {
 
   // Remove the latest image from the list and delete the rest
   del = del.filter(function (element) { return element != internal_name; });
-  del.forEach(function (element) { fs.unlink(element); });
+  del.forEach(function (element) { try { fs.unlink(element); } catch (e) { } });
   del = [];
 
   // Itterate over files in the directory to find the newest
