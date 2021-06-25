@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
   data['alias'] = alias.alias;
   data['localize'] = jumpers.localize;
   data['hosts'] = hostdiscovery.hosts_data;
-  data['aura_params'] = res.locals.aura;
+  data['aura_params'] = res.locals.aura_params;
   if (jumpers.cams) {
     data['cams'] = cams_polling.data;
     for (var key in cams_polling.alarms) {

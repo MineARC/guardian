@@ -145,7 +145,7 @@ function guardian() {
   // Add aura to request
   app.use('*', (req, res, next) => {
     // Add aura
-    res.locals.aura =
+    res.locals.aura_params =
     {
       Temp: { gas: 'Temp', color: '#C5E3BF', title:'Apparent Temperature', unit: 'C', decimal: 1, range: { min: 0, max: 50 }, warning: { min: 10, max: 35 }, alarm: { min: 0, max: 40 } },
       Temp_F: { gas: 'Temp_F', color: '#C5E3BF', title:'Apparent Temperature', unit: 'F', decimal: 1, range: { min: 32, max: 122 }, warning: { min: 50, max: 95 }, alarm: { min: 32, max: 104 } },
