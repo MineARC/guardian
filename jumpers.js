@@ -22,25 +22,30 @@ console.log('aura: ' + aura_jumper);
 console.log('extn: ' + extn_jumper);
 console.log('mode: ' + mode_jumper);
 
-fs.readFile('/boot/guardian/locale', 'utf8', function(err, contents) {
+fs.readFile('/boot/firmware/guardian-config/locale', 'utf8', function(err, contents) {
   exports.localize = !err ? contents.trim() : 'au';
 });
 
-fs.readFile('/boot/guardian/site', 'utf8', function(err, contents) {
+fs.readFile('boot/firmware/guardian-config/site', 'utf8', function(err, contents) {
   exports.sitename = !err ? contents.trim() : 'MineARC';
 });
 
-fs.stat('/boot/guardian/firefly', function(err, stats) {
+fs.stat('/boot/firmware/guardian-config/firefly', function(err, stats) {
   exports.firefly = !err;
 });
 
-fs.stat('/boot/guardian/disable_air_leak', function(err, stats) {
+fs.stat('/boot/firmware/guardian-config/disable_air_leak', function(err, stats) {
   exports.disable_air_leak = !err;
 });
 
-fs.stat('/boot/guardian/aura_extras', function(err, stats) {
+fs.stat('/boot/firmware/guardian-config/aura_extras', function(err, stats) {
   exports.aura_extras = !err;
 });
+
+fs.stat('/boot/firmware/guardian-config/tagboard', function(err, stats) {
+  exports.tagboard = !err;
+});
+
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
 exports.extn = extn_jumper;

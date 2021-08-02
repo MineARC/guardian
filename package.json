@@ -23,6 +23,7 @@
     "ip-address": "^5.8.0",
     "jquery": "^2.2.3",
     "libnmap": "^0.2.29",
+    "modbus-serial": "^8.0.3",
     "morgan": "~1.6.1",
     "mqtt": "^3.0.0",
     "nodemailer": "^2.4.1",

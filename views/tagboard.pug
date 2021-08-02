@@ -1,0 +1,36 @@
+extends layout
+
+block title
+  | Tagboard
+
+block append content
+  jumbotron.py-0.px-0
+    .row.py-0.px-0
+      .col-xs-12.py-0.px-0
+        .row
+          iframe.col-xs-12.py-0.px-0#tagboard-iframe(src='' frameborder="0" style="height: calc(100vh - 103px)")
+          script.
+            document.getElementById('tagboard-iframe').src='http://'+'172.17.0.8'+'/';
+
+block append fleet
+  if(hosts)
+    each host in hosts
+      li
+        a(href='//' + host.ip + '/chamber')
+          i.icon-tag
+          span= host.alias ? host.alias : host.hostname.split('-')[1]
+
+block append alerts
+  if(hosts)
+    each host in hosts
+      each alerts, types in host.alarms_active
+        each alert in alerts
+          li.list-group-item
+            .clear
+              i.fa.fa-exclamation-circle.m-r-xs
+              span.alef= alert
+            small.text-muted= host.alias ? host.alias : host.hostname.split('-')[1]
+      
+block append styles
+      
+block append scripts

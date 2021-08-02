@@ -69,7 +69,7 @@ require('dns').resolve('github.com', function (err) {
 //  if (!err) autoupdater.fire('check');
 });
 
-setTimeout(guardian, 10000);
+setTimeout(guardian, 1000);
 
 function guardian() {
   var path = require('path');
@@ -88,6 +88,7 @@ function guardian() {
   if (jumpers.mode == 3) var series4 = require('./routes/series4');
   var camera_internal = require('./routes/camera_internal');
   if (jumpers.extn) var camera_external = require('./routes/camera_external');
+  if (jumpers.tagboard) var tagboard = require('./routes/tagboard');
   var notifications = require('./routes/notifications');
   var settings = require('./routes/settings');
   var overview_api = require('./routes/overview_api');
@@ -105,7 +106,7 @@ function guardian() {
   if (jumpers.firefly) var firefly = require('./firefly');
   var alarms_polling = require('./alarms_polling');
   var hostdiscovery = require('./hostdiscovery');
-
+  var modbus_api = require('./modbus_api');
 
   app.use(cors());
   app.options('*', cors());
@@ -167,6 +168,12 @@ function guardian() {
     next();
   });
 
+  app.use('*', (req, res, next) => {
+    // Add jumpers
+    res.locals.app_jumpers = jumpers;
+    next();
+  });
+
 
   app.use('/', dashboard);
   app.use('/dashboard', chamber);
@@ -179,6 +186,7 @@ function guardian() {
 
   app.use('/camera_internal', camera_internal);
   if (jumpers.extn) app.use('/camera_external', camera_external);
+  if (jumpers.tagboard) app.use('/tagboard', tagboard);
   app.use('/notifications', notifications);
   app.use('/settings', settings);
   app.use('/api/overview', overview_api);

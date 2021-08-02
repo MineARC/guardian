@@ -3,8 +3,6 @@ const Readline = require('@serialport/parser-readline');
 var rpio = require('rpio');
 var db = require('./database');
 
-rpio.init({close_on_exit: true});
-
 var mains_pin = 33;
 var inverter_pin = 35;
 
