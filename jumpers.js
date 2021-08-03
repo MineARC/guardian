@@ -26,7 +26,7 @@ fs.readFile('/boot/firmware/guardian-config/locale', 'utf8', function(err, conte
   exports.localize = !err ? contents.trim() : 'au';
 });
 
-fs.readFile('boot/firmware/guardian-config/site', 'utf8', function(err, contents) {
+fs.readFile('/boot/firmware/guardian-config/site', 'utf8', function(err, contents) {
   exports.sitename = !err ? contents.trim() : 'MineARC';
 });
 
@@ -46,7 +46,16 @@ fs.stat('/boot/firmware/guardian-config/tagboard', function(err, stats) {
   exports.tagboard = !err;
 });
 
+fs.readFile('/boot/firmware/guardian-config/battmon_style', 'utf8', function(err, contents) {
+  exports.battmon_style = !err ? contents.trim() : 'none';
+  exports.mode = exports.battmon_style == 'standalone' ? '4' : mode_jumper;
+});
+
+fs.readFile('/boot/firmware/guardian-config/battmon_strings', 'utf8', function(err, contents) {
+  exports.battmon_strings = !err ? contents.trim() : '4';
+});
+
 exports.cams = cams_jumper;
 exports.aura = aura_jumper;
 exports.extn = extn_jumper;
-exports.mode = mode_jumper;
+exports.mode = exports.battmon_style == 'standalone' ? '4' : mode_jumper;

@@ -41,6 +41,9 @@ db.serialize(function () {
 
     db.run("CREATE TABLE Aura (data BLOB, time DATETIME)");
     db.run("CREATE TRIGGER Aura_Cleanup AFTER INSERT ON Aura BEGIN DELETE FROM Aura WHERE time <= datetime('now', '-24 hour'); END");
+
+    db.run("CREATE TABLE Battmon (data BLOB, time DATETIME)");
+    db.run("CREATE TRIGGER Battmon_Cleanup AFTER INSERT ON Battmon BEGIN DELETE FROM Battmon WHERE time <= datetime('now', '-24 hour'); END");
   }
 });
 
@@ -248,6 +251,9 @@ exports.addMonitorData = function (type, data, callback) {
       case 5:
         monitor = "Aura";
         break;
+      case 6:
+        monitor = "Battmon";
+        break;
       default:
         return callback(new Error("Invalid input"));
     }
@@ -287,6 +293,9 @@ exports.getMonitorData = function (type, callback) {
         break;
       case 5:
         monitor = "Aura";
+        break;
+      case 6:
+        monitor = "Battmon";
         break;
     }
     db.all("SELECT data, strftime('%s', time) AS seconds FROM " + monitor + " WHERE time >= datetime('now', '-24 hour') ORDER BY seconds", function (err, rows) {

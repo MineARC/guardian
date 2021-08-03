@@ -5280,3 +5280,36 @@ a.text-#000000:hover {
 	height: 70%;
 	opacity: 40%;
 }
+
+.batt{
+	float: left;
+	width: 100%;
+	padding: 20px 10px;
+	margin-bottom: 10px;
+	background-color: #3e3e3e;
+    border-radius: 0.8em;
+    color: #fff;
+	text-align: center;
+}
+
+/* .batt-left{
+  align-content: left;
+}
+.batt-right{
+  align-content: right;
+} */
+
+.batt2{
+	font-size: 1.7em;
+	color: #fff;
+
+}
+
+.batt-alhigh{
+	background-color: #f35252;
+
+}
+.batt-allow{
+	background-color: #0a6c9c;
+
+}

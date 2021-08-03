@@ -46,6 +46,7 @@ function updatefromapi() {
     if (data.cams) updateCams(data.cams);
     if (data.aura) updateAura(data.aura);
     if (data.aura) updateAuraExt(data.aura_ext);
+    if (data.battmon) updateBattmon(data.battmon);
     // updateAlarms(data.alarms);
   });
 }

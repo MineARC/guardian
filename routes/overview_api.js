@@ -8,6 +8,7 @@ if (jumpers.mode == 0) var elv_polling = require('../elv_polling');
 if (jumpers.mode == 1) var elvp_polling = require('../elvp_polling');
 if (jumpers.mode == 2) var series3_polling = require('../series3_polling');
 if (jumpers.mode == 3) var series4_polling = require('../series4_polling');
+if (jumpers.mode == 4) var battmon_polling = require('../battmon_polling');
 var db = require('../database');
 
 var router = express.Router();
@@ -26,6 +27,7 @@ router.get('/', function (req, res, next) {
   if (jumpers.mode == 1) alarms['elvp'] = elvp_polling.alarms;
   if (jumpers.mode == 2) alarms['series3'] = series3_polling.alarms;
   if (jumpers.mode == 3) alarms['series4'] = series4_polling.alarms;
+  if (jumpers.mode == 4) alarms['battmon'] = battmon_polling.alarms;
   var alarms_active = {};
   var alarms_total = 0;
   for (var type in alarms) {
